@@ -1,6 +1,0 @@
-.env
-node_modules/
-*.sqlite
-*.sqlite-journal
-*.sql
-Images/
