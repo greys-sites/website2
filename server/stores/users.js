@@ -4,11 +4,8 @@ const KEYS = {
 	id: { },
 	hid: { },
 	name: { patch: true },
-	password: { patch: true },
-	salt: { patch: true },
 	bio: { patch: true },
-	avatar_url: { patch: true },
-	token: { patch: true }
+	avatar_url: { patch: true }
 }
 
 class User extends DataObject {
@@ -28,14 +25,11 @@ export default class UserStore extends DataStore {
 				insert into users (
 					hid,
 					name,
-					password,
-					salt,
 					bio,
-					avatar_url,
-					token
-				) values ($1, $2, $3, $4, $5, $6, gen_token())
+					avatar_url
+				) values (find_unique('users'), $1, $2, $3)
 				returning *
-			`, [data.hid, data.name, data.password, data.salt, data.bio, data.avatar_url]);
+			`, [data.name, data.bio, data.avatar_url]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
@@ -54,30 +48,6 @@ export default class UserStore extends DataStore {
 
 		if(data.rows?.[0]) return new User(this, KEYS, data.rows[0]);
 		else return new User(this, KEYS, { });
-	}
-
-	async validate(name, password) {
-		try {
-			var data = await this.db.query(`select * from users where name = $1 and password = $2`, [name, password]);
-		} catch(e) {
-			console.log(e);
-			return Promise.reject(e.message ?? e);
-		}
-
-		if(data.rows?.[0]) return new User(this, KEYS, data.rows[0]);
-		else return null;
-	}
-
-	async getByToken(token) {
-		try {
-			var data = await this.db.query(`select * from users where token = $1`, [token]);
-		} catch(e) {
-			console.log(e);
-			return Promise.reject(e.message ?? e);
-		}
-
-		if(data.rows?.[0]) return new User(this, KEYS, data.rows[0]);
-		else return null;
 	}
 
 	async getID(id) {

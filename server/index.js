@@ -11,14 +11,13 @@ app.use(express.json());
 app.stores = stores;
 
 async function auth(req, res, next) {
-	console.log(req.headers);
 	var token = req.headers?.['authorization'];
-	console.log(token);
 	if(!token) return next();
 
-	var user = await app.stores.users.getByToken(token);
-	console.log(user);
-	if(!user) return next();
+	var login = await app.stores.logins.getByToken(token);
+	if(!login) return next();
+	var user = await app.stores.users.get(login.user_id);
+	if(!user?.id) return next();
 
 	req.user = user;
 	next();

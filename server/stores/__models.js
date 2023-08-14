@@ -12,7 +12,7 @@ export class DataObject {
 	}
 
 	[util.inspect.custom](depth, opts) {
-		var {store, ...rest} = this;
+		var {store, KEYS, old, ...rest} = this;
 
 		return rest;
 	}
@@ -21,6 +21,7 @@ export class DataObject {
 		var {
 			store,
 			KEYS,
+			old,
 			...rest
 		} = this;
 

@@ -13,6 +13,16 @@ export default class UserRoutes extends Route {
 			return res.status(200).send(users);
 		})
 
+		this.app.get('/users/@me', async (req, res) => {
+			if(!req.user) return res.status(401).send();
+			console.log(req.user);
+			
+			var user = await this.app.stores.users.get(req.user.hid);
+			if(!user?.id) return res.status(404).send();
+
+			return res.status(200).send(user);
+		})
+
 		this.app.get('/users/:hid', async (req, res) => {
 			if(!req.user) return res.status(401).send();
 			var hid = req.params.hid;
@@ -33,18 +43,31 @@ export default class UserRoutes extends Route {
 
 		this.app.patch('/users/:hid', async (req, res) => {
 			if(!req.user) return res.status(401).send();
-			var hid = req.body.hid;
+			var hid = req.params.hid;
 			var data = req.body;
 			console.log(data);
 
 			var user = await this.app.stores.users.get(hid);
 			if(!user?.id) return res.status(404).send();
+			console.log("before", user);
 
-			for(var k in Object.keys(data)) {
+			for(var k in data) {
 				user[k] = data[k];
 			}
 			await user.save();
+			console.log("after", user);
 			return res.status(200).send(user);
-		})		
+		})
+
+		this.app.delete('/users/:hid', async (req, res) => {
+			if(!req.user) return res.status(401).send();
+			var hid = req.params.hid;
+
+			var user = await this.app.stores.users.get(hid);
+			if(!user?.id) return res.status(404).send();
+
+			await user.delete();
+			return res.status(200).send();
+		})
 	}
 }

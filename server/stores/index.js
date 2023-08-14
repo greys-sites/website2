@@ -6,6 +6,7 @@ import FlagStore from './flags.js';
 import PostStore from './posts.js';
 import ProjectStore from './projects.js';
 import UserStore from './users.js';
+import LoginStore from './logins.js';
 
 const client = new Pool();
 
@@ -18,6 +19,7 @@ class Stores {
 		this.posts = new PostStore(this.db);
 		this.projects = new ProjectStore(this.db);
 		this.users = new UserStore(this.db);
+		this.logins = new LoginStore(this.db);
 	}
 
 	async init() {
@@ -65,12 +67,19 @@ class Stores {
 
 			CREATE TABLE IF NOT EXISTS users (
 				id 			SERIAL PRIMARY KEY,
-				hid 		TEXT,
+				hid 		TEXT unique,
 				name 		TEXT,
+				bio 		TEXT,
+				avatar_url 	TEXT
+			);
+
+			CREATE TABLE IF NOT EXISTS logins (
+				id 			SERIAL PRIMARY KEY,
+				hid 		TEXT,
+				user_id 	TEXT references users (hid) on delete cascade,
+				username 	TEXT,
 				password 	TEXT,
 				salt 		TEXT,
-				bio 		TEXT,
-				avatar_url 	TEXT,
 				token 		TEXT
 			);
 
