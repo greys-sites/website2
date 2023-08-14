@@ -1,8 +1,8 @@
-import { Route } from './__models';
+import { Route } from './__models.js';
 
-class UserRoutes extends Route {
+export default class UserRoutes extends Route {
 	constructor(app) {
-		this.app = app;
+		super(app)
 	}
 
 	init() {

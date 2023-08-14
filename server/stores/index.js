@@ -1,10 +1,11 @@
-import { Pool } from 'pg';
+import pg from 'pg';
+const { Pool } = pg;
 
-import ComicStore from './comics';
-import FlagStore from './flags';
-import PostStore from './posts';
-import ProjectStore from './projects';
-import UserStore from './users';
+import ComicStore from './comics.js';
+import FlagStore from './flags.js';
+import PostStore from './posts.js';
+import ProjectStore from './projects.js';
+import UserStore from './users.js';
 
 const client = new Pool();
 
@@ -102,4 +103,5 @@ class Stores {
 	}
 }
 
-export default stores = new Stores(client);
+const stores = new Stores(client);
+export default stores;

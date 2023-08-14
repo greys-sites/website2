@@ -1,4 +1,4 @@
-import { DataObject, DataStore } from './__models';
+import { DataObject, DataStore } from './__models.js';
 
 const KEYS = {
 	id: { },
@@ -18,7 +18,7 @@ class Post extends DataObject {
 	}
 }
 
-export default class PostStore {
+export default class PostStore extends DataStore {
 	constructor(db) {
 		super(db);
 	}

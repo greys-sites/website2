@@ -1,4 +1,4 @@
-const util = require('util');
+import util from 'util';
 
 export class DataObject {
 	store;
