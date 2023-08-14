@@ -27,25 +27,29 @@ class Stores {
 				name 		TEXT,
 				tagline 	TEXT,
 				description TEXT,
-				story 		TEXT
+				story 		TEXT,
+				images 		JSONB
 			);
 
 			CREATE TABLE IF NOT EXISTS flags (
 				id 			SERIAL PRIMARY KEY,
 				hid 		TEXT,
 				name 		TEXT,
-				category 	TEXT
+				category 	TEXT,
+				description TEXT,
+				images 		JSONB
 			);
 
 			CREATE TABLE IF NOT EXISTS posts (
-				id 			SERIAL PRIMARY KEY,
-				hid 		TEXT,
-				title 		TEXT,
-				body 		TEXT,
-				user_id 	TEXT,
-				cover_url 	TEXT,
-				timestamp 	TIMESTAMPTZ,
-				tags		TEXT[]
+				id 				SERIAL PRIMARY KEY,
+				hid 			TEXT,
+				title 			TEXT,
+				body 			TEXT,
+				user_id 		TEXT,
+				cover_url 		TEXT,
+				post_timestamp 	TIMESTAMPTZ,
+				edit_timestamp 	TIMESTAMPTZ,
+				tags			TEXT[]
 			);
 
 			CREATE TABLE IF NOT EXISTS projects (
@@ -53,7 +57,9 @@ class Stores {
 				hid 		TEXT,
 				name 		TEXT,
 				description TEXT,
-				tags 		TEXT[]
+				category 	TEXT,
+				tags 		TEXT[],
+				images 		JSONB
 			);
 
 			CREATE TABLE IF NOT EXISTS users (
@@ -63,8 +69,35 @@ class Stores {
 				password 	TEXT,
 				salt 		TEXT,
 				bio 		TEXT,
-				avatar_url 	TEXT
+				avatar_url 	TEXT,
+				token 		TEXT
 			);
+
+			CREATE OR REPLACE FUNCTION gen_hid() RETURNS TEXT AS
+				'select lower(substr(md5(random()::text), 0, 5));'
+			LANGUAGE SQL VOLATILE;
+
+			CREATE OR REPLACE FUNCTION find_unique(_tbl regclass) RETURNS TEXT AS $$
+				DECLARE nhid TEXT;
+				DECLARE res BOOL;
+				BEGIN
+					LOOP
+						nhid := gen_hid();
+						EXECUTE format(
+							'SELECT (EXISTS (
+								SELECT FROM %s
+								WHERE hid = %L
+							))::bool',
+							_tbl, nhid
+						) INTO res;
+						IF NOT res THEN RETURN nhid; END IF;
+					END LOOP;
+				END
+			$$ LANGUAGE PLPGSQL VOLATILE;
+
+			CREATE OR REPLACE FUNCTION gen_token() RETURNS TEXT AS
+				'select substr(md5(random()::text), 0, 32);'
+			LANGUAGE SQL VOLATILE;
 		`)
 	}
 }

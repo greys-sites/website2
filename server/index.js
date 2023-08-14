@@ -9,10 +9,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.stores = stores;
 
+async function auth(req, res, next) {
+	var token = req.headers?.['Authorization'];
+	if(!token) return next();
+
+	var user = await app.stores.users.getByToken(token);
+	if(!user) return next();
+
+	req.user = user;
+	next();
+}
+
+app.use(auth);
 async function setup() {
-	for(var route of routes) {
-		await route.init(app);
-	}
+	await routes(app);
 }
 
 setup()

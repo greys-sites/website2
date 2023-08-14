@@ -1,0 +1,50 @@
+import { Route } from './__models';
+
+class UserRoutes extends Route {
+	constructor(app) {
+		this.app = app;
+	}
+
+	init() {
+		this.app.get('/users', async (req, res) => {
+			if(!req.user) return res.status(401).send();
+
+			var users = await this.app.stores.users.getAll();
+			return res.status(200).send(users);
+		})
+
+		this.app.get('/users/:hid', async (req, res) => {
+			if(!req.user) return res.status(401).send();
+			var hid = req.params.hid;
+
+			var user = await this.app.stores.users.get(hid);
+			if(!user?.id) return res.status(404).send();
+			return res.status(200).send(user);
+		})
+
+		this.app.post('/users', async (req, res) => {
+			if(!req.user) return res.status(401).send();
+			var data = req.body;
+			console.log(data);
+
+			var user = await this.app.stores.users.create(data);
+			return res.status(200).send(user);
+		})
+
+		this.app.patch('/users/:hid', async (req, res) => {
+			if(!req.user) return res.status(401).send();
+			var hid = req.body.hid;
+			var data = req.body;
+			console.log(data);
+
+			var user = await this.app.stores.users.get(hid);
+			if(!user?.id) return res.status(404).send();
+
+			for(var k in Object.keys(data)) {
+				user[k] = data[k];
+			}
+			await user.save();
+			return res.status(200).send(user);
+		})		
+	}
+}

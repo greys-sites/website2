@@ -4,19 +4,19 @@ const KEYS = {
 	id: { },
 	hid: { },
 	name: { patch: true },
-	tagline: { patch: true },
 	description: { patch: true },
-	story: { patch: true },
+	category: { patch: true },
+	tags: { patch: true },
 	images: { patch: true }
 }
 
-class Comic extends DataObject {
+class Project extends DataObject {
 	constructor(store, keys, data) {
 		super(store, keys, data);
 	}
 }
 
-export default class ComicStore {
+export default class ProjectStore {
 	constructor(db) {
 		super(db);
 	}
@@ -24,16 +24,16 @@ export default class ComicStore {
 	async create(data = {}) {
 		try {
 			var data = await this.db.query(`
-				insert into comics (
+				insert into projects (
 					hid,
 					name,
-					tagline,
 					description,
-					story,
+					category,
+					tags,
 					images
 				) values ($1, $2, $3, $4, $5, $6)
 				returning *
-			`, [data.hid, data.name, data.tagline, data.description, data.story, data.images ?? JSON.stringify([])]);
+			`, [data.hid, data.name, data.description, data.category, data.tags ?? [], data.images ?? JSON.stringify([])]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
@@ -44,44 +44,44 @@ export default class ComicStore {
 
 	async get(hid) {
 		try {
-			var data = await this.db.query(`select * from comics where hid = $1`, [hid]);
+			var data = await this.db.query(`select * from projects where hid = $1`, [hid]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
 		}
 
-		if(data.rows?.[0]) return new Comic(this, KEYS, data.rows[0]);
-		else return new Comic(this, KEYS, { });
+		if(data.rows?.[0]) return new Project(this, KEYS, data.rows[0]);
+		else return new Project(this, KEYS, { });
 	}
 
 	async getID(id) {
 		try {
-			var data = await this.db.query(`select * from comics where id = $1`, [id]);
+			var data = await this.db.query(`select * from projects where id = $1`, [id]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
 		}
 
-		if(data.rows?.[0]) return new Comic(this, KEYS, data.rows[0]);
-		else return new Comic(this, KEYS, { });
+		if(data.rows?.[0]) return new Project(this, KEYS, data.rows[0]);
+		else return new Project(this, KEYS, { });
 	}
 
 	async getAll() {
 		try {
-			var data = await this.db.query(`select * from comics`);
+			var data = await this.db.query(`select * from projects`);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
 		}
 
-		if(data.rows?.[0]) return data.rows.map(x => new Comic(this, KEYS, x));
+		if(data.rows?.[0]) return data.rows.map(x => new Project(this, KEYS, x));
 		else return [];
 	}
 
 	async update(id, data = {}) {
 		try {
 			await this.db.query(`
-				update comics SET ${Object.keys(data).map((k, i) => k+"=$"+(i+2)).join(",")}
+				update projects SET ${Object.keys(data).map((k, i) => k+"=$"+(i+2)).join(",")}
 				where id = $1
 			`, [id, ...Object.values(data)]);
 		} catch(e) {
@@ -94,7 +94,7 @@ export default class ComicStore {
 
 	async delete(id) {
 		try {
-			await this.db.query(`delete from comics where id = $1`, [id]);
+			await this.db.query(`delete from projects where id = $1`, [id]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
@@ -105,7 +105,7 @@ export default class ComicStore {
 
 	async deleteAll() {
 		try {
-			await this.db.query(`delete from comics`);
+			await this.db.query(`delete from projects`);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
