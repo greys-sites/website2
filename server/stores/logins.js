@@ -19,9 +19,18 @@ class Login extends DataObject {
 	}
 
 	[util.inspect.custom](depth, opts) {
-		var {store, KEYS, old, password, ...rest} = this;
+		var {store, KEYS, old, password, token, ...rest} = this;
 
 		return rest;
+	}
+
+	async validate(name, password) {
+		if(name !== this.username) return false;
+		
+		var hash = SHA3(password + this.salt).toString();
+		if(this.password !== hash) return false;
+
+		return true;
 	}
 }
 
@@ -63,26 +72,21 @@ export default class LoginStore extends DataStore {
 		else return new Login(this, KEYS, { });
 	}
 
-	async validate(name, password) {
+	async getByToken(token) {
 		try {
-			var data = await this.db.query(`select * from logins where username = $1`, [name]);
+			var data = await this.db.query(`select * from logins where token = $1`, [token]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
 		}
 
-		if(data.rows?.[0]) {
-			var d = data.rows[0];
-			var hash = SHA3(password + d.salt).toString();
-			if(password !== hash) return null;
-
-			return new Login(this, KEYS, data.rows[0]);
-		} else return null;
+		if(data.rows?.[0]) return new Login(this, KEYS, data.rows[0]);
+		else return null;
 	}
 
-	async getByToken(token) {
+	async getByUser(hid) {
 		try {
-			var data = await this.db.query(`select * from logins where token = $1`, [token]);
+			var data = await this.db.query(`select * from logins where user_id = $1`, [hid]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
