@@ -7,7 +7,7 @@ console.log(API);
 
 export function load({ cookies }) {
 	var u = cookies.get('user');
-	if(u) throw redirect(308, '/dash');
+	if(u) throw redirect(308, '/admin');
 }
 
 export const actions = {

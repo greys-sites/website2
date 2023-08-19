@@ -63,7 +63,7 @@ export default class LoginRoutes extends Route {
 
 		this.app.patch('/logins/:hid', async (req, res) => {
 			if(!req.user) return res.status(401).send();
-			var hid = req.params.hid;
+			var hid = req.params.hid.toLowerCase();
 
 			var user = await this.app.stores.users.get(hid);
 			if(!user?.id) return res.status(404).send();
@@ -73,16 +73,27 @@ export default class LoginRoutes extends Route {
 
 			var {
 				current_password: cpass,
-				new_password: npass
+				new_password: npass,
+				username
 			} = req.body;
 
-			var hash = SHA3(cpass + login.salt);
-			if(hash != login.password && login.password?.length) return res.status(403).send({ errors: "Current password is invalid" });
+			if(npass) {
+				var hash = SHA3(cpass + login.salt);
+				if(hash != login.password && login.password?.length)
+					return res.status(403).send({ errors: ["Current password is invalid"] });
+			
+				var salt = crypto.lib.WordArray.random(32).toString(crypto.enc.Base64);
+				var password = SHA3(npass + salt).toString();
+				login.password = password;
+				login.salt = salt;
+			}
 
-			var salt = crypto.lib.WordArray.random(32).toString(crypto.enc.Base64);
-			var password = SHA3(npass + salt).toString();
-			login.password = password;
-			login.salt = salt;
+			if(username) {
+				var exists = wait this.app.logins.getByUsername(username);
+				if(exists?.id) return res.status(400).send({ errors: [ "Username is already taken." ]})
+				login.username = username;
+			}
+
 			await login.save();
 
 			return res.status(200).send();
