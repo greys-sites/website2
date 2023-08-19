@@ -88,18 +88,16 @@ export default class LoginRoutes extends Route {
 			return res.status(200).send();
 		})
 
-		this.app.post('/logins/:hid', async (req, res) => {
-			if(!req.user) return res.status(401).send();
-			var hid = req.params.hid;
-
-			var user = await this.app.stores.users.get(hid);
-			if(!user?.id) return res.status(404).send();
-
-			var login = await this.app.stores.logins.getByUser(user.hid);
+		this.app.post('/logins/verify', async (req, res) => {
+			var body = req.body;
+			var login = await this.app.stores.logins.getByUsername(body.username);
 			if(!login) return res.status(404).send();
 
-			var r = await login.validate(req.body.username, req.body.password);
-			if(r) return res.status(200).send();
+			var user = await this.app.stores.users.get(login.user_id);
+			if(!user?.id) return res.status(404).send();
+
+			var r = await login.validate(body.username, body.password);
+			if(r) return res.status(200).send({ user, login });
 			else return res.status(400).send();
 		})
 	}

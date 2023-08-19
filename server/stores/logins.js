@@ -96,6 +96,18 @@ export default class LoginStore extends DataStore {
 		else return null;
 	}
 
+	async getByUsername(username) {
+		try {
+			var data = await this.db.query(`select * from logins where username = $1`, [username]);
+		} catch(e) {
+			console.log(e);
+			return Promise.reject(e.message ?? e);
+		}
+
+		if(data.rows?.[0]) return new Login(this, KEYS, data.rows[0]);
+		else return null;
+	}
+
 	async getID(id) {
 		try {
 			var data = await this.db.query(`select * from logins where id = $1`, [id]);
