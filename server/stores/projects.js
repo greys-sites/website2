@@ -7,7 +7,10 @@ const KEYS = {
 	description: { patch: true },
 	category: { patch: true },
 	tags: { patch: true },
-	images: { patch: true }
+	images: {
+		patch: true,
+		transform: (x) => JSON.stringify(x)
+	}
 }
 
 class Project extends DataObject {
