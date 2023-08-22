@@ -2,15 +2,21 @@
 	import { toasts } from '$lib/stores/toasts';
 	import Toast from '$lib/components/toast.svelte';
 
-	let open = false;
+	let show = false;
 
-	function toggle(e) {
-		open = !open;
+	function open(e) {
+		show = true;
+		document.body.addEventListener('click', close);
+	}
+
+	function close(e) {
+		show = false;
+		document.body.removeEventListener('click', close);
 	}
 </script>
 
 <nav>
-	<button on:click|preventDefault={toggle}>menu</button>
+	<button on:click|stopPropagation={show ? close : open}>menu</button>
 </nav>
 
 <div class="toasts">
@@ -21,10 +27,10 @@
 	{/each}
 </div>
 
-<div class={`menu ${open ? "open" : "closed"}`}>
+<div class={`menu ${show ? "open" : "closed"}`}>
 	<a href="/">home</a>
 	<a href="/admin">dash</a>
-	<a href="/admin/posts">blog </a>
+	<a href="/admin/posts">posts</a>
 	<a href="/admin/projects">projects</a>
 	<a href="/admin/comics">comics</a>
 	<a href="/admin/flags">flags</a>
@@ -36,6 +42,7 @@
 <style>
 	nav {
 		background-color: rgba(255, 255, 255, .07);
+		height: 2em;
 		width: 100%;
 		display: flex;
 		flex-direction: row;
