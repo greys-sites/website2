@@ -6,6 +6,7 @@ const ERRORS = {
 	password: 'Password is required for new accounts',
 	user: 'User ID is required for new accounts',
 	username: 'Username is required for new accounts',
+	username_exists: 'Username is already taken',
 	invalid_user: 'Invalid user ID supplied',
 	exists: "Login information already exists for that user"
 }
@@ -28,6 +29,8 @@ export default class LoginRoutes extends Route {
 			if(!user?.id) errs.push(ERRORS.invalid_user);
 			var exists = await this.app.logins.getByUser(user.hid);
 			if(exists) errs.push(ERRORS.exists);
+			exists = await this.app.logins.getByUsername(req.body.username);
+			if(exists?.id) errs.push(ERRORS.username_exists);
 			if(errs.length) return res.status(400).send({ errors: errs });
 
 			var salt = crypto.lib.WordArray.random(32).toString(crypto.enc.Base64);
@@ -89,7 +92,7 @@ export default class LoginRoutes extends Route {
 			}
 
 			if(username) {
-				var exists = wait this.app.logins.getByUsername(username);
+				var exists = await this.app.logins.getByUsername(username);
 				if(exists?.id) return res.status(400).send({ errors: [ "Username is already taken." ]})
 				login.username = username;
 			}

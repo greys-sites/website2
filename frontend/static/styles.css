@@ -63,7 +63,7 @@ input {
 	margin: 0;
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
 	max-width: 90%;
 	background-color: rgba(255, 255, 255, .09);
 	/* border: 2px solid #121212; */
@@ -84,13 +84,13 @@ button, input[type=submit] {
     text-shadow: none;
     border-style: none; 
     padding: .5rem .7rem;
-    transition: .5s;
+    transition: .25s;
     text-align: center;
 }
 
 button:hover {
-    color: black;
-    transition: .5s;
+    color: #ccc;
+    transition: .25s;
 }
 
 a {
@@ -101,6 +101,31 @@ a {
 
 a:hover {
 	text-decoration: underline;
+}
+
+.menu {
+	position: absolute;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	width: 50%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: rgba(255, 255, 255, .09);
+}
+
+.menu.closed {
+	width: 0;
+	transition: .25s;
+}
+
+.menu a {
+	width: 100%;
+	height: 1.2em;
+	background-color: rgba(255, 255, 255, .15);
+	overflow-x: hidden;
 }
 
 @media(max-width: 700px) {

@@ -21,13 +21,13 @@ $: if(form) {
 </script>
 
 <svelte:head>
-  <title>Login | gsdn.link</title>
+  <title>Login | Grey Skies</title>
 </svelte:head>
 
 <div class="container">
 <form method="POST" action="?/login" use:enhance>
 	<input type="text" placeholder="username" name="username" />
-  <input type="password" placeholder="password" name="password" />
+  	<input type="password" placeholder="password" name="password" />
 	<input type="submit" value="submit" />
 </form>
 </div>

@@ -1,22 +1,16 @@
 <script>
 	import { toasts } from '$lib/stores/toasts';
 	import Toast from '$lib/components/toast.svelte';
+
+	let open = false;
+
+	function toggle(e) {
+		open = !open;
+	}
 </script>
 
 <nav>
-	<a href="/">home</a>
-	<p>|</p>
-	<a href="/admin">dash</a>
-	<p>|</p>
-	<a href="/admin/posts">blog </a>
-	<p>|</p>
-	<a href="/admin/projects">projects</a>
-	<p>|</p>
-	<a href="/admin/comics">comics</a>
-	<p>|</p>
-	<a href="/admin/flags">flags</a>
-	<p>|</p>
-	<a href="/admin/users">users</a>
+	<button on:click|preventDefault={toggle}>menu</button>
 </nav>
 
 <div class="toasts">
@@ -25,6 +19,16 @@
 			props={t}
 		/>
 	{/each}
+</div>
+
+<div class={`menu ${open ? "open" : "closed"}`}>
+	<a href="/">home</a>
+	<a href="/admin">dash</a>
+	<a href="/admin/posts">blog </a>
+	<a href="/admin/projects">projects</a>
+	<a href="/admin/comics">comics</a>
+	<a href="/admin/flags">flags</a>
+	<a href="/admin/users">users</a>
 </div>
 
 <slot />
