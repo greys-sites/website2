@@ -4,23 +4,40 @@ const KEYS = {
 	id: { },
 	hid: { },
 	title: { patch: true },
-	body: { patch: true },
 	user_id: { patch: true },
+	body: { patch: true },
+	short: { patch: true },
 	cover_url: { patch: true },
 	post_timestamp: { },
 	edit_timestamp: { patch: true },
 	tags: { patch: true }
 }
 
-class Post extends DataObject {
+export class Post extends DataObject {
 	constructor(store, keys, data) {
 		super(store, keys, data);
+	}
+
+	async getUser() {
+		if(this.user) return user;
+		var exists = this.store.userCache.get(this.user_id);
+		if(exists) this.user = exists;
+		else {
+			var d = await this.store.db.query(`select * from users where hid = $1`, [this.user_id]);
+			this.user = d.rows?.[0];
+			if(this.user) this.store.userCache.set(this.user.user_id, this.user);
+		}
+		
+		return this.user;
 	}
 }
 
 export default class PostStore extends DataStore {
 	constructor(db) {
 		super(db);
+
+		this.userCache = new Map();
+		setInterval(() => this.userCache.clear(), 10 * 60 * 1000)
 	}
 
 	async create(data = {}) {
@@ -29,15 +46,16 @@ export default class PostStore extends DataStore {
 				insert into posts (
 					hid,
 					title,
-					body,
 					user_id,
+					body,
+					short,
 					cover_url,
 					post_timestamp,
 					edit_timestamp,
 					tags
-				) values ($1, $2, $3, $4, $5, $6, $7, $8)
+				) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 				returning *
-			`, [data.hid, data.title, data.body, data.user_id, data.cover_url,
+			`, [data.hid, data.title, data.user_id, data.body, data.short, data.cover_url,
 				data.post_timestamp ?? new Date(), data.edit_timestamp, data.tags ?? []]);
 		} catch(e) {
 			console.log(e);

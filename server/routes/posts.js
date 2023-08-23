@@ -8,6 +8,8 @@ export default class PostRoutes extends Route {
 	init() {
 		this.app.get('/posts', async (req, res) => {
 			var posts = await this.app.stores.posts.getAll();
+			for(var p of posts) await p.getUser();
+
 			return res.status(200).send(posts);
 		})
 
@@ -16,6 +18,7 @@ export default class PostRoutes extends Route {
 
 			var post = await this.app.stores.posts.get(hid);
 			if(!post?.id) return res.status(404).send();
+			await post.getUser();
 			return res.status(200).send(post);
 		})
 
@@ -23,6 +26,7 @@ export default class PostRoutes extends Route {
 			if(!req.user) return res.status(401).send();
 			var data = req.body;
 			console.log(data);
+			if(!data.hid) data.hid = data.title.replace(' ', '-').slice(0, 10).toLowerCase();
 
 			var post = await this.app.stores.posts.create(data);
 			return res.status(200).send(post);

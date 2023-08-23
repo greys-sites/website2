@@ -10,7 +10,7 @@ const KEYS = {
 	images: { patch: true }
 }
 
-class Comic extends DataObject {
+export class Comic extends DataObject {
 	constructor(store, keys, data) {
 		super(store, keys, data);
 	}

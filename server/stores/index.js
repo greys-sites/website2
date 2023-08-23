@@ -45,10 +45,11 @@ class Stores {
 
 			CREATE TABLE IF NOT EXISTS posts (
 				id 				SERIAL PRIMARY KEY,
-				hid 			TEXT,
+				hid 			TEXT UNIQUE,
 				title 			TEXT,
-				body 			TEXT,
 				user_id 		TEXT,
+				body 			TEXT,
+				short 			TEXT,
 				cover_url 		TEXT,
 				post_timestamp 	TIMESTAMPTZ,
 				edit_timestamp 	TIMESTAMPTZ,

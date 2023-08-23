@@ -13,7 +13,7 @@ const KEYS = {
 	token: { patch: true }
 }
 
-class Login extends DataObject {
+export class Login extends DataObject {
 	constructor(store, keys, data) {
 		super(store, keys, data);
 	}
@@ -51,7 +51,7 @@ export default class LoginStore extends DataStore {
 					token
 				) values ($1, $2, $3, $4, $5, gen_token())
 				returning *
-			`, [data.hid, data.user_id, data.name, data.bio, data.avatar_url]);
+			`, [data.hid, data.user_id, data.username, data.password, data.salt]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

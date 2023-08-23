@@ -8,7 +8,7 @@ const KEYS = {
 	avatar_url: { patch: true }
 }
 
-class User extends DataObject {
+export class User extends DataObject {
 	constructor(store, keys, data) {
 		super(store, keys, data);
 	}

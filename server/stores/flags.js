@@ -9,7 +9,7 @@ const KEYS = {
 	images: { patch: true }
 }
 
-class Flag extends DataObject {
+export class Flag extends DataObject {
 	constructor(store, keys, data) {
 		super(store, keys, data);
 	}

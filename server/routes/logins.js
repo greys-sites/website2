@@ -25,17 +25,17 @@ export default class LoginRoutes extends Route {
 			if(!req.body.username) errs.push(ERRORS.username);
 			if(!req.body.user_id) errs.push(ERRORS.user);
 
-			var user = await this.app.users.get(req.body.user_id);
+			var user = await this.app.stores.users.get(req.body.user_id);
 			if(!user?.id) errs.push(ERRORS.invalid_user);
-			var exists = await this.app.logins.getByUser(user.hid);
-			if(exists) errs.push(ERRORS.exists);
-			exists = await this.app.logins.getByUsername(req.body.username);
-			if(exists?.id) errs.push(ERRORS.username_exists);
+			var exists = await this.app.stores.logins.getByUser(user.hid);
+			if(exists && exists.password) errs.push(ERRORS.exists);
+			exists = await this.app.stores.logins.getByUsername(req.body.username);
+			if(exists?.id && exists.user_id !== req.body.user_id) errs.push(ERRORS.username_exists);
 			if(errs.length) return res.status(400).send({ errors: errs });
 
 			var salt = crypto.lib.WordArray.random(32).toString(crypto.enc.Base64);
 			var password = SHA3(req.body.password + salt).toString();
-			var login = await this.app.logins.create({
+			await this.app.stores.logins.create({
 				user_id: user.hid,
 				username: req.body.username,
 				password,
@@ -92,8 +92,8 @@ export default class LoginRoutes extends Route {
 			}
 
 			if(username) {
-				var exists = await this.app.logins.getByUsername(username);
-				if(exists?.id) return res.status(400).send({ errors: [ "Username is already taken." ]})
+				var exists = await this.app.stores.logins.getByUsername(username);
+				if(exists?.id && exists.user_id !== user.hid) return res.status(400).send({ errors: [ "Username is already taken." ]})
 				login.username = username;
 			}
 

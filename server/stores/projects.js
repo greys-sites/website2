@@ -13,7 +13,7 @@ const KEYS = {
 	}
 }
 
-class Project extends DataObject {
+export class Project extends DataObject {
 	constructor(store, keys, data) {
 		super(store, keys, data);
 	}
