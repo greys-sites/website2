@@ -4,6 +4,7 @@ import { Route } from './__models.js';
 
 const ERRORS = {
 	password: 'Password is required for new accounts',
+	invalid_password: "Current password is invalid",
 	user: 'User ID is required for new accounts',
 	username: 'Username is required for new accounts',
 	username_exists: 'Username is already taken',
@@ -83,7 +84,7 @@ export default class LoginRoutes extends Route {
 			if(npass) {
 				var hash = SHA3(cpass + login.salt);
 				if(hash != login.password && login.password?.length)
-					return res.status(403).send({ errors: ["Current password is invalid"] });
+					return res.status(403).send({ errors: [ERRORS.invalid_password] });
 			
 				var salt = crypto.lib.WordArray.random(32).toString(crypto.enc.Base64);
 				var password = SHA3(npass + salt).toString();
