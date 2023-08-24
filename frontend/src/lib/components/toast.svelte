@@ -30,6 +30,7 @@ export let props = {
 		align-items: center;
 		justify-content: space-between;
 		position: relative;
+		z-index: 200;
 	}
 
 	.close {

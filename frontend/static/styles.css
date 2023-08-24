@@ -60,7 +60,7 @@ form {
 }
 
 input {
-	margin: 0;
+	margin: 5px;
 }
 
 input[type=text], input[type=password] {
@@ -74,7 +74,7 @@ input[type=text], input[type=password] {
 	margin-right: .5rem;
 }
 
-button, input[type=submit] {
+button, input[type=submit], .link-button {
     text-transform: uppercase;
     font-weight: bold;
     background-color: rgba(255, 255, 255, .09);
@@ -88,7 +88,7 @@ button, input[type=submit] {
     text-align: center;
 }
 
-button:hover, input[type=submit] {
+button:hover, input[type=submit]:hover {
     background-color: rgba(255, 255, 255, .2);
     transition: .25s;
 }
@@ -167,6 +167,7 @@ nav > * {
 	flex-direction: column-reverse;
 	align-items: center;
 	justify-content: center;
+	margin-top: 50px;
 }
 
 @media(max-width: 700px) {
