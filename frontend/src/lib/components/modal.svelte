@@ -26,7 +26,7 @@ async function cancel() {
 
 <dialog on:click|stopPropagation class={"modal-" + props.type} transition:fly={{ y: 25, duration: 250 }}>
 	<div class="modal-content">
-		<h1>{props.title} ID: {props.id}</h1>
+		<h1>{props.title}</h1>
 		<p>{props.message}
 	</div>
 	<div class="modal-buttons">

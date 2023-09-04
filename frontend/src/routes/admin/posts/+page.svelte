@@ -66,7 +66,7 @@
 							title: "Are you sure?",
 							message: "This action can't be undone.",
 							type: "confirm",
-							onConfirm: deletePost(post.hid)
+							onConfirm: () => deletePost(post.hid)
 						})
 					}
 				})}>delete</button>
