@@ -29,3 +29,6 @@ export async function load({ cookies }) {
 
 	return { posts: d };
 }
+
+export const actions = {
+}
