@@ -42,8 +42,6 @@
 
 <h1>Posts</h1>
 
-<button>test</button>
-
 <a class="post-item" href="/admin/posts/create" style="color: white">
 	<h3>+ Add New</h3>
 </a>

@@ -11,12 +11,10 @@
 
 	function open(e) {
 		show = true;
-		document.body.addEventListener('click', close);
 	}
 
 	function close(e) {
 		show = false;
-		document.body.removeEventListener('click', close);
 	}
 </script>
 
@@ -42,7 +40,10 @@
 	{/each}
 </div>
 
-<div class={`menu ${show ? "open" : "closed"}`}>
+{#if show}
+<div class="menu-screen" transition:fade={{ duration: 250 }} on:click={close}/>
+{/if}
+<div class={`menu ${show ? "open" : "closed"}`} on:click|stopPropagation>
 	<a href="/">home</a>
 	<a href="/admin">dash</a>
 	<a href="/admin/posts">posts</a>
@@ -59,8 +60,6 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	/*height: 100%;
-	width: 100%;*/
 	bottom: 0;
 	right: 0;
 	background-color: rgba(0, 0, 0, .5);
@@ -69,6 +68,17 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	z-index: 150;
+	/*z-index: 150;*/
+}
+
+.menu-screen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, .5);
+	backdrop-filter: blur(3px);
+	transition: .25s;
 }
 </style>

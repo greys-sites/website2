@@ -23,14 +23,14 @@ export let props = {
 		text-align: left;
 		margin: auto;
 		margin-top: 10px;
-		width: 18rem;
+		width: 10rem;
 		padding: .5rem;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
 		position: relative;
-		z-index: 200;
+		z-index: 250;
 	}
 
 	.close {
