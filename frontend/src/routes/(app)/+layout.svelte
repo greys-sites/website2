@@ -2,24 +2,28 @@
 	import { toasts } from '$lib/stores/toasts';
 	import Toast from '$lib/components/toast.svelte';
 
-	import { modals } from '$lib/stores/modals';
+	import { modals, closeAll } from '$lib/stores/modals';
 	import Modal from '$lib/components/modal.svelte';
+
+	import { fade } from 'svelte/transition';
+
+	let show = false;
+
+	function open(e) {
+		show = true;
+	}
+
+	function close(e) {
+		show = false;
+	}
 </script>
 
 <nav>
-	<a href="/">home</a>
-	<p>|</p>
-	<a href="/blog">blog </a>
-	<p>|</p>
-	<a href="/projects">projects</a>
-	<p>|</p>
-	<a href="/comics">comics</a>
-	<p>|</p>
-	<a href="/flags">flags</a>
+	<button on:click|preventDefault|stopPropagation={show ? close : open}>menu</button>
 </nav>
 
 {#if $modals.length}
-	<div class="modal-screen" scroll="no">
+	<div on:click={closeAll} class="modal-screen" scroll="no" transition:fade={{ duration: 250 }}>
 		{#each $modals as m (m.id)}
 			<Modal
 				props={m}
@@ -36,11 +40,22 @@
 	{/each}
 </div>
 
+{#if show}
+<div class="menu-screen" transition:fade={{ duration: 250 }} on:click={close}/>
+{/if}
+<div class={`menu ${show ? "open" : "closed"}`} on:click|stopPropagation>
+	<a href="/">home</a>
+	<a href="/blog">blog </a>
+	<a href="/projects">projects</a>
+	<a href="/comics">comics</a>
+	<a href="/flags">flags</a>
+</div>
+
 <slot />
 
 <style>
 .modal-screen {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	bottom: 0;
@@ -51,6 +66,17 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	z-index: 150;
+	/*z-index: 150;*/
+}
+
+.menu-screen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, .5);
+	backdrop-filter: blur(3px);
+	transition: .25s;
 }
 </style>

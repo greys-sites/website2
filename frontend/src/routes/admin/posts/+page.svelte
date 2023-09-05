@@ -64,8 +64,9 @@
 {#if data?.posts?.length}
 	{#each data.posts as post (post.hid)}
 		<div class="post-item">
+			<img class="post-cover" src={ post.cover_url ?? "https://cdn.greysdawn.com/81fa.png" } />
 			<div class="post-inner">
-				<h3><a href={`/blog/${post.hid}`}>{post.title}</a></h3>
+				<h1><a href={`/blog/${post.hid}`}>{post.title}</a></h1>
 				<p>{post.short}</p>
 			</div>
 			<div class="post-buttons">
@@ -91,6 +92,7 @@
 <style>
 .post-item {
 	width: 90%;
+	max-width: 700px;
 	background: rgba(255, 255, 255, .09);
 	display: flex;
 	flex-direction: column;
@@ -99,6 +101,17 @@
 	padding: 0 .5rem;
 	border-radius: .5rem;
 	margin-bottom: .5rem;
+}
+
+.post-cover {
+	width: 100%;
+	max-width: 700px;
+	height: auto;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	margin-top: 10px;
+	border-radius: 10px;
 }
 
 .post-inner {
