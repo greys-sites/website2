@@ -13,7 +13,7 @@
 	async function deletePost(hid) {
 		loading = true;
 		try {
-			var d = await fetch('/api/posts/delete', {
+			var d = await fetch('/admin/api/posts/delete', {
 				method: "POST",
 				body: JSON.stringify({ hid })
 			})
@@ -31,8 +31,8 @@
 
 		invalidateAll()
 		closeAll()
+		console.log(d);
 		if(d) {
-			console.log(d);
 			switch(d.status) {
 				case 200:
 					addToast({

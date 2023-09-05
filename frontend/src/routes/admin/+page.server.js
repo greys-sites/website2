@@ -4,7 +4,6 @@ import { API } from '$env/static/private';
 
 export async function load({ cookies }) {
 	var u = cookies.get('user');
-	console.log('admin page', u)
 	if(!u) {
 		return { user: null }
 	}
@@ -22,7 +21,6 @@ export async function load({ cookies }) {
 		switch(e.response?.status) {
 			case 401:
 			case 404:
-				console.log('gonna fucking SCREAM TWO ELECTRIC BOOGALOO')
 				cookies.delete('user');
 				d = null;
 				// throw redirect(308, '/admin/login');
@@ -38,9 +36,7 @@ export async function load({ cookies }) {
 
 export const actions = {
 	login: async ({ cookies, request }) => {
-		console.log('login request', request)
 		var d = await request.formData();
-		console.log('request formdata', d);
 		var username = d.get('username');
 		var password = d.get('password');
 

@@ -4,7 +4,6 @@ import { enhance } from '$app/forms';
 export let form;
 export let data;
 
-$: console.log(form, data);
 $: if(form) {
   switch(form.success) {
     case false:
@@ -16,6 +15,12 @@ $: if(form) {
       })
       break;
     default:
+      add({
+        type: 'success',
+        message: `Login successful!`,
+        timeout: 5000,
+        canClose: true
+      })
       break;
   }
 }

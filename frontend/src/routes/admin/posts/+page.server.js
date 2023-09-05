@@ -4,10 +4,8 @@ import { API } from '$env/static/private';
 
 export async function load({ cookies }) {
 	var u = cookies.get('user');
-	console.log('posts page', u);
 	if(!u) {
-		console.log('redirecting for some FUCKING REASON')
-		throw redirect(308, '/admin/login');
+		throw redirect(307, '/admin');
 	}
 
 	var d;
@@ -22,9 +20,8 @@ export async function load({ cookies }) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
 			case 401:
-				console.log('redirecting for some *OTHER* FUCKING REASON?????')
 				cookies.delete('user');
-				throw redirect(308, '/admin/login');
+				throw redirect(307, '/admin');
 				break;
 			default:
 				d = { posts: [] };
