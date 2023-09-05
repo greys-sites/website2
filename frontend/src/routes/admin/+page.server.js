@@ -4,7 +4,10 @@ import { API } from '$env/static/private';
 
 export async function load({ cookies }) {
 	var u = cookies.get('user');
-	if(!u) throw redirect(308, '/admin/login');
+	console.log('admin page', u)
+	if(!u) {
+		return { user: null }
+	}
 
 	var d;
 	try {
@@ -19,14 +22,50 @@ export async function load({ cookies }) {
 		switch(e.response?.status) {
 			case 401:
 			case 404:
+				console.log('gonna fucking SCREAM TWO ELECTRIC BOOGALOO')
 				cookies.delete('user');
-				throw redirect(308, '/admin/login');
+				d = null;
+				// throw redirect(308, '/admin/login');
 				break;
 			default:
-				d = { user: null };
+				d = null;
 				break;
 		}
 	}
 
 	return { user: d };
+}
+
+export const actions = {
+	login: async ({ cookies, request }) => {
+		console.log('login request', request)
+		var d = await request.formData();
+		console.log('request formdata', d);
+		var username = d.get('username');
+		var password = d.get('password');
+
+		try {
+			var u = await axios.post(API + '/logins/verify', {
+				username,
+				password
+			});
+
+			if(u) {
+				u = u.data;
+				console.log(u);
+				cookies.set('user', u.login.token);
+			} else return fail(401, {
+				success: false,
+				status: 401,
+				message: "Login information is incorrect."
+			});
+		} catch(e) {
+			console.log(e);
+			return fail(401, {
+				success: false,
+				status: 401,
+				message: "Login information is incorrect."
+			});
+		}
+	}
 }

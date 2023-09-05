@@ -23,7 +23,7 @@ export let props = {
 		text-align: left;
 		margin: auto;
 		margin-top: 10px;
-		width: 10rem;
+		width: 150px;
 		padding: .5rem;
 		display: flex;
 		flex-direction: row;
@@ -37,6 +37,7 @@ export let props = {
 		font-weight: bold;
 		color: white;
 		padding: .5rem .7rem;
+		cursor: pointer;
 	}
 
 	div > p {

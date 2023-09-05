@@ -13,7 +13,7 @@
 	async function deletePost(hid) {
 		loading = true;
 		try {
-			await fetch('/admin/posts/delete', {
+			var d = await fetch('/api/posts/delete', {
 				method: "POST",
 				body: JSON.stringify({ hid })
 			})
@@ -31,12 +31,27 @@
 
 		invalidateAll()
 		closeAll()
-		addToast({
-			type: 'success',
-			message: 'Post deleted!',
-			canClose: true,
-			timeout: 5000
-		})
+		if(d) {
+			console.log(d);
+			switch(d.status) {
+				case 200:
+					addToast({
+						type: 'success',
+						message: 'Post deleted!',
+						canClose: true,
+						timeout: 5000
+					})
+					break;
+				default:
+					addToast({
+						type: 'error',
+						message: `${d.status} - ${d.statusText}`,
+						canClose: true,
+						timeout: 5000
+					})
+					break;
+			}
+		}
 	}
 </script>
 
@@ -108,5 +123,7 @@ h3, p {
 
 .post-buttons > * {
 	margin: 5px;
+	font-size: 16px;
+	cursor: pointer;
 }
 </style>

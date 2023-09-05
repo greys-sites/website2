@@ -68,4 +68,8 @@ async function cancel() {
 .modal-buttons > * {
 	margin: 10px;
 }
+
+button {
+	cursor: pointer;
+}
 </style>

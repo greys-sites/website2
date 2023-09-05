@@ -12,6 +12,7 @@
 html, body {
 	min-height: 100vh;
 	width: 100%;
+	padding-bottom: 1em;
 }
 
 body {
@@ -104,7 +105,7 @@ a:hover {
 }
 
 nav {
-	background-color: rgba(255, 255, 255, .07);
+	background-color: #121212;
 	height: 50px;
 	width: 100%;
 	display: flex;
@@ -118,6 +119,8 @@ nav {
 	left: 0;
 	right: 0;
 	z-index: 100;
+	background-image: linear-gradient(rgba(255, 255, 255, .07), rgba(255, 255, 255, .07));
+	box-shadow: 0 0 20px black;
 }
 
 nav > * {
@@ -125,7 +128,7 @@ nav > * {
 }
 
 .menu {
-	position: absolute;
+	position: fixed;
 	z-index: 10;
 	display: flex;
 	flex-direction: column;
@@ -136,7 +139,7 @@ nav > * {
 	background-color: #202020;
 	left: 0;
 	top: 0;
-	margin-top: 50px;
+	padding-top: 50px;
 	width: 150px;
 	height: 100%;
 	transform: translateX(0);
@@ -161,8 +164,8 @@ nav > * {
 .toasts {
 	position: fixed;
 	top: 0;
-	right: 0;
-	width: 10rem;
+	right: 10px;
+	width: 150px;
 	display: flex;
 	flex-direction: column-reverse;
 	align-items: center;
