@@ -1,5 +1,6 @@
 <script>
 	import { addModal, closeAll } from '$lib/stores/modals';
+	import { formatDate } from '$lib/utils';
 
 	export let post;
 	export let deletePost;
@@ -9,6 +10,12 @@
 	<img class="post-cover" src={ post.cover_url ?? "https://cdn.greysdawn.com/81fa.png" } />
 	<div class="post-inner">
 		<h1><a href={`/blog/${post.hid}`}>{post.title}</a></h1>
+		<div class="post-meta">
+			<div class="avatar" style={
+				`background-image: url(${post.user?.avatar_url ?? "https://cdn.greysdawn.com/91a3.png"})`
+			} />
+			<p>{post.user?.name ?? "admin"} | {formatDate(post.post_timestamp)}</p>
+		</div>
 		<p>{post.short}</p>
 	</div>
 	{#if deletePost}
@@ -52,19 +59,35 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	margin-top: 10px;
+	margin: 10px 0;
 	border-radius: 10px;
 }
 
 .post-inner {
 	width: 100%;
+	margin-bottom: 10px;
+}
+
+.post-meta {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.avatar {
+	width: 32px;
+	height: 32px;
+	background-position: center;
+	background-size: cover;
+	border-radius: 50%;
 }
 
 a {
 	text-decoration: none;
 }
 
-h3, p {
+h1, p {
 	margin: .5rem 0;
 }
 

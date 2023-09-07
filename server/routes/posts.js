@@ -19,6 +19,7 @@ export default class PostRoutes extends Route {
 			var post = await this.app.stores.posts.get(hid);
 			if(!post?.id) return res.status(404).send();
 			await post.getUser();
+			console.log(post)
 			return res.status(200).send(post);
 		})
 

@@ -1,17 +1,9 @@
 <script>
 	import { marked } from 'marked';
 	import insane from 'insane';
+	import { formatDate } from '$lib/utils';
 	
 	export let data;
-
-	function formatDate(dt) {
-		if(typeof dt == "string") dt = new Date(dt);
-		return (
-			("00" + (dt.getMonth() + 1)).slice(-2) + "." +
-			("00" + dt.getDate()).slice(-2) + "." +
-			dt.getFullYear()
-		)
-	}
 </script>
 
 <img class="hero" src={data.post.cover_url ?? "https://cdn.greysdawn.com/81fa.png"}>
