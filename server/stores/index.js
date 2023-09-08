@@ -7,6 +7,7 @@ import PostStore from './posts.js';
 import ProjectStore from './projects.js';
 import UserStore from './users.js';
 import LoginStore from './logins.js';
+import TagStore from './tags.js'
 
 const client = new Pool();
 
@@ -20,6 +21,7 @@ class Stores {
 		this.projects = new ProjectStore(this.db);
 		this.users = new UserStore(this.db);
 		this.logins = new LoginStore(this.db);
+		this.tags = new TagStore(this.db);
 	}
 
 	async init() {
@@ -82,6 +84,13 @@ class Stores {
 				password 	TEXT,
 				salt 		TEXT,
 				token 		TEXT
+			);
+
+			CREATE TABLE IF NOT EXISTS tags (
+				id 			SERIAL PRIMARY KEY,
+				hid 		TEXT unique,
+				name 		TEXT,
+				description TEXT
 			);
 
 			CREATE OR REPLACE FUNCTION gen_hid() RETURNS TEXT AS

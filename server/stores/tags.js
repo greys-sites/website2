@@ -13,7 +13,14 @@ export class Tag extends DataObject {
 	}
 
 	async getPosts() {
-		
+		var d = await this.store.db.query(`
+			select * from posts where $1 = ANY(tags)
+		`, [this.hid]);
+
+		if(d.rows?.[0]) this.posts = d.rows;
+		else this.posts = [];
+
+		return this.posts;
 	}
 }
 

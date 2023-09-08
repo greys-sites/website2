@@ -4,6 +4,7 @@ import ProjectRoutes from './projects.js';
 import ComicRoutes  from './comics.js';
 import FlagRoutes from './flags.js';
 import PostRoutes from './posts.js';
+import TagRoutes from './tags.js';
 
 export default function routes(app) {
 	new UserRoutes(app).init();
@@ -12,4 +13,5 @@ export default function routes(app) {
 	new ComicRoutes(app).init();
 	new FlagRoutes(app).init();
 	new PostRoutes(app).init();
+	new TagRoutes(app).init();
 }

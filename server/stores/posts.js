@@ -30,6 +30,14 @@ export class Post extends DataObject {
 		
 		return this.user;
 	}
+
+	async getTags() {
+		var d = await this.store.db.query(`
+			select * from tags
+			where hid in ANY($1)`, [this.tags]);
+		this.full_tags = d.rows?.length ? d.rows : [];
+		return this.full_tags;
+	}
 }
 
 export default class PostStore extends DataStore {
