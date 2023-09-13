@@ -14,7 +14,10 @@
 			<div class="avatar" style={
 				`background-image: url(${post.user?.avatar_url ?? "https://cdn.greysdawn.com/91a3.png"})`
 			} />
-			<p>{post.user?.name ?? "admin"} | {formatDate(post.post_timestamp)}</p>
+			<p>{post.user?.name ?? "admin"} | {formatDate(post.post_timestamp)} |</p>
+			{#each post.full_tags as t (t.hid)}
+				<div class="post-tag">{t.name}</div>
+			{/each}
 		</div>
 		<p>{post.short}</p>
 	</div>
@@ -66,6 +69,13 @@
 .post-inner {
 	width: 100%;
 	margin-bottom: 10px;
+}
+
+.post-tag {
+	padding: 5px;
+	background-color: rgba(255, 255, 255, .09);
+	border-radius: 5px;
+	margin: 0 5px;
 }
 
 .post-meta {

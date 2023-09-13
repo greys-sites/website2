@@ -24,6 +24,22 @@ $: if(form) {
       break;
   }
 }
+
+function t() {
+	add({
+		type: 'success',
+        message: `Here's some longer text for a toast notification`,
+        timeout: 5000,
+        canClose: true
+	})
+
+	add({
+		type: 'error',
+        message: `Yay, toast!`,
+        timeout: 5000,
+        canClose: true
+	})
+}
 </script>
 
 <svelte:head>
@@ -44,4 +60,5 @@ $: if(form) {
 {#if data.user}
 	<h1>Admin Page</h1>
 	<h3>Logged in as {data.user.name}</h3>
+	<button on:click={t}>test</button>
 {/if}

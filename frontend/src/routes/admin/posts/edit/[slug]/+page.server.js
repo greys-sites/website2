@@ -2,37 +2,41 @@ import { fail, redirect } from '@sveltejs/kit';
 import axios from 'axios';
 import { API } from '$env/static/private';
 
-export const load = async ({ cookies }) => {
+export const load = async ({ cookies, params }) => {
 	var u = cookies.get('user');
-	var d = await axios.get(API + '/tags', {
-		headers: {
-			'Authorization': u
-		}
-	})
+	if(!u) return redirect(307, '/admin');
 
-	console.log(d.data);
-	return { tags: d.data };
+	var resp = await axios.get(`${API}/posts/${params.slug}`);
+
+	return resp.data;
 }
 
 export const actions = {
-	create: async ({ cookies, request }) => {
+	edit: async ({ cookies, request }) => {
 		var data = await request.formData();
 		var u = cookies.get('user');
+		console.log(u);
+		console.log(data);
 		var title = data.get('title');
 		var hid = data.get('hid');
+		var oldhid = data.get('oldhid');
 		var short = data.get('short');
 		var body = data.get('body');
-		var tags = data.getAll("tags");
-		console.log(tags)
-		
-		var resp = await axios.post(`${API}/posts`, {
+		console.log({
 			title,
 			hid,
 			short,
-			body,
-			tags
+			body
+		})
+		
+		var resp = await axios.patch(`${API}/posts/${oldhid}`, {
+			title,
+			hid,
+			short,
+			body
 		}, { headers: { 'Authorization': u } })
 
+		console.log(resp.data);
 		return { success: true, hid: resp.data.hid}
 	}
 }

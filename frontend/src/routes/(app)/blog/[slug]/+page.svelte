@@ -14,7 +14,10 @@
 		<div class="avatar" style={
 			`background-image: url(${data.post.user?.avatar_url ?? "https://cdn.greysdawn.com/8beb.png"})`
 		} />
-		<p>{data.post.user?.name ?? "admin"} | {formatDate(data.post.post_timestamp)}</p>
+		<p>{data.post.user?.name ?? "admin"} | {formatDate(data.post.post_timestamp)} |</p>
+		{#each data.post.full_tags as t (t.hid)}
+			<div class="post-tag">{t.name}</div>
+		{/each}
 	</div>
 </div>
 <div class="body">{@html insane(marked.parse(data.post.body))}</div>
@@ -59,6 +62,13 @@
 		font-weight: normal;
 		margin: 0;
 		z-index: 0;
+	}
+
+	.post-tag {
+		padding: 5px;
+		background-color: rgba(255, 255, 255, .09);
+		border-radius: 5px;
+		margin: 0 5px;
 	}
 
 	.body {

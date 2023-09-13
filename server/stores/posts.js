@@ -34,7 +34,7 @@ export class Post extends DataObject {
 	async getTags() {
 		var d = await this.store.db.query(`
 			select * from tags
-			where hid in ANY($1)`, [this.tags]);
+			where hid = ANY($1)`, [this.tags]);
 		this.full_tags = d.rows?.length ? d.rows : [];
 		return this.full_tags;
 	}
