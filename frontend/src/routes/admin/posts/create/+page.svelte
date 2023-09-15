@@ -96,7 +96,6 @@
 		height: 1.15em;
 		border: 0.15em solid currentColor;
 		border-radius: 0.15em;
-		transform: translateY(-0.075em);
 		display: grid;
 		place-content: center;
 	}
@@ -140,6 +139,10 @@
 		display: block;
 	}
 
+	.select ul {
+		padding: 0;
+	}
+
 	.select li {
 		margin: 0;
 		list-style: none;
@@ -148,6 +151,11 @@
 		display: grid;
 		grid-template-columns: 1em auto;
 		gap: 0.5em;
+	}
+
+	.select input {
+		margin: 0;
+		padding: 0;
 	}
 
 	/*select[multiple] {

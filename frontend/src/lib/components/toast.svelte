@@ -42,6 +42,7 @@ $: setTimeout(() => w = '100%')
 		justify-content: space-between;*/
 		position: relative;
 		z-index: 250;
+		overflow: hidden;
 		/*min-height: 2rem;*/
 	}
 
@@ -52,8 +53,8 @@ $: setTimeout(() => w = '100%')
 		margin: 0;
 		position: absolute;
 		bottom: 0;
-		border-bottom-right-radius: 0.5rem;
-		border-bottom-left-radius: 0.5rem;
+		/*border-bottom-right-radius: 0.5rem;
+		border-bottom-left-radius: 0.5rem;*/
 	}
 
 	.close-container {
