@@ -7,7 +7,7 @@
 </script>
 
 <div class="post-item">
-	<img class="post-cover" src={ post.cover_url ?? "https://cdn.greysdawn.com/81fa.png" } />
+	<img class="post-cover" src={ post.cover_url ? post.cover_url : "https://cdn.greysdawn.com/81fa.png" } />
 	<div class="post-inner">
 		<h1><a href={`/blog/${post.hid}`}>{post.title}</a></h1>
 		<div class="post-meta">

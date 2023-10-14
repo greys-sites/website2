@@ -16,6 +16,13 @@ export let data;
 <style>
 	p {
 		width: 90%;
-		max-width: 700px;
+		font-size: 16px;
+		max-width: 1200px;
+	}
+
+	@media(min-width: 700px) {
+		p {
+			font-size: 22px;
+		}
 	}
 </style>

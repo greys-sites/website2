@@ -6,13 +6,13 @@
 	export let data;
 </script>
 
-<img class="hero" src={data.post.cover_url ?? "https://cdn.greysdawn.com/81fa.png"}>
+<img class="hero" src={data.post.cover_url ? data.post.cover_url : "https://cdn.greysdawn.com/81fa.png"}>
 <div class="heading">
 	<h1>{data.post.title}</h1>
 	<h3>{data.post.short}</h3>
 	<div class="post-meta">
 		<div class="avatar" style={
-			`background-image: url(${data.post.user?.avatar_url ?? "https://cdn.greysdawn.com/8beb.png"})`
+			`background-image: url(${data.post.user?.avatar_url ? data.post.user?.avatar_url : "https://cdn.greysdawn.com/8beb.png"})`
 		} />
 		<p>{data.post.user?.name ?? "admin"} | {formatDate(data.post.post_timestamp)} |</p>
 		{#each data.post.full_tags as t (t.hid)}
