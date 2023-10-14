@@ -2,7 +2,7 @@ import { DataObject, DataStore } from './__models.js';
 
 const KEYS = {
 	id: { },
-	hid: { },
+	hid: { patch: true },
 	title: { patch: true },
 	user_id: { patch: true },
 	body: { patch: true },

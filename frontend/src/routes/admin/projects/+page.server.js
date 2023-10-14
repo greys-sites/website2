@@ -1,0 +1,34 @@
+import { fail, redirect } from '@sveltejs/kit';
+import axios from 'axios';
+import { API } from '$env/static/private';
+
+export async function load({ cookies }) {
+	var u = cookies.get('user');
+	if(!u) {
+		throw redirect(307, '/admin');
+	}
+
+	var d;
+	try {
+		d = await axios.get(API + `/projects`, {
+			headers: {
+				'Authorization': u
+			}
+		})
+		d = d.data;
+		console.log(d)
+	} catch(e) {
+		console.log(e.response ?? e);
+		switch(e.response?.status) {
+			case 401:
+				cookies.delete('user');
+				throw redirect(307, '/admin');
+				break;
+			default:
+				d = { projects: [] };
+				break;
+		}
+	}
+
+	return { projects: d };
+}

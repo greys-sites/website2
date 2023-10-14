@@ -18,21 +18,20 @@ export const actions = {
 	create: async ({ cookies, request }) => {
 		var data = await request.formData();
 		var u = cookies.get('user');
-		var title = data.get('title');
+		var name = data.get('name');
 		var hid = data.get('hid');
 		var short = data.get('short');
 		var cover_url = data.get('cover_url');
-		var body = data.get('body');
-		var tags = data.getAll("tags");
-		console.log(tags)
+		var category = data.get('category');
+		var description = data.get('description');
 		
-		var resp = await axios.post(`${API}/posts`, {
-			title,
+		var resp = await axios.post(`${API}/projects`, {
+			name,
 			hid,
 			short,
 			cover_url,
-			body,
-			tags
+			category,
+			description,
 		}, { headers: { 'Authorization': u } })
 
 		return { success: true, hid: resp.data.hid}

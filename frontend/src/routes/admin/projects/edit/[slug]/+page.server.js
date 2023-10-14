@@ -6,14 +6,14 @@ export const load = async ({ cookies, params }) => {
 	var u = cookies.get('user');
 	if(!u) return redirect(307, '/admin');
 
-	var resp = await axios.get(`${API}/posts/${params.slug}`);
-	var d = await axios.get(API + '/tags', {
-		headers: {
-			'Authorization': u
-		}
-	})
+	var resp;
+	try {
+		resp = await axios.get(`${API}/projects/${params.slug}`);
+	} catch(e) {
+		console.log(e)
+	}
 
-	return { post: resp.data, tags: d.data };
+	return { proj: resp?.data ?? { } };
 }
 
 export const actions = {
@@ -22,30 +22,21 @@ export const actions = {
 		var u = cookies.get('user');
 		console.log(u);
 		console.log(data);
-		var title = data.get('title');
+		var name = data.get('name');
 		var hid = data.get('hid');
 		var oldhid = data.get('oldhid');
 		var short = data.get('short');
 		var cover_url = data.get('cover_url');
-		var body = data.get('body');
-		var tags = data.getAll("tags");
+		var category = data.get('category');
+		var description = data.get('description');
 		
-		console.log({
-			title,
+		var resp = await axios.patch(`${API}/projects/${oldhid}`, {
+			name,
 			hid,
 			short,
 			cover_url,
-			body,
-			tags
-		})
-		
-		var resp = await axios.patch(`${API}/posts/${oldhid}`, {
-			title,
-			hid,
-			short,
-			cover_url,
-			body,
-			tags
+			category,
+			description
 		}, { headers: { 'Authorization': u } })
 
 		console.log(resp.data);

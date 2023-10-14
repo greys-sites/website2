@@ -8,6 +8,7 @@ export default class ProjectRoutes extends Route {
 	init() {
 		this.app.get('/projects', async (req, res) => {
 			var projects = await this.app.stores.projects.getAll();
+			
 			return res.status(200).send(projects);
 		})
 

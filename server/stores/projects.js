@@ -2,9 +2,11 @@ import { DataObject, DataStore } from './__models.js';
 
 const KEYS = {
 	id: { },
-	hid: { },
+	hid: { patch: true },
 	name: { patch: true },
+	short: { patch: true },
 	description: { patch: true },
+	cover_url: { patch: true },
 	category: { patch: true },
 	tags: { patch: true },
 	images: {
@@ -16,6 +18,14 @@ const KEYS = {
 export class Project extends DataObject {
 	constructor(store, keys, data) {
 		super(store, keys, data);
+	}
+
+	async getTags() {
+		var d = await this.store.db.query(`
+			select * from tags
+			where hid = ANY($1)`, [this.tags]);
+		this.full_tags = d.rows?.length ? d.rows : [];
+		return this.full_tags;
 	}
 }
 
@@ -30,13 +40,15 @@ export default class ProjectStore extends DataStore {
 				insert into projects (
 					hid,
 					name,
+					short,
 					description,
+					cover_url,
 					category,
 					tags,
 					images
-				) values ($1, $2, $3, $4, $5, $6)
+				) values ($1, $2, $3, $4, $5, $6, $7, $8)
 				returning *
-			`, [data.hid, data.name, data.description, data.category, data.tags ?? [], data.images ?? JSON.stringify([])]);
+			`, [data.hid, data.name, data.short, data.description, data.cover_url, data.category, data.tags ?? [], data.images ?? JSON.stringify([])]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

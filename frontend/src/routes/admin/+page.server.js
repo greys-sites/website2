@@ -16,6 +16,7 @@ export async function load({ cookies }) {
 			}
 		})
 		d = d.data;
+		console.log(d)
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {

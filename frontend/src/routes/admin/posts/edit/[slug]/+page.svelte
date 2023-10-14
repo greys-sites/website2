@@ -5,6 +5,13 @@
 	export let form;
 	export let data;
 
+	let { post, tags } = data;
+	let oldhid = "" + post.hid;
+
+	let stags = [ ...post.tags];
+
+	$: console.log(stags);
+
 	$: if(form) {
 	  switch(form.success) {
 	    case false:
@@ -27,16 +34,33 @@
 	      break;
 	  }
 	}
+
+	let visible;
+	function toggle() {
+		visible = !visible;
+	}
 </script>
 
-<h1>Create Post</h1>
+<h1>Edit Post</h1>
 
 <form action="?/edit" use:enhance>
-	<input type="text" id="title" name="title" placeholder="Title" bind:value={data.title}/>
-	<input type="text" id="hid" name="hid" placeholder="Slug" bind:value={data.hid}/>
-	<input type="hidden" id="oldhid" name="oldhid" value={data.hid} />
-	<input type="text" id="short" name="short" placeholder="Short text" bind:value={data.short}/>
-	<textarea rows=10 id="body" name="body" placeholder="Body" bind:value={data.body}></textarea>
+	<input type="text" id="title" name="title" placeholder="Title" bind:value={post.title}/>
+	<input type="text" id="hid" name="hid" placeholder="Slug" bind:value={post.hid}/>
+	<input type="hidden" id="oldhid" name="oldhid" value={oldhid} />
+	<input type="text" id="short" name="short" placeholder="Short text" bind:value={post.short}/>
+	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image" bind:value={post.cover_url}/>
+	<textarea rows=10 id="body" name="body" placeholder="Body" bind:value={post.body}></textarea>
+	<div class="select">
+		<span class="select-dropdown" on:click={toggle}>Select tags...</span>
+		<ul class="select-inner" class:visible>
+			{#each tags as tag}
+				<li>
+					<input type=checkbox name="tags" value={tag.hid} bind:group={stags} />
+					{tag.name}
+				</li>
+			{/each}
+		</ul>
+	</div>
 	<input type="submit" value="Submit">
 </form>
 
@@ -50,28 +74,101 @@
 		background-color: rgba(255, 255, 255, .09);
 		color: white;
 		border: none;
-		border-radius: 10px;
-		padding: 10px;
-	}
-
-	input {
-		width: 500px;
-		background-color: rgba(255, 255, 255, .09);
-		border: 2px solid #121212;
-		border: 0px;
 		border-radius: .5rem;
-		padding: .5rem;
-		color: white;
-		margin-right: .5rem;
+		padding: 10px;
+		margin: 0 0 .5rem 0;
 		font-size: 16px;
 	}
 
-	@media(max-width: 700px) {
-		textarea {
-			width: 80%;
-		}
+	input:not([type=checkbox]) {
+		width: 500px;
+		background-color: rgba(255, 255, 255, .09);
+		border: 0px;
+		border-radius: 0.5rem;
+		padding: 0.5rem;
+		color: white;
+		margin: 0 0 0.5rem 0;
+		font-size: 16px;
+	}
 
-		input {
+	input[type=submit] {
+		width: auto;
+	}
+
+	input[type=checkbox] {
+		appearance: none;
+		font: inherit;
+		color: currentColor;
+		width: 1.15em;
+		height: 1.15em;
+		border: 0.15em solid currentColor;
+		border-radius: 0.15em;
+		transform: translateY(-0.075em);
+		display: grid;
+		place-content: center;
+	}
+
+	input[type=checkbox]::before {
+		content: "";
+		width: 0.65em;
+		height: 0.65em;
+		transform: scale(0);
+		opacity: 0;
+		transition: 120ms ease-in-out;
+		box-shadow: inset 1em 1em #9966cc;
+	}
+
+	input[type=checkbox]:checked::before {
+		transform: scale(1);
+		opacity: 1;
+	}
+
+	.select {
+		width: 500px;
+		background-color: rgba(255, 255, 255, .09);
+		border: 0px;
+		border-radius: 0.5rem;
+		color: white;
+		font-size: 16px;
+		margin: 0 0 0.5rem 0;
+		padding: .5rem;
+	}
+
+	.select-dropdown {
+		display: block;
+		width: 100%;
+	}
+
+	.select .select-inner {
+		display: none;
+	}
+
+	.select .select-inner.visible {
+		display: block;
+	}
+
+	.select li {
+		margin: 0;
+		list-style: none;
+		padding: 0;
+
+		display: grid;
+		grid-template-columns: 1em auto;
+		gap: 0.5em;
+	}
+
+	/*select[multiple] {
+	  height: calc(16px + 1rem);
+	  vertical-align: top;
+	  overflow: hidden;
+	}
+	select[multiple]:focus,
+	select[multiple]:active {
+	  height: auto;
+	}*/
+
+	@media(max-width: 700px) {
+		textarea, input:not([type=checkbox]), .select {
 			width: 80%;
 		}
 	}

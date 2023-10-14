@@ -42,6 +42,7 @@
 	<input type="text" id="title" name="title" placeholder="Title" />
 	<input type="text" id="hid" name="hid" placeholder="Slug" />
 	<input type="text" id="short" name="short" placeholder="Short text" />
+	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image" />
 	<textarea rows=10 id="body" name="body" placeholder="Body"></textarea>
 	<div class="select">
 		<span class="select-dropdown" on:click={toggle}>Select tags...</span>

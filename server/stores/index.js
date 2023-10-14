@@ -62,7 +62,9 @@ class Stores {
 				id 			SERIAL PRIMARY KEY,
 				hid 		TEXT,
 				name 		TEXT,
+				short 		TEXT,
 				description TEXT,
+				cover_url	TEXT,
 				category 	TEXT,
 				tags 		TEXT[],
 				images 		JSONB
