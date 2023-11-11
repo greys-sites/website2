@@ -25,7 +25,7 @@
 	        canClose: true
 	      })
 
-	      setTimeout(() => goto(`/project/${form.hid}`), 3000);
+	      setTimeout(() => goto(`/projects/${form.hid}`), 3000);
 	      break;
 	  }
 	}

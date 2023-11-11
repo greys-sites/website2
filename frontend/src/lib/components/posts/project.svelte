@@ -10,7 +10,7 @@
 <div class="proj-item">
 	<img class="proj-cover" src={ project.cover_url?.length ? project.cover_url : "https://cdn.greysdawn.com/81fa.png" } />
 	<div class="proj-inner">
-		<h1><a href={`/project/${project.hid}`}>{project.name}</a></h1>
+		<h1><a href={`/projects/${project.hid}`}>{project.name}</a></h1>
 		<p>{project.short}</p>
 	</div>
 	{#if deleteProject}
