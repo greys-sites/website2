@@ -4,6 +4,7 @@ import { API } from '$env/static/private';
 
 export async function load({ cookies }) {
 	var u = cookies.get('user');
+	console.log(u)
 	if(!u) {
 		return { user: null }
 	}

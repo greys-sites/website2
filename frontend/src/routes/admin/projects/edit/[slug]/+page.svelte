@@ -26,7 +26,7 @@
 	        canClose: true
 	      })
 
-	      setTimeout(() => goto(`/project/${form.hid}`), 3000);
+	      setTimeout(() => goto(`/projects/${form.hid}`), 3000);
 	      break;
 	  }
 	}
@@ -41,7 +41,7 @@
 	<input type="text" id="short" name="short" placeholder="Short text" bind:value={proj.short}/>
 	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image" bind:value={proj.cover_url}/>
 	<input type="text" id="category" name="category" placeholder="Category" bind:value={proj.category}/>
-	<textarea rows=10 id="body" name="body" placeholder="Description" bind:value={proj.description}></textarea>
+	<textarea rows=10 id="description" name="description" placeholder="Description" bind:value={proj.description}></textarea>
 	<input type="submit" value="Submit">
 </form>
 
