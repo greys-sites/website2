@@ -8,7 +8,9 @@ export async function load({ cookies, fetch }) {
 		throw redirect(307, '/admin');
 	}
 
-	console.log("comics load function ran");
+	var settings = cookies.get('settings');
+	if(settings) settings = JSON.parse(settings)
+	else settings = {};
 
 	var d;
 	try {
@@ -43,5 +45,5 @@ export async function load({ cookies, fetch }) {
 		}
 	}
 	console.log("server", categories)
-	return { categories, comics: d };
+	return { categories, comics: d, settings };
 }

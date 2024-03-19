@@ -8,6 +8,10 @@ export async function load({ cookies, fetch }) {
 		throw redirect(307, '/admin');
 	}
 
+	var settings = cookies.get('settings');
+	if(settings) settings = JSON.parse(settings)
+	else settings = {};
+
 	var d;
 	try {
 		d = await fetch(API + `/flags`, {
@@ -41,5 +45,5 @@ export async function load({ cookies, fetch }) {
 		}
 	}
 	console.log("server", categories)
-	return { categories, flags: d };
+	return { categories, flags: d, settings };
 }

@@ -5,7 +5,7 @@ const KEYS = [
 ]
 
 export async function POST({ request, cookies }) {
-	var data = await request.formData();
+	var data = await request.json();
 	var ck = cookies.get('settings');
 	if(ck) ck = JSON.parse(ck);
 	else ck = {
@@ -13,7 +13,7 @@ export async function POST({ request, cookies }) {
 	}
 
 	for(var k of KEYS) {
-		var item = data.get(k);
+		var item = data[k];
 		if(item) ck[k] = item;
 	}
 

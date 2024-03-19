@@ -8,6 +8,10 @@ export async function load({ cookies }) {
 		throw redirect(307, '/admin');
 	}
 
+	var settings = cookies.get('settings');
+	if(settings) settings = JSON.parse(settings)
+	else settings = {};
+
 	var d;
 	try {
 		d = await axios.get(API + `/posts`, {
@@ -29,5 +33,5 @@ export async function load({ cookies }) {
 		}
 	}
 
-	return { posts: d };
+	return { posts: d, settings };
 }
