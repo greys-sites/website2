@@ -1,0 +1,47 @@
+import { fail, redirect } from '@sveltejs/kit';
+import axios from 'axios';
+import { API } from '$env/static/private';
+
+export async function load({ cookies, fetch }) {
+	var u = cookies.get('user');
+	if(!u) {
+		throw redirect(307, '/admin');
+	}
+
+	console.log("comics load function ran");
+
+	var d;
+	try {
+		d = await fetch(API + `/comics`, {
+			headers: {
+				'Authorization': u
+			}
+		})
+		d = await d.json();
+	} catch(e) {
+		console.log(e.response ?? e);
+		switch(e.response?.status) {
+			case 401:
+				cookies.delete('user');
+				throw redirect(307, '/admin');
+				break;
+			default:
+				d = { posts: [] };
+				break;
+		}
+	}
+
+	var categories = {};
+	for(let c of d) {
+		if(!categories[c.story]) {
+			categories[c.story] = {
+				name: c.story,
+				comics: [c]
+			};
+		} else if(!categories[c.story].comics.find(x => x.hid == c.hid)) {
+			categories[c.story].comics.push(c)
+		}
+	}
+	console.log("server", categories)
+	return { categories, comics: d };
+}

@@ -2,12 +2,16 @@ import { DataObject, DataStore } from './__models.js';
 
 const KEYS = {
 	id: { },
-	hid: { },
+	hid: { patch: true },
 	name: { patch: true },
 	tagline: { patch: true },
 	description: { patch: true },
 	story: { patch: true },
-	images: { patch: true }
+	thumbnail: { patch: true },
+	images: {
+		patch: true,
+		transform: (x) => JSON.stringify(x)
+	}
 }
 
 export class Comic extends DataObject {
@@ -30,10 +34,12 @@ export default class ComicStore extends DataStore {
 					tagline,
 					description,
 					story,
+					thumbnail,
 					images
-				) values ($1, $2, $3, $4, $5, $6)
+				) values ($1, $2, $3, $4, $5, $6, $7)
 				returning *
-			`, [data.hid, data.name, data.tagline, data.description, data.story, data.images ?? JSON.stringify([])]);
+			`, [data.hid, data.name, data.tagline, data.description,
+				data.story, data.thumbnail, data.images ? JSON.stringify(data.images) : JSON.stringify([])]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

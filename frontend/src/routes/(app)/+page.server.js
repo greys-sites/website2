@@ -3,5 +3,5 @@ import axios from 'axios';
 import { API } from '$env/static/private';
 
 export async function load({ }) {
-	return { };
+	return { }
 }

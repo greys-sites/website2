@@ -6,7 +6,11 @@ const KEYS = {
 	name: { patch: true },
 	category: { patch: true },
 	description: { patch: true },
-	images: { patch: true }
+	thumbnail: { patch: true },
+	images: {
+		patch: true,
+		transform: (x) => JSON.stringify(x)
+	}
 }
 
 export class Flag extends DataObject {
@@ -28,10 +32,12 @@ export default class FlagStore extends DataStore {
 					name,
 					category,
 					description,
+					thumbnail,
 					images
-				) values ($1, $2, $3, $4, $5)
+				) values ($1, $2, $3, $4, $5, $6)
 				returning *
-			`, [data.hid, data.name, data.category, data.description, data.images ?? JSON.stringify([])]);
+			`, [data.hid, data.name, data.category, data.description,
+				data.thumbnail, data.images ? JSON.stringify(data.images) : JSON.stringify([])]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

@@ -6,7 +6,7 @@
 	export let data;
 </script>
 
-<img class="hero" src={data.project.cover_url ? data.project.cover_url : "https://cdn.greysdawn.com/81fa.png"}>
+<img class="hero" src={data.project.cover_url ? data.project.cover_url : "https://cdn.greysdawn.com/img/81fa.png"}>
 <div class="heading">
 	<h1>{data.project.name}</h1>
 	<h3>{data.project.short}</h3>

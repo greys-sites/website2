@@ -160,14 +160,18 @@ nav > * {
 
 .toasts {
 	position: fixed;
-	top: 0;
-	right: 10px;
-	width: 200px;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	
 	display: flex;
 	flex-direction: column-reverse;
 	align-items: center;
 	justify-content: center;
-	margin-top: 50px;
+	text-align: center;
+	/* margin: auto; */
+	nargin-top: 0;
+	margin-bottom: 50px;
 }
 
 .body img {
@@ -187,5 +191,14 @@ nav > * {
 	input:not([type=select]), select {
 		margin-right: 0;
 		margin-bottom: .5rem;
+	}
+}
+
+@media(min-width: 700px) {
+	.toasts {
+		top: 0;
+		bottom: unset;
+		margin-top: 50px;
+		margin-bottom: 0;
 	}
 }

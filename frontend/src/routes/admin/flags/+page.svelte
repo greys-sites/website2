@@ -23,12 +23,14 @@
 	export let data;
 	export let form;
 
+	$: if(data.categories) console.log(data.categories)
+
 	let loading;
 	let error;
-	async function deletePost(hid) {
-		loading = true;
+	async function deleteFlag(hid) {
+		// loading = true;
 		try {
-			var d = await fetch('/admin/api/posts/delete', {
+			var d = await fetch('/admin/api/flags/delete', {
 				method: "POST",
 				body: JSON.stringify({ hid })
 			})
@@ -46,13 +48,12 @@
 
 		invalidateAll()
 		closeAll()
-		console.log(d);
 		if(d) {
 			switch(d.status) {
 				case 200:
 					addToast({
 						type: 'success',
-						message: 'Post deleted!',
+						message: 'Flag deleted!',
 						canClose: true,
 						timeout: 5000
 					})
@@ -70,7 +71,7 @@
 	}
 </script>
 
-<h1>Posts</h1>
+<h1>Flags</h1>
 
 <div class="settings">
 	<h2>Settings</h2>
@@ -84,13 +85,16 @@
 	</select>
 </div>
 
-<a class="post-item" href="/admin/posts/create" style="color: white">
+<a class="post-item" href="/admin/flags/create" style="color: white">
 	<h3>+ Add New</h3>
 </a>
 
-{#if data?.posts?.length}
-	{#each data.posts as post (post.hid)}
-		<svelte:component this={selected?.value ?? Card} obj={ post } deleteObj={ deletePost } objType="posts" />
+{#if data?.categories}
+	{#each Object.keys(data.categories) as cat,i (i)}
+		<h2>{cat.length ? cat.toUpperCase() : "UNSORTED"}</h2>
+		{#each data.categories[cat].flags as com (com.hid)}
+			<svelte:component this={selected?.value ?? Card} obj={com} deleteObj={ deleteFlag } objType="flags" />
+		{/each}
 	{/each}
 {/if}
 

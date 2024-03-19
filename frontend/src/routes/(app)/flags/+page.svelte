@@ -3,24 +3,24 @@
 	export let data;
 
 	let categories = {};
-	for(let p of data.projects) {
+	for(let p of data.flags) {
 		if(!categories[p.category]) {
 			categories[p.category] = {
 				name: p.category,
-				projects: [p]
+				flags: [p]
 			};
 		} else {
-			categories[p.category].projects.push(p)
+			categories[p.category].flags.push(p)
 		}
 	}
 </script>
 
-<h1>Projects</h1>
-{#if data?.projects?.length}
+<h1>Flags</h1>
+{#if data?.flags?.length}
 	{#each Object.keys(categories) as cat (cat.name)}
 		<h2>{cat.toUpperCase()}</h2>
-		{#each categories[cat].projects as proj (proj.hid)}
-			<Card obj={proj} objType="projects" />
+		{#each categories[cat].flags as com (com.hid)}
+			<Card obj={com} objType="flags" />
 		{/each}
 	{/each}
 {/if}

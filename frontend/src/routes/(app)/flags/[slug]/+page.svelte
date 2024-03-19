@@ -4,23 +4,28 @@
 	import { formatDate } from '$lib/utils';
 	
 	export let data;
+
+	let descEl;
+	function jump() {
+		descEl.scrollIntoView({ behavior: 'smooth' })
+	}
 </script>
 
-<img class="hero" src={data.post.cover_url ? data.post.cover_url : "https://cdn.greysdawn.com/img/81fa.png"}>
+<img class="hero" src={data.flag.thumbnail ? data.flag.thumbnail : "https://cdn.greysdawn.com/img/81fa.png"}>
 <div class="heading">
-	<h1>{data.post.title}</h1>
-	<h3>{data.post.short}</h3>
-	<div class="post-meta">
-		<div class="avatar" style={
-			`background-image: url(${data.post.user?.avatar_url ? data.post.user?.avatar_url : "https://cdn.greysdawn.com/8beb.png"})`
-		} />
-		<p>{data.post.user?.name ?? "admin"} | {formatDate(data.post.post_timestamp)} |</p>
-		{#each data.post.full_tags as t (t.hid)}
-			<div class="post-tag">{t.name}</div>
-		{/each}
-	</div>
+	<h1>{data.flag.name}</h1>
 </div>
-<div class="body">{@html insane(marked.parse(data.post.body))}</div>
+<button on:click={jump}>jump to description</button>
+<div class="gallery">
+	{#each data.flag.images as img}
+		<div class="img-container">
+			<h3>{img.name}</h3>
+			<img src={img.url} />
+		</div>
+	{/each}
+</div>
+<h1 bind:this={descEl}>Description</h1>
+<div class="body">{@html insane(marked.parse(data.flag.description ?? '*Nothing to see here*'))}</div>
 
 <style>
 	.hero {
@@ -36,7 +41,7 @@
 		max-width: 1200px;
 	}
 
-	.post-meta {
+	.flag-meta {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -64,7 +69,7 @@
 		z-index: 0;
 	}
 
-	.post-tag {
+	.flag-tag {
 		padding: 5px;
 		background-color: rgba(255, 255, 255, .09);
 		border-radius: 5px;
@@ -83,9 +88,33 @@
 		height: auto;
 	}
 
+	.gallery {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.img-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin: 10px;
+	}
+
+	.img-container h3 {
+		text-transform: uppercase;
+		transform: scale(1.3);
+	}
+
 	@media(min-width: 700px) {
 		.body {
 			font-size: 22px;
+		}
+
+		.gallery {
+			flex-direction: row;
 		}
 	}
 </style>

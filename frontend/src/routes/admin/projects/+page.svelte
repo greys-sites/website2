@@ -4,7 +4,21 @@
 	import { add as addToast } from '$lib/stores/toasts';
 	import { addModal, closeAll } from '$lib/stores/modals';
 
-	import Project from '$lib/components/posts/project.svelte';
+	import Card from '$lib/components/posts/card.svelte';
+	import Compact from '$lib/components/posts/compact.svelte';
+
+	let views = [
+		{
+			name: 'card',
+			value: Card
+		},
+		{
+			name: 'compact',
+			value: Compact
+		}
+	]
+
+	let selected = views[0];
 	
 	export let data;
 	export let form;
@@ -72,6 +86,18 @@
 
 <h1>Projects</h1>
 
+<div class="settings">
+	<h2>Settings</h2>
+	<label for="view-type">Select a view type:</label>
+	<select name="view-type" id="view-type" bind:value={selected}>
+		{#each views as view,_ (_)}
+			<option value={view}>
+				{view.name}
+			</option>
+		{/each}
+	</select>
+</div>
+
 <a class="proj-item" href="/admin/projects/create" style="color: white">
 	<h3>+ Add New</h3>
 </a>
@@ -80,13 +106,26 @@
 	{#each Object.keys(categories) as cat (cat.name)}
 		<h2>{cat.toUpperCase()}</h2>
 		{#each categories[cat].projects as proj (proj.hid)}
-			<Project project={proj} { deleteProject } />
+			<svelte:component this={selected?.value ?? Card} obj={proj} deleteObj={ deleteProject } objType="projects" />
 		{/each}
 	{/each}
 {/if}
 
 <style>
 .proj-item {
+	width: 90%;
+	max-width: 700px;
+	background: rgba(255, 255, 255, .09);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 .5rem;
+	border-radius: .5rem;
+	margin-bottom: .5rem;
+}
+
+.settings {
 	width: 90%;
 	max-width: 700px;
 	background: rgba(255, 255, 255, .09);

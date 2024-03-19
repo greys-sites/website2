@@ -25,26 +25,14 @@ $: if(form) {
   }
 }
 
-function t() {
-	add({
-		type: 'success',
-        message: `Here's some longer text for a toast notification`,
-        timeout: 5000,
-        canClose: true
-	})
-
-	add({
-		type: 'error',
-        message: `Yay, toast!`,
-        timeout: 5000,
-        canClose: true
-	})
-}
 </script>
 
 <svelte:head>
-  {#if !data.user}<title>Login | Grey Skies</title>{/if}
-  {#if data.user}<title>Admin | Grey Skies</title>{/if}
+  {#if data.user}
+  	<title>Admin | Grey Skies</title>
+  {:else}
+  	<title>Login | Grey Skies</title>
+  {/if}
 </svelte:head>
 
 {#if !data.user}
@@ -60,5 +48,4 @@ function t() {
 {#if data.user}
 	<h1>Admin Page</h1>
 	<h3>Logged in as {data.user.name}</h3>
-	<button on:click={t}>test</button>
 {/if}

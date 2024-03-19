@@ -7,6 +7,8 @@
 
 	import { fade } from 'svelte/transition';
 
+	export let data;
+
 	let show = false;
 
 	function open(e) {
@@ -49,6 +51,7 @@
 	<a href="/projects">Projects</a>
 	<a href="/comics">Comics</a>
 	<a href="/flags">Flags</a>
+	{#if data?.user}<a href="/admin">Dash</a>{/if}
 </div>
 
 <slot />

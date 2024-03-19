@@ -33,6 +33,7 @@ class Stores {
 				tagline 	TEXT,
 				description TEXT,
 				story 		TEXT,
+				thumbnail	TEXT,
 				images 		JSONB
 			);
 
@@ -42,6 +43,7 @@ class Stores {
 				name 		TEXT,
 				category 	TEXT,
 				description TEXT,
+				thumbnail 	TEXT,
 				images 		JSONB
 			);
 
