@@ -39,19 +39,17 @@ export async function load({ cookies }) {
 export const actions = {
 	login: async ({ cookies, request }) => {
 		var d = await request.formData();
-		var username = d.get('username');
-		var password = d.get('password');
+		var token = d.get('token');
 
 		try {
 			var u = await axios.post(API + '/logins/verify', {
-				username,
-				password
+				token
 			});
 
 			if(u) {
 				u = u.data;
 				console.log(u);
-				cookies.set('user', u.login.token);
+				cookies.set('user', token, { path: '/' });
 			} else return fail(401, {
 				success: false,
 				status: 401,

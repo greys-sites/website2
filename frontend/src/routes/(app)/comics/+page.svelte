@@ -7,20 +7,14 @@
 
 	export let data;
 
-	let views = [
-		{
-			name: 'card',
-			value: Card
-		},
-		{
-			name: 'compact',
-			value: Compact
-		}
-	]
+	let views = {
+		'card': Card,
+		'compact': Compact
+	}
 
-	let selected = (
-		views.find(x => x.name == data?.settings?.view_type) ??
-		views[0]
+	$: selected = (
+		views[data?.settings?.view_type] ??
+		views['card']
 	);
 
 	let categories = {};
@@ -80,23 +74,11 @@
 
 <h1>Comics</h1>
 
-<div class="settings">
-	<h2>Settings</h2>
-	<label for="view-type">Select a view type:</label>
-	<select name="view-type" id="view-type" bind:value={selected} on:change={() => save()}>
-		{#each views as view,_ (_)}
-			<option value={view}>
-				{view.name}
-			</option>
-		{/each}
-	</select>
-</div>
-
 {#if data?.comics?.length}
-	{#each Object.keys(categories) as cat (cat.name)}
+	{#each Object.keys(categories) as cat,_ (_)}
 		<h2>{cat.toUpperCase()}</h2>
 		{#each categories[cat].comics as com (com.hid)}
-			<svelte:component this={selected?.value ?? Card} obj={com} objType="comics" />
+			<svelte:component this={selected ?? Card} obj={com} objType="comics" />
 		{/each}
 	{/each}
 {/if}

@@ -10,20 +10,14 @@
 	export let data;
 	export let form;
 
-	let views = [
-		{
-			name: 'card',
-			value: Card
-		},
-		{
-			name: 'compact',
-			value: Compact
-		}
-	]
+	let views = {
+		'card': Card,
+		'compact': Compact
+	}
 
-	let selected = (
-		views.find(x => x.name == data?.settings?.view_type) ??
-		views[0]
+	$: selected = (
+		views[data?.settings?.view_type] ??
+		views['card']
 	);
 
 	let loading;
@@ -70,65 +64,9 @@
 			}
 		}
 	}
-
-	async function save() {
-		try {
-			var d = await fetch('/api/settings', {
-				method: "POST",
-				body: JSON.stringify({
-					view_type: selected.name
-				})
-			})
-		} catch(e) {
-			console.log(e);
-			closeAll()
-			addToast({
-				type: 'error',
-				message: e,
-				canClose: true,
-				timeout: 5000
-			});
-			return;
-		}
-
-		invalidateAll()
-		closeAll()
-		if(d) {
-			switch(d.status) {
-				case 200:
-					addToast({
-						type: 'success',
-						message: 'Settings saved!',
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-				default:
-					addToast({
-						type: 'error',
-						message: `${d.status} - ${d.statusText}`,
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-			}
-		}
-	}
 </script>
 
 <h1>Flags</h1>
-
-<div class="settings">
-	<h2>Settings</h2>
-	<label for="view-type">Select a view type:</label>
-	<select name="view-type" id="view-type" bind:value={selected} on:change={save}>
-		{#each views as view,_ (_)}
-			<option value={view}>
-				{view.name}
-			</option>
-		{/each}
-	</select>
-</div>
 
 <a class="post-item" href="/admin/flags/create" style="color: white">
 	<h3>+ Add New</h3>
@@ -138,7 +76,7 @@
 	{#each Object.keys(data.categories) as cat,i (i)}
 		<h2>{cat.length ? cat.toUpperCase() : "UNSORTED"}</h2>
 		{#each data.categories[cat].flags as com (com.hid)}
-			<svelte:component this={selected?.value ?? Card} obj={com} deleteObj={ deleteFlag } objType="flags" />
+			<svelte:component this={selected ?? Card} obj={com} deleteObj={ deleteFlag } objType="flags" />
 		{/each}
 	{/each}
 {/if}

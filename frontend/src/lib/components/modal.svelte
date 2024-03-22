@@ -51,6 +51,7 @@ async function cancel() {
 	padding: 20px;
 	border-radius: 10px;
 	border: none;
+	max-width: 90%;
 }
 
 .modal-content {

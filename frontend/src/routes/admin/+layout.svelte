@@ -1,13 +1,30 @@
 <script>
-	import { toasts } from '$lib/stores/toasts';
+	import { toasts, add as addToast } from '$lib/stores/toasts';
 	import Toast from '$lib/components/toast.svelte';
 
 	import { modals, closeAll } from '$lib/stores/modals';
 	import Modal from '$lib/components/modal.svelte';
 
 	import { fade } from 'svelte/transition';
-
+	import { page } from '$app/stores';
+	import { invalidateAll, goto } from '$app/navigation';
+	
 	let show = false;
+
+	let views = [
+		{
+			name: 'card'
+		},
+		{
+			name: 'compact'
+		}
+	];
+
+	$: vt = $page.data?.settings?.view_type;
+	let selected = (
+		views.find(x => x.name == $page.data?.settings?.view_type)
+		?? views[0]
+	);
 
 	function open(e) {
 		show = true;
@@ -15,6 +32,50 @@
 
 	function close(e) {
 		show = false;
+	}
+
+	async function save() {
+		try {
+			var d = await fetch('/api/settings', {
+				method: "POST",
+				body: JSON.stringify({
+					view_type: selected.name
+				})
+			})
+		} catch(e) {
+			console.log(e);
+			closeAll()
+			addToast({
+				type: 'error',
+				message: e,
+				canClose: true,
+				timeout: 5000
+			});
+			return;
+		}
+
+		invalidateAll()
+		closeAll()
+		if(d) {
+			switch(d.status) {
+				case 200:
+					addToast({
+						type: 'success',
+						message: 'Settings saved!',
+						canClose: true,
+						timeout: 5000
+					})
+					break;
+				default:
+					addToast({
+						type: 'error',
+						message: `${d.status} - ${d.statusText}`,
+						canClose: true,
+						timeout: 5000
+					})
+					break;
+			}
+		}
 	}
 </script>
 
@@ -32,7 +93,7 @@
 	</div>
 {/if}
 
-<div class="toasts">
+<div class="toasts" style={ 'z-index: 300;' }>
 	{#each $toasts as t (t.id)}
 		<Toast
 			props={t}
@@ -50,7 +111,18 @@
 	<a href="/admin/projects">projects</a>
 	<a href="/admin/comics">comics</a>
 	<a href="/admin/flags">flags</a>
-	<a href="/admin/users">users</a>
+
+	<div class="settings">
+		<p><b>Settings</b></p>
+		<label for="view_type">view type</label>
+		<select name="view_type" id="view_type" bind:value={selected} on:change={() => save()}>
+			{#each views as view,_ (_)}
+				<option value={view}>
+					{view.name}
+				</option>
+			{/each}
+		</select>
+	</div>
 </div>
 
 <slot />
@@ -80,5 +152,10 @@
 	background-color: rgba(0, 0, 0, .5);
 	backdrop-filter: blur(3px);
 	transition: .25s;
+}
+
+.settings {
+	align-self: flex-end;
+	text-align: center;
 }
 </style>

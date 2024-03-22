@@ -1,5 +1,6 @@
 <script>
 import { add } from '$lib/stores/toasts';
+import { addModal, closeAll } from '$lib/stores/modals';
 import { enhance } from '$app/forms';
 export let form;
 export let data;
@@ -38,8 +39,7 @@ $: if(form) {
 {#if !data.user}
 <div class="container">
 <form method="POST" action="?/login" use:enhance>
-	<input type="text" placeholder="username" name="username" />
-  	<input type="password" placeholder="password" name="password" />
+	<input type="password" placeholder="token" name="token" />
 	<input type="submit" value="submit" />
 </form>
 </div>

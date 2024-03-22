@@ -7,20 +7,14 @@
 
 	export let data;
 
-	let views = [
-		{
-			name: 'card',
-			value: Card
-		},
-		{
-			name: 'compact',
-			value: Compact
-		}
-	]
+	let views = {
+		'card': Card,
+		'compact': Compact
+	}
 
-	let selected = (
-		views.find(x => x.name == data?.settings?.view_type) ??
-		views[0]
+	$: selected = (
+		views[data?.settings?.view_type] ??
+		views['card']
 	);
 
 	async function save() {
@@ -68,21 +62,9 @@
 
 <h1>Blog Posts</h1>
 
-<div class="settings">
-	<h2>Settings</h2>
-	<label for="view-type">Select a view type:</label>
-	<select name="view-type" id="view-type" bind:value={selected} on:change={() => save()}>
-		{#each views as view,_ (_)}
-			<option value={view}>
-				{view.name}
-			</option>
-		{/each}
-	</select>
-</div>
-
 {#if data?.posts?.length}
 	{#each data.posts as post (post.hid)}
-		<svelte:component this={selected?.value ?? Card} obj={post} objType="posts" />
+		<svelte:component this={selected ?? Card} obj={post} objType="posts" />
 	{/each}
 {/if}
 

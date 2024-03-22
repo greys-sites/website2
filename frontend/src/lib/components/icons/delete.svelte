@@ -4,5 +4,8 @@
 svg {
 	font-size: 16px;
 	width: 16px;
+	margin: auto;
+	padding: 0;
+	vertical-align: middle;
 }
 </style>

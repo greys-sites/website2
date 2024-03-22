@@ -140,5 +140,6 @@ h3, p {
 	margin: .1rem;
 	font-size: 16px;
 	cursor: pointer;
+	text-align: center;
 }
 </style>

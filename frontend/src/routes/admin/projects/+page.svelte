@@ -10,20 +10,14 @@
 	export let data;
 	export let form;
 
-	let views = [
-		{
-			name: 'card',
-			value: Card
-		},
-		{
-			name: 'compact',
-			value: Compact
-		}
-	]
+	let views = {
+		'card': Card,
+		'compact': Compact
+	}
 
-	let selected = (
-		views.find(x => x.name == data?.settings?.view_type) ??
-		views[0]
+	$: selected = (
+		views[data?.settings?.view_type] ??
+		views['card']
 	);
 
 	let loading;
@@ -133,18 +127,6 @@
 
 <h1>Projects</h1>
 
-<div class="settings">
-	<h2>Settings</h2>
-	<label for="view-type">Select a view type:</label>
-	<select name="view-type" id="view-type" bind:value={selected} on:change={save}>
-		{#each views as view,_ (_)}
-			<option value={view}>
-				{view.name}
-			</option>
-		{/each}
-	</select>
-</div>
-
 <a class="proj-item" href="/admin/projects/create" style="color: white">
 	<h3>+ Add New</h3>
 </a>
@@ -153,7 +135,7 @@
 	{#each Object.keys(categories) as cat (cat.name)}
 		<h2>{cat.toUpperCase()}</h2>
 		{#each categories[cat].projects as proj (proj.hid)}
-			<svelte:component this={selected?.value ?? Card} obj={proj} deleteObj={ deleteProject } objType="projects" />
+			<svelte:component this={selected ?? Card} obj={proj} deleteObj={ deleteProject } objType="projects" />
 		{/each}
 	{/each}
 {/if}
