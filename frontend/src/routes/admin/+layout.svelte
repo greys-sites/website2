@@ -84,7 +84,7 @@
 </nav>
 
 {#if $modals.length}
-	<div on:click={closeAll} class="modal-screen" scroll="no" transition:fade={{ duration: 250 }}>
+	<div on:click={closeAll} class="modal-screen" scroll="no" transition:fade|global={{ duration: 250 }}>
 		{#each $modals as m (m.id)}
 			<Modal
 				props={m}
@@ -102,7 +102,7 @@
 </div>
 
 {#if show}
-<div class="menu-screen" transition:fade={{ duration: 250 }} on:click={close}/>
+<div class="menu-screen" transition:fade|global={{ duration: 250 }} on:click={close}/>
 {/if}
 <div class={`menu ${show ? "open" : "closed"}`} on:click|stopPropagation>
 	<a href="/">home</a>

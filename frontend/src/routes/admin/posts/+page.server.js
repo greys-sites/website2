@@ -5,7 +5,7 @@ import { API } from '$env/static/private';
 export async function load({ cookies }) {
 	var u = cookies.get('user');
 	if(!u) {
-		throw redirect(307, '/admin');
+		redirect(307, '/admin');
 	}
 
 	var settings = cookies.get('settings');
@@ -24,8 +24,8 @@ export async function load({ cookies }) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
 			case 401:
-				cookies.delete('user');
-				throw redirect(307, '/admin');
+				/* @migration task: add path argument */ cookies.delete('user');
+				redirect(307, '/admin');
 				break;
 			default:
 				d = { posts: [] };

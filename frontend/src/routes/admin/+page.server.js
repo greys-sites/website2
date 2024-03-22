@@ -23,7 +23,7 @@ export async function load({ cookies }) {
 		switch(e.response?.status) {
 			case 401:
 			case 404:
-				cookies.delete('user');
+				/* @migration task: add path argument */ cookies.delete('user');
 				d = null;
 				// throw redirect(308, '/admin/login');
 				break;

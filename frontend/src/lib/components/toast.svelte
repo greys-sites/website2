@@ -17,7 +17,7 @@ $: setTimeout(() => w = '100%')
 
 <div
 	class={"toast " + props.type}
-	transition:fly={{ y: 50, duration: 500 }}
+	transition:fly|global={{ y: 50, duration: 500 }}
 	on:click={() => {
 		if(props.canClose) {
 			dismiss(props.id)
