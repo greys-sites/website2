@@ -23,7 +23,7 @@ export async function load({ cookies }) {
 		switch(e.response?.status) {
 			case 401:
 			case 404:
-				/* @migration task: add path argument */ cookies.delete('user');
+				cookies.delete('user', { path: '/' });
 				d = null;
 				// throw redirect(308, '/admin/login');
 				break;
@@ -39,17 +39,19 @@ export async function load({ cookies }) {
 export const actions = {
 	login: async ({ cookies, request }) => {
 		var d = await request.formData();
-		var token = d.get('token');
+		var username = d.get('username');
+		var password = d.get('password');
 
 		try {
 			var u = await axios.post(API + '/logins/verify', {
-				token
+				username,
+				password
 			});
 
 			if(u) {
 				u = u.data;
 				console.log(u);
-				cookies.set('user', token, { path: '/' });
+				cookies.set('user', u.login.token, { path: '/' });
 			} else return fail(401, {
 				success: false,
 				status: 401,

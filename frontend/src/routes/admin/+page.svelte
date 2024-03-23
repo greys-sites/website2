@@ -39,7 +39,8 @@ $: if(form) {
 {#if !data.user}
 <div class="container">
 <form method="POST" action="?/login" use:enhance>
-	<input type="password" placeholder="token" name="token" />
+	<input type="text" placeholder="username" name="username" />
+	<input type="password" placeholder="password" name="password" />
 	<input type="submit" value="submit" />
 </form>
 </div>
