@@ -47,7 +47,7 @@
 
 <h1>Edit flagic</h1>
 
-<form action="?/edit" use:enhance>
+<form method="POST" action="?/edit" use:enhance>
 	<input type="text" id="name" name="name" placeholder="name" bind:value={flag.name}/>
 	<input type="text" id="hid" name="hid" placeholder="hid" bind:value={flag.hid}/>
 	<input type="hidden" id="oldhid" name="oldhid" value={oldhid} />

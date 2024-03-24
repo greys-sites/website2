@@ -44,7 +44,7 @@
 
 <h1>Create Post</h1>
 
-<form action="?/create" use:enhance>
+<form method="POST" action="?/create" use:enhance>
 	<input type="text" id="name" name="name" placeholder="Name" />
 	<input type="text" id="hid" name="hid" placeholder="hid" />
 	<input type="text" id="tagline" name="tagline" placeholder="Tagline text" />

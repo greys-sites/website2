@@ -43,7 +43,7 @@
 
 <h1>Edit Post</h1>
 
-<form action="?/edit" use:enhance>
+<form method="POST" action="?/edit" use:enhance>
 	<input type="text" id="title" name="title" placeholder="Title" bind:value={post.title}/>
 	<input type="text" id="hid" name="hid" placeholder="Slug" bind:value={post.hid}/>
 	<input type="hidden" id="oldhid" name="oldhid" value={oldhid} />

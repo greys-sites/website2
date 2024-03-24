@@ -28,11 +28,43 @@ export default class TagRoutes extends Route {
 
 		this.app.post('/tags', async (req, res) => {
 			if(!req.user) return res.status(401).send();
-			var data = req.body;
-			console.log(data);
+			var { name, description } = req.body;
+			name = name?.toLowerCase().trim();
+			if(!name?.length) return res.status(400).send('Tag names cannot be empty.');
+			description = description?.trim() ?? "";
 
-			var tag = await this.app.stores.tags.create(data);
+			var tag = await this.app.stores.tags.create({
+				name,
+				description
+			});
 			return res.status(200).send(tag);
+		})
+
+		this.app.post('/tags/bulk', async (req, res) => {
+			if(!req.user) return res.status(401).send();
+			var tc = req.body;
+
+			var tags = [];
+			var errs = [];
+			for(var i = 0; i < tc.length; i++) {
+				var { name, description } = req.body;
+				name = name?.toLowerCase().trim();
+				if(!name?.length) {
+					errs.push("Tag names must not be empty.");
+					continue;
+				}
+				
+				description = description?.trim() ?? "";
+
+				var tag = await this.app.stores.tags.create({
+					name,
+					description
+				});
+				tags.push(tag)
+			}
+
+			if(errs.length) return res.status(207).send({ tags, errs })
+			else return res.status(200).send({ tags });
 		})
 
 		this.app.patch('/tags/:hid', async (req, res) => {
