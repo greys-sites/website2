@@ -59,6 +59,18 @@ export default class TagStore extends DataStore {
 		else return new Tag(this, KEYS, { });
 	}
 
+	async getByName(name) {
+		try {
+			var data = await this.db.query(`select * from tags where name = $1`, [name]);
+		} catch(e) {
+			console.log(e);
+			return Promise.reject(e.message ?? e);
+		}
+
+		if(data.rows?.[0]) return new Tag(this, KEYS, data.rows[0]);
+		else return new Tag(this, KEYS, { });
+	}
+
 	async getID(id) {
 		try {
 			var data = await this.db.query(`select * from tags where id = $1`, [id]);

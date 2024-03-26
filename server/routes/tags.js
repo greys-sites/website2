@@ -47,7 +47,7 @@ export default class TagRoutes extends Route {
 			var tags = [];
 			var errs = [];
 			for(var i = 0; i < tc.length; i++) {
-				var { name, description } = req.body;
+				var { name, description } = tc[i];
 				name = name?.toLowerCase().trim();
 				if(!name?.length) {
 					errs.push("Tag names must not be empty.");

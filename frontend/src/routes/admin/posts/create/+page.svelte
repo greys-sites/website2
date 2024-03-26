@@ -7,6 +7,8 @@
 
 	let stags = [];
 
+	let tinput = '';
+
 	$: if(form) {
 	  switch(form.success) {
 	    case false:
