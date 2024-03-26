@@ -10,7 +10,6 @@ export const load = async ({ cookies }) => {
 		}
 	})
 
-	console.log(d.data);
 	return { tags: d.data };
 }
 
@@ -33,7 +32,6 @@ export const actions = {
 		var cover_url = data.get('cover_url');
 		var body = data.get('body');
 		var ptags = data.getAll("tags");
-		console.log(ptags)
 		ptags.map(x => x.toLowerCase().trim())
 			.filter(x => x?.length);
 
@@ -41,14 +39,14 @@ export const actions = {
 		var tids = [];
 		for(var t of ptags) {
 			var e = tags.find(x => x.name == t);
-			if(e) tids.push(e.hid);
-			else toCreate.push(t);
+			if(e && !tids.includes(e.hid)) tids.push(e.hid);
+			else if(!e && !toCreate.includes(t)) toCreate.push(t);
 		}
 		
 		if(toCreate.length) {
 			var tresp = await axios.post(
 				`${API}/tags/bulk`,
-				JSON.stringify(toCreate),
+				toCreate.map(x => ({ name: x})),
 				{ headers: { 'Authorization': u } }
 			)
 			var td = tresp.data.tags;

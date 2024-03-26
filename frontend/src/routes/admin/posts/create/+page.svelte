@@ -8,26 +8,29 @@
 	let stags = [];
 
 	let tinput = '';
+	let released = true;
 
 	function remove(ind) {
 		stags = stags.filter((x, i) => i !== ind);
 	}
 
 	function handleKeys(e) {
-		console.log(e.key);
 		switch(e.key) {
 			case "Enter":
 			case ",":
+				e.preventDefault();
 				if(tinput?.length) {
-					stags.push(tinput);
+					stags = [...stags, tinput];
 					tinput = '';
 				}
-				console.log('stags', stags);
 				break;
 			case "Backspace":
-				if(!tinput?.length) {
-					tinput = stags.pop();
-				}
+				if(!tinput?.length && stags.length && released) {
+					e.preventDefault();
+					tinput = stags[stags.length - 1];
+					stags = stags.slice(0, stags.length - 1);
+					released = false;
+				} else if(tinput.length) released = false;
 				break;
 		}
 	}
@@ -70,21 +73,24 @@
 	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image" />
 	<textarea rows=10 id="body" name="body" placeholder="Body"></textarea>
 	<div class="tags">
-		{#each stags as st,_ (_)}
-			<input
-				type="text"
-				name="tags"
-				id="tags-{_}"
-				value={st}
-				disabled
-				on:click={() => remove(_)}
-			/>
-		{/each}
+		{#if stags.length}
+			{#each stags as st,_ (_)}
+				<input
+					type="hidden"
+					name="tags"
+					value={st}
+				/>
+				<span class="tag-item" on:click={() => remove(_)}>
+					{st}
+				</span> 
+			{/each}
+		{/if}
 		<input
 			type="text"
 			id="tags-input"
 			bind:value={tinput}
-			on:keydown|preventDefault={handleKeys}
+			on:keydown={handleKeys}
+			on:keyup={() => released = true}
 		/>
 	</div>
 	<input type="submit" value="Submit">
@@ -106,7 +112,7 @@
 		font-size: 16px;
 	}
 
-	input:not([type=checkbox]) {
+	form > input, select {
 		width: 500px;
 		background-color: rgba(255, 255, 255, .09);
 		border: 0px;
@@ -121,35 +127,8 @@
 		width: auto;
 	}
 
-	input[type=checkbox] {
-		appearance: none;
-		font: inherit;
-		color: currentColor;
-		width: 1.15em;
-		height: 1.15em;
-		border: 0.15em solid currentColor;
-		border-radius: 0.15em;
-		display: grid;
-		place-content: center;
-	}
-
-	input[type=checkbox]::before {
-		content: "";
-		width: 0.65em;
-		height: 0.65em;
-		transform: scale(0);
-		opacity: 0;
-		transition: 120ms ease-in-out;
-		box-shadow: inset 1em 1em #9966cc;
-	}
-
-	input[type=checkbox]:checked::before {
-		transform: scale(1);
-		opacity: 1;
-	}
-
 	.tags {
-		width: 90%;
+		/*width: 90%;*/
 		background-color: rgba(255, 255, 255, .09);
 		border: 0px;
 		border-radius: 0.5rem;
@@ -160,15 +139,31 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		width: 500px;
+		max-width: 500px;
 	}
 
-	.tags input {
+	.tags .tag-item {
+		width: fit-content;
+		background-color: rgba(255, 255, 255, .09);
+		padding: .5rem;
+		border-radius: 5px;
+		margin: 5px 5px 5px 0;
+		cursor: pointer;
+	}
+
+	.tags #tags-input {
 		margin: 0;
-		padding: 0;
+		padding: .5rem;
+		background-color: transparent;
+		color: white;
+		border: none;
+		flex-grow: 1;
+		width: 50px;
 	}
 
 	@media(max-width: 700px) {
-		textarea, input:not([type=checkbox]), .select {
+		textarea, input, .select {
 			width: 80%;
 		}
 	}
