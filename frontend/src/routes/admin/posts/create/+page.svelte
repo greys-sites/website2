@@ -9,6 +9,29 @@
 
 	let tinput = '';
 
+	function remove(ind) {
+		stags = stags.filter((x, i) => i !== ind);
+	}
+
+	function handleKeys(e) {
+		console.log(e.key);
+		switch(e.key) {
+			case "Enter":
+			case ",":
+				if(tinput?.length) {
+					stags.push(tinput);
+					tinput = '';
+				}
+				console.log('stags', stags);
+				break;
+			case "Backspace":
+				if(!tinput?.length) {
+					tinput = stags.pop();
+				}
+				break;
+		}
+	}
+
 	$: if(form) {
 	  switch(form.success) {
 	    case false:
@@ -46,16 +69,23 @@
 	<input type="text" id="short" name="short" placeholder="Short text" />
 	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image" />
 	<textarea rows=10 id="body" name="body" placeholder="Body"></textarea>
-	<div class="select">
-		<span class="select-dropdown" on:click={toggle}>Select tags...</span>
-		<ul class="select-inner" class:visible>
-			{#each data.tags as tag}
-				<li>
-					<input type=checkbox name="tags" value={tag.hid} bind:group={stags} />
-					{tag.name}
-				</li>
-			{/each}
-		</ul>
+	<div class="tags">
+		{#each stags as st,_ (_)}
+			<input
+				type="text"
+				name="tags"
+				id="tags-{_}"
+				value={st}
+				disabled
+				on:click={() => remove(_)}
+			/>
+		{/each}
+		<input
+			type="text"
+			id="tags-input"
+			bind:value={tinput}
+			on:keydown|preventDefault={handleKeys}
+		/>
 	</div>
 	<input type="submit" value="Submit">
 </form>
@@ -118,8 +148,8 @@
 		opacity: 1;
 	}
 
-	.select {
-		width: 500px;
+	.tags {
+		width: 90%;
 		background-color: rgba(255, 255, 255, .09);
 		border: 0px;
 		border-radius: 0.5rem;
@@ -127,49 +157,15 @@
 		font-size: 16px;
 		margin: 0 0 0.5rem 0;
 		padding: .5rem;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
 	}
 
-	.select-dropdown {
-		display: block;
-		width: 100%;
-	}
-
-	.select .select-inner {
-		display: none;
-	}
-
-	.select .select-inner.visible {
-		display: block;
-	}
-
-	.select ul {
-		padding: 0;
-	}
-
-	.select li {
-		margin: 0;
-		list-style: none;
-		padding: 0;
-
-		display: grid;
-		grid-template-columns: 1em auto;
-		gap: 0.5em;
-	}
-
-	.select input {
+	.tags input {
 		margin: 0;
 		padding: 0;
 	}
-
-	/*select[multiple] {
-	  height: calc(16px + 1rem);
-	  vertical-align: top;
-	  overflow: hidden;
-	}
-	select[multiple]:focus,
-	select[multiple]:active {
-	  height: auto;
-	}*/
 
 	@media(max-width: 700px) {
 		textarea, input:not([type=checkbox]), .select {
