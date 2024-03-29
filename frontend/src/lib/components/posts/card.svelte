@@ -89,7 +89,7 @@
 	padding: 5px;
 	background-color: rgba(255, 255, 255, .09);
 	border-radius: 5px;
-	margin: 0 5px;
+	margin-right: 5px;
 }
 
 .post-meta {
@@ -97,6 +97,10 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+}
+
+.post-meta p {
+	margin-right: 5px;
 }
 
 .avatar {

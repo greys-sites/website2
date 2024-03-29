@@ -11,10 +11,7 @@
 	<h1>{data.post.title}</h1>
 	<h3>{data.post.short}</h3>
 	<div class="post-meta">
-		<div class="avatar" style={
-			`background-image: url(${data.post.user?.avatar_url ? data.post.user?.avatar_url : "https://cdn.greysdawn.com/8beb.png"})`
-		} />
-		<p>{data.post.user?.name ?? "admin"} | {formatDate(data.post.post_timestamp)} |</p>
+		<p>{formatDate(data.post.post_timestamp)} |</p>
 		{#each data.post.full_tags as t (t.hid)}
 			<div class="post-tag">{t.name}</div>
 		{/each}
@@ -40,7 +37,10 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
+	}
+
+	.post-meta p {
+		margin-right: 5px;
 	}
 
 	.avatar {
@@ -68,7 +68,7 @@
 		padding: 5px;
 		background-color: rgba(255, 255, 255, .09);
 		border-radius: 5px;
-		margin: 0 5px;
+		margin-right: 5px;
 	}
 
 	.body {

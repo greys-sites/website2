@@ -128,7 +128,7 @@
 	}
 
 	.tags {
-		/*width: 90%;*/
+		width: 90%;
 		background-color: rgba(255, 255, 255, .09);
 		border: 0px;
 		border-radius: 0.5rem;
@@ -139,7 +139,6 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		width: 500px;
 		max-width: 500px;
 	}
 
@@ -152,7 +151,7 @@
 		cursor: pointer;
 	}
 
-	.tags #tags-input {
+	#tags-input {
 		margin: 0;
 		padding: .5rem;
 		background-color: transparent;
@@ -163,7 +162,7 @@
 	}
 
 	@media(max-width: 700px) {
-		textarea, input, .select {
+		textarea, input, .tags {
 			width: 80%;
 		}
 	}

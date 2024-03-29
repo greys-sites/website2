@@ -8,9 +8,35 @@
 	let { post, tags } = data;
 	let oldhid = "" + post.hid;
 
-	let stags = [ ...post.tags];
+	let stags = post.full_tags?.map(x => x.name) ?? [];
 
-	$: console.log(stags);
+	let tinput = '';
+	let released = true;
+
+	function remove(ind) {
+		stags = stags.filter((x, i) => i !== ind);
+	}
+
+	function handleKeys(e) {
+		switch(e.key) {
+			case "Enter":
+			case ",":
+				e.preventDefault();
+				if(tinput?.length) {
+					stags = [...stags, tinput];
+					tinput = '';
+				}
+				break;
+			case "Backspace":
+				if(!tinput?.length && stags.length && released) {
+					e.preventDefault();
+					tinput = stags[stags.length - 1];
+					stags = stags.slice(0, stags.length - 1);
+					released = false;
+				} else if(tinput.length) released = false;
+				break;
+		}
+	}
 
 	$: if(form) {
 	  switch(form.success) {
@@ -50,16 +76,26 @@
 	<input type="text" id="short" name="short" placeholder="Short text" bind:value={post.short}/>
 	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image" bind:value={post.cover_url}/>
 	<textarea rows=10 id="body" name="body" placeholder="Body" bind:value={post.body}></textarea>
-	<div class="select">
-		<span class="select-dropdown" on:click={toggle}>Select tags...</span>
-		<ul class="select-inner" class:visible>
-			{#each tags as tag}
-				<li>
-					<input type=checkbox name="tags" value={tag.hid} bind:group={stags} />
-					{tag.name}
-				</li>
+	<div class="tags">
+		{#if stags.length}
+			{#each stags as st,_ (_)}
+				<input
+					type="hidden"
+					name="tags"
+					value={st}
+				/>
+				<span class="tag-item" on:click={() => remove(_)}>
+					{st}
+				</span> 
 			{/each}
-		</ul>
+		{/if}
+		<input
+			type="text"
+			id="tags-input"
+			bind:value={tinput}
+			on:keydown={handleKeys}
+			on:keyup={() => released = true}
+		/>
 	</div>
 	<input type="submit" value="Submit">
 </form>
@@ -80,7 +116,7 @@
 		font-size: 16px;
 	}
 
-	input:not([type=checkbox]) {
+	form > input, select {
 		width: 500px;
 		background-color: rgba(255, 255, 255, .09);
 		border: 0px;
@@ -95,36 +131,8 @@
 		width: auto;
 	}
 
-	input[type=checkbox] {
-		appearance: none;
-		font: inherit;
-		color: currentColor;
-		width: 1.15em;
-		height: 1.15em;
-		border: 0.15em solid currentColor;
-		border-radius: 0.15em;
-		transform: translateY(-0.075em);
-		display: grid;
-		place-content: center;
-	}
-
-	input[type=checkbox]::before {
-		content: "";
-		width: 0.65em;
-		height: 0.65em;
-		transform: scale(0);
-		opacity: 0;
-		transition: 120ms ease-in-out;
-		box-shadow: inset 1em 1em #9966cc;
-	}
-
-	input[type=checkbox]:checked::before {
-		transform: scale(1);
-		opacity: 1;
-	}
-
-	.select {
-		width: 500px;
+	.tags {
+		width: 90%;
 		background-color: rgba(255, 255, 255, .09);
 		border: 0px;
 		border-radius: 0.5rem;
@@ -132,43 +140,33 @@
 		font-size: 16px;
 		margin: 0 0 0.5rem 0;
 		padding: .5rem;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		max-width: 500px;
 	}
 
-	.select-dropdown {
-		display: block;
-		width: 100%;
+	.tags .tag-item {
+		width: fit-content;
+		background-color: rgba(255, 255, 255, .09);
+		padding: .5rem;
+		border-radius: 5px;
+		margin: 5px 5px 5px 0;
+		cursor: pointer;
 	}
 
-	.select .select-inner {
-		display: none;
-	}
-
-	.select .select-inner.visible {
-		display: block;
-	}
-
-	.select li {
+	#tags-input {
 		margin: 0;
-		list-style: none;
-		padding: 0;
-
-		display: grid;
-		grid-template-columns: 1em auto;
-		gap: 0.5em;
+		padding: .5rem;
+		background-color: transparent;
+		color: white;
+		border: none;
+		flex-grow: 1;
+		width: 50px;
 	}
-
-	/*select[multiple] {
-	  height: calc(16px + 1rem);
-	  vertical-align: top;
-	  overflow: hidden;
-	}
-	select[multiple]:focus,
-	select[multiple]:active {
-	  height: auto;
-	}*/
 
 	@media(max-width: 700px) {
-		textarea, input:not([type=checkbox]), .select {
+		textarea, input, .tags {
 			width: 80%;
 		}
 	}

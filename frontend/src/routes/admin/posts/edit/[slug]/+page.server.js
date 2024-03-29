@@ -13,6 +13,8 @@ export const load = async ({ cookies, params }) => {
 		}
 	})
 
+	console.log(resp.data, d.data);
+
 	return { post: resp.data, tags: d.data };
 }
 
@@ -22,13 +24,42 @@ export const actions = {
 		var u = cookies.get('user');
 		console.log(u);
 		console.log(data);
+
+		var tags = await axios.get(API + '/tags', {
+			headers: {
+				'Authorization': u
+			}
+		});
+		tags = tags.data;
+		if(!tags?.length) tags = [];
+
 		var title = data.get('title');
 		var hid = data.get('hid');
 		var oldhid = data.get('oldhid');
 		var short = data.get('short');
 		var cover_url = data.get('cover_url');
 		var body = data.get('body');
-		var tags = data.getAll("tags");
+		var ptags = data.getAll("tags");
+		ptags.map(x => x.toLowerCase().trim())
+			.filter(x => x?.length);
+
+		var toCreate = [];
+		var tids = [];
+		for(var t of ptags) {
+			var e = tags.find(x => x.name == t);
+			if(e && !tids.includes(e.hid)) tids.push(e.hid);
+			else if(!e && !toCreate.includes(t)) toCreate.push(t);
+		}
+		
+		if(toCreate.length) {
+			var tresp = await axios.post(
+				`${API}/tags/bulk`,
+				toCreate.map(x => ({ name: x})),
+				{ headers: { 'Authorization': u } }
+			)
+			var td = tresp.data.tags;
+			tids = tids.concat(td.map(x => x.hid));
+		}
 		
 		console.log({
 			title,
@@ -45,7 +76,7 @@ export const actions = {
 			short,
 			cover_url,
 			body,
-			tags
+			tags: tids
 		}, { headers: { 'Authorization': u } })
 
 		console.log(resp.data);

@@ -28,10 +28,12 @@
 			<h3><a href={`/${apiUrl}/${obj.hid}`}>{obj.name?.length ? obj.name : obj.title}</a></h3>
 			{#if objType == "posts"}
 				<div class="post-meta">
-					<p>{formatDate(obj.post_timestamp)} |</p>
-					{#each obj.full_tags as t (t.hid)}
-						<div class="post-tag">{t.name}</div>
-					{/each}
+					<p>{formatDate(obj.post_timestamp)}</p>
+					<div class="post-tags">
+						{#each obj.full_tags as t (t.hid)}
+							<div class="post-tag">{t.name}</div>
+						{/each}
+					</div>
 				</div>
 			{/if}
 			{#if obj.tagline?.length}<p>{obj.tagline}</p>{/if}
@@ -102,10 +104,10 @@
 	padding: 5px;
 	background-color: rgba(255, 255, 255, .09);
 	border-radius: 5px;
-	margin: 0 5px;
+	margin-right: 5px;
 }
 
-.post-meta {
+.post-tags {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
