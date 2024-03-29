@@ -24,18 +24,30 @@ async function cancel() {
 }
 </script>
 
-<dialog on:click|stopPropagation class={"modal-" + props.type} transition:fly|global={{ y: 25, duration: 250 }}>
+<dialog on:click|stopPropagation on:keypress|stopPropagation class={"modal-" + props.type} transition:fly|global={{ y: 25, duration: 250 }}>
 	<div class="modal-content">
 		<h1>{props.title}</h1>
 		<p>{props.message}
 	</div>
 	<div class="modal-buttons">
 		{#if props.type == "alert"}
-			<button id={`modal-${props.id}-close`} on:click|once|stopPropagation={() => close()}>Okay</button>
+			<button
+				id={`modal-${props.id}-close`}
+				on:click|once|stopPropagation={() => close()}
+				on:keypress|once|stopPropagation={() => close()}
+			>Okay</button>
 		{/if}
 		{#if props.type == "confirm"}
-			<button id={`modal-${props.id}-cancel`} on:click|once|stopPropagation={() => cancel()}>Cancel</button>
-			<button id={`modal-${props.id}-confirm`} on:click|once|stopPropagation={() => confirm()}>Confirm</button>
+			<button
+				id={`modal-${props.id}-cancel`}
+				on:click|once|stopPropagation={() => cancel()}
+				on:keypress|once|stopPropagation={() => cancel()}
+			>Cancel</button>
+			<button
+				id={`modal-${props.id}-confirm`}
+				on:click|once|stopPropagation={() => confirm()}
+				on:keypress|once|stopPropagation={() => confirm()}
+			>Confirm</button>
 		{/if}
 	</div>
 </dialog>

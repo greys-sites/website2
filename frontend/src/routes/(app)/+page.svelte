@@ -1,7 +1,3 @@
-<script>
-export let data;
-</script>
-
 <h1>Hi, call us <span style="color: grey">Grey</span></h1>
 
 <p>
@@ -17,7 +13,7 @@ export let data;
 	p {
 		width: 90%;
 		font-size: 16px;
-		max-width: 1200px;
+		max-width: 800px;
 	}
 
 	@media(min-width: 700px) {

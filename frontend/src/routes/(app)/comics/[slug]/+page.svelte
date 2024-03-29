@@ -11,7 +11,7 @@
 	}
 </script>
 
-<img class="hero" src={data.comic.thumbnail ? data.comic.thumbnail : "https://cdn.greysdawn.com/img/81fa.png"}>
+<img alt="Comic thumbnail" class="hero" src={data.comic.thumbnail ? data.comic.thumbnail : "https://cdn.greysdawn.com/img/81fa.png"}>
 <div class="heading">
 	<h1>{data.comic.name}</h1>
 	<h2>{data.comic.tagline}</h2>
@@ -20,8 +20,7 @@
 <div class="gallery">
 	{#each data.comic.images as img}
 		<div class="img-container">
-			<h3>{img.name}</h3>
-			<img src={img.url} />
+			<img alt={img.name} src={img.url} />
 		</div>
 	{/each}
 </div>
@@ -34,27 +33,12 @@
 		height: auto;
 		margin-top: 50px;
 		border-radius: 20px;
-		max-width: 1200px;
+		max-width: 800px;
 	}
 
 	.heading {
 		width: 90%;
-		max-width: 1200px;
-	}
-
-	.comic-meta {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.avatar {
-		width: 32px;
-		height: 32px;
-		background-position: center;
-		background-size: cover;
-		border-radius: 50%;
+		max-width: 800px;
 	}
 
 	h1 {
@@ -63,25 +47,11 @@
 		margin: .5rem 0;
 	}
 
-	h3 {
-		/*opacity: 80%;*/
-		font-weight: normal;
-		margin: 0;
-		z-index: 0;
-	}
-
-	.comic-tag {
-		padding: 5px;
-		background-color: rgba(255, 255, 255, .09);
-		border-radius: 5px;
-		margin: 0 5px;
-	}
-
 	.body {
 		margin-top: 1em;
 		font-size: 16px;
 		width: 90%;
-		max-width: 1200px;
+		max-width: 800px;
 	}
 
 	img {
@@ -102,11 +72,6 @@
 		align-items: center;
 		justify-content: center;
 		margin: 10px;
-	}
-
-	.img-container h3 {
-		text-transform: uppercase;
-		transform: scale(1.3);
 	}
 
 	@media(min-width: 700px) {

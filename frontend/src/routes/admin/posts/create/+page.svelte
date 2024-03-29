@@ -3,7 +3,6 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	export let form;
-	export let data;
 
 	let stags = [];
 
@@ -80,7 +79,7 @@
 					name="tags"
 					value={st}
 				/>
-				<span class="tag-item" on:click={() => remove(_)}>
+				<span class="tag-item" on:click={() => remove(_)} on:keypress={() => remove(_)}>
 					{st}
 				</span> 
 			{/each}
@@ -112,7 +111,7 @@
 		font-size: 16px;
 	}
 
-	form > input, select {
+	form > input {
 		width: 500px;
 		background-color: rgba(255, 255, 255, .09);
 		border: 0px;

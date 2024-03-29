@@ -3,7 +3,6 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	export let form;
-	export let data;
 
 	let stags = [];
 
@@ -80,7 +79,7 @@
 	}
 
 	@media(max-width: 700px) {
-		textarea, input:not([type=checkbox]), .select {
+		textarea, input:not([type=checkbox]) {
 			width: 80%;
 		}
 	}

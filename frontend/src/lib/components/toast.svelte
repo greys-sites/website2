@@ -23,6 +23,12 @@ $: setTimeout(() => w = '100%')
 			dismiss(props.id)
 		}
 	}}
+
+	on:keypress={() => {
+		if(props.canClose) {
+			dismiss(props.id)
+		}
+	}}
 >
 	<p>{props.message}</p>
 	<div class="progress" style={`

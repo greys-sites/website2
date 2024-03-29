@@ -82,11 +82,14 @@
 </script>
 
 <nav>
-	<button on:click|preventDefault|stopPropagation={show ? close : open}>menu</button>
+	<button
+		on:click|preventDefault|stopPropagation={show ? close : open}
+		on:keypress|preventDefault|stopPropagation={show ? close : open}
+	>menu</button>
 </nav>
 
 {#if $modals.length}
-	<div on:click={closeAll} class="modal-screen" scroll="no" transition:fade|global={{ duration: 250 }}>
+	<div on:click={closeAll} on:keypress={closeAll} class="modal-screen" scroll="no" transition:fade|global={{ duration: 250 }}>
 		{#each $modals as m (m.id)}
 			<Modal
 				props={m}
@@ -104,9 +107,9 @@
 </div>
 
 {#if show}
-<div class="menu-screen" transition:fade|global={{ duration: 250 }} on:click={close}/>
+<div class="menu-screen" transition:fade|global={{ duration: 250 }} on:click={close} on:keypress={close}/>
 {/if}
-<div class={`menu ${show ? "open" : "closed"}`} on:click|stopPropagation>
+<div class={`menu ${show ? "open" : "closed"}`} on:click|stopPropagation on:keypress|stopPropagation>
 	<a href="/">Home</a>
 	<a href="/blog">Blog </a>
 	<a href="/projects">Projects</a>
@@ -159,5 +162,10 @@
 .settings {
 	align-self: flex-end;
 	text-align: center;
+}
+
+option {
+	color: white;
+	background-color: #202020;
 }
 </style>

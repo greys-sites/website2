@@ -8,7 +8,6 @@
 	import Compact from '$lib/components/posts/compact.svelte';
 
 	export let data;
-	export let form;
 
 	let views = {
 		'card': Card,
@@ -154,24 +153,11 @@
 	margin-bottom: .5rem;
 }
 
-.settings {
-	width: 90%;
-	max-width: 700px;
-	background: rgba(255, 255, 255, .09);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 .5rem;
-	border-radius: .5rem;
-	margin-bottom: .5rem;
-}
-
 a {
 	text-decoration: none;
 }
 
-h3, p {
+h3 {
 	margin: .5rem 0;
 }
 </style>

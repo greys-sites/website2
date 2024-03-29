@@ -75,17 +75,10 @@
 	margin-bottom: .5rem;
 }
 
-.proj-wrapper {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-around;
-}
-
 .proj-cover {
 	aspect-ratio: 1 / 1;
 	width: 30%;
-	max-width: 700px;
+	max-width: 100px;
 	height: auto;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -112,14 +105,6 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-start;
-}
-
-.avatar {
-	width: 32px;
-	height: 32px;
-	background-position: center;
-	background-size: cover;
-	border-radius: 50%;
 }
 
 a {

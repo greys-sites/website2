@@ -15,11 +15,11 @@
 
 <div class="proj-item">
 	{#if obj.thumbnail?.length}
-		<img class="proj-cover" src={ obj.thumbnail } />
+		<img alt="Item thumbnail" class="proj-cover" src={ obj.thumbnail } />
 	{:else if obj.cover_url?.length}
-			<img class="proj-cover" src={ obj.cover_url } />
+			<img alt="Item thumbnail" class="proj-cover" src={ obj.cover_url } />
 	{:else}
-			<img class="proj-cover" src="https://cdn.greysdawn.com/img/81fa.png" />
+			<img alt="Item thumbnail" class="proj-cover" src="https://cdn.greysdawn.com/img/81fa.png" />
 	{/if}
 	<div class="proj-inner">
 		<h1><a href={`/${apiUrl}/${obj.hid}`}>{obj.name?.length ? obj.name : obj.title}</a></h1>
@@ -101,14 +101,6 @@
 
 .post-meta p {
 	margin-right: 5px;
-}
-
-.avatar {
-	width: 32px;
-	height: 32px;
-	background-position: center;
-	background-size: cover;
-	border-radius: 50%;
 }
 
 a {

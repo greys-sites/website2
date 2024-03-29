@@ -77,7 +77,7 @@
 	}
 
 	@media(max-width: 700px) {
-		textarea, input:not([type=checkbox]), .select {
+		textarea, input:not([type=checkbox]) {
 			width: 80%;
 		}
 	}

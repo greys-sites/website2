@@ -80,11 +80,15 @@
 </script>
 
 <nav>
-	<button on:click|preventDefault|stopPropagation={show ? close : open}>menu</button>
+	<button
+		on:click|preventDefault|stopPropagation={show ? close : open}
+		on:keypress|preventDefault|stopPropagation={show ? close : open}
+		aria-label={ show ? "close menu" : "open menu" }
+	>menu</button>
 </nav>
 
 {#if $modals.length}
-	<div on:click={closeAll} class="modal-screen" scroll="no" transition:fade|global={{ duration: 250 }}>
+	<div on:click={closeAll} on:keypress={closeAll} class="modal-screen" scroll="no" transition:fade|global={{ duration: 250 }}>
 		{#each $modals as m (m.id)}
 			<Modal
 				props={m}
@@ -102,9 +106,15 @@
 </div>
 
 {#if show}
-<div class="menu-screen" transition:fade|global={{ duration: 250 }} on:click={close}/>
+<div class="menu-screen" transition:fade|global={{ duration: 250 }} on:click={close} on:keypress={close}/>
 {/if}
-<div class={`menu ${show ? "open" : "closed"}`} on:click|stopPropagation>
+<div
+	class={`menu ${show ? "open" : "closed"}`}
+	on:click|stopPropagation
+	on:keypress|stopPropagation
+	aria-hidden={ show ? false : true }
+	focusable={ show ? true : false }
+>
 	<a href="/">home</a>
 	<a href="/admin">dash</a>
 	<a href="/admin/posts">posts</a>
@@ -157,5 +167,10 @@
 .settings {
 	align-self: flex-end;
 	text-align: center;
+}
+
+option {
+	color: white;
+	background-color: #202020;
 }
 </style>

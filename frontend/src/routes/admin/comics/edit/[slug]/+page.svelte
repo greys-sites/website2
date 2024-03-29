@@ -2,6 +2,10 @@
 	import { add } from '$lib/stores/toasts';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+
+	import Plus from '$lib/components/icons/plus.svelte';
+	import Minus from '$lib/components/icons/minus.svelte';
+
 	export let form;
 	export let data;
 
@@ -55,9 +59,13 @@
 	<input type="text" id="thumbnail" name="thumbnail" placeholder="Cover image" bind:value={com.thumbnail}/>
 	<input type="text" id="story" name="story" placeholder="story" bind:value={com.story}/>
 	<div class="img-setup">
-		<div class="img-btns">
-			<btn on:click={addImg}>Add image</btn>
-			<btn on:click={subImg}>Remove image</btn>
+		<div class="img-buttons">
+			<button type="button" on:click={addImg} on:keypress={addImg}>
+				<Plus />
+			</button>
+			<button type="button" on:click={subImg} on:keypress={subImg}>
+				<Minus />
+			</button>
 		</div>
 		{#each { length: imgCount } as _, i (i)}
 			<div class="img-inputs">
@@ -113,7 +121,7 @@
 	}
 
 	@media(max-width: 700px) {
-		textarea, input:not([type=checkbox]), .select {
+		textarea, input:not([type=checkbox]) {
 			width: 80%;
 		}
 	}

@@ -6,7 +6,7 @@
 	export let data;
 </script>
 
-<img class="hero" src={data.post.cover_url ? data.post.cover_url : "https://cdn.greysdawn.com/img/81fa.png"}>
+<img alt="Post thumbnail" class="hero" src={data.post.cover_url ? data.post.cover_url : "https://cdn.greysdawn.com/img/81fa.png"}>
 <div class="heading">
 	<h1>{data.post.title}</h1>
 	<h3>{data.post.short}</h3>
@@ -25,12 +25,12 @@
 		height: auto;
 		margin-top: 50px;
 		border-radius: 20px;
-		max-width: 1200px;
+		max-width: 800px;
 	}
 
 	.heading {
 		width: 90%;
-		max-width: 1200px;
+		max-width: 800px;
 	}
 
 	.post-meta {
@@ -41,14 +41,6 @@
 
 	.post-meta p {
 		margin-right: 5px;
-	}
-
-	.avatar {
-		width: 32px;
-		height: 32px;
-		background-position: center;
-		background-size: cover;
-		border-radius: 50%;
 	}
 
 	h1 {
@@ -75,7 +67,7 @@
 		margin-top: 1em;
 		font-size: 16px;
 		width: 90%;
-		max-width: 1200px;
+		max-width: 800px;
 	}
 
 	img {

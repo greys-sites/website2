@@ -82,26 +82,3 @@
 		{/each}
 	{/each}
 {/if}
-
-<style>
-	a {
-		text-decoration: none;
-	}
-
-	h3, p {
-		margin: .5rem 0;
-	}
-
-	.settings {
-		width: 90%;
-		max-width: 700px;
-		background: rgba(255, 255, 255, .09);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0 .5rem;
-		border-radius: .5rem;
-		margin-bottom: .5rem;
-	}
-</style>
