@@ -109,6 +109,18 @@ export default class PostStore extends DataStore {
 		else return [];
 	}
 
+	async getRecent() {
+		try {
+			var data = await this.db.query(`select * from posts order by id desc limit 10`);
+		} catch(e) {
+			console.log(e);
+			return Promise.reject(e.message ?? e);
+		}
+
+		if(data.rows?.[0]) return data.rows.map(x => new Post(this, KEYS, x));
+		else return [];
+	}
+
 	async update(id, data = {}) {
 		try {
 			await this.db.query(`
