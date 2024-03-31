@@ -10,7 +10,8 @@ const KEYS = {
 	cover_url: { patch: true },
 	post_timestamp: { },
 	edit_timestamp: { patch: true },
-	tags: { patch: true }
+	tags: { patch: true },
+	pinned: { patch: true }
 }
 
 export class Post extends DataObject {
@@ -60,11 +61,12 @@ export default class PostStore extends DataStore {
 					cover_url,
 					post_timestamp,
 					edit_timestamp,
-					tags
-				) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+					tags,
+					pinned
+				) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 				returning *
 			`, [data.hid, data.title, data.user_id, data.body, data.short, data.cover_url,
-				data.post_timestamp ?? new Date(), data.edit_timestamp, data.tags ?? []]);
+				data.post_timestamp ?? new Date(), data.edit_timestamp, data.tags ?? []], data.pinned);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
@@ -112,6 +114,18 @@ export default class PostStore extends DataStore {
 	async getRecent() {
 		try {
 			var data = await this.db.query(`select * from posts order by id desc limit 10`);
+		} catch(e) {
+			console.log(e);
+			return Promise.reject(e.message ?? e);
+		}
+
+		if(data.rows?.[0]) return data.rows.map(x => new Post(this, KEYS, x));
+		else return [];
+	}
+
+	async getPinned() {
+		try {
+			var data = await this.db.query(`select * from posts where pinned = true`);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

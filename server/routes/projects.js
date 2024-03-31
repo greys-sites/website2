@@ -12,6 +12,12 @@ export default class ProjectRoutes extends Route {
 			return res.status(200).send(projects);
 		})
 
+		this.app.get('/projects/featured', async (req, res) => {
+			var projects = await this.app.stores.projects.getFeatured();
+			
+			return res.status(200).send(projects);
+		})
+
 		this.app.get('/projects/:hid', async (req, res) => {
 			var hid = req.params.hid;
 

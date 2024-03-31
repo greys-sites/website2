@@ -57,7 +57,8 @@ class Stores {
 				cover_url 		TEXT,
 				post_timestamp 	TIMESTAMPTZ,
 				edit_timestamp 	TIMESTAMPTZ,
-				tags			TEXT[]
+				tags			TEXT[],
+				pinned			BOOLEAN
 			);
 
 			CREATE TABLE IF NOT EXISTS projects (
@@ -69,7 +70,8 @@ class Stores {
 				cover_url	TEXT,
 				category 	TEXT,
 				tags 		TEXT[],
-				images 		JSONB
+				images 		JSONB,
+				featured	BOOLEAN
 			);
 
 			CREATE TABLE IF NOT EXISTS users (

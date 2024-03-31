@@ -10,6 +10,7 @@
 	import FAsc from '$lib/components/icons/filter_asc.svelte';
 	import FDesc from '$lib/components/icons/filter_desc.svelte';
 	import Tag from '$lib/components/icons/tag.svelte';
+	import Pin from '$lib/components/icons/pin.svelte';
 
 	export let data;
 
@@ -23,7 +24,12 @@
 		views['card']
 	);
 
-	let posts = data.posts.sort((a, b) => a.id - b.id).reverse();
+	let posts = (
+		data.posts
+		.filter(x => !data.pinned?.find(xt => xt.hid == x.hid))
+		.sort((a, b) => a.id - b.id)
+		.reverse()
+	);
 
 	let sorts = [
 		{
@@ -71,18 +77,20 @@
 		tags_open = false;
 	}
 
-	function handleEnter(e) {
-		if(e.key == 'Enter') search();
-	}
-
 	let timeout;
 	function set() {
 		if(timeout) clearTimeout(timeout);
 		timeout = setTimeout(()=> search(), 250)
 	}
 
+	let searching = false;
 	function search() {
-		console.log(filters)
+		if(
+			filters.tags.length ||
+			filters.search.length
+		) searching = true;
+		else searching = false;
+
 		posts = data.posts.filter(p => {
 			let s, t;
 			if(!filters.search?.length) s = true;
@@ -104,7 +112,7 @@
 		console.log("filtered", posts);
 
 		posts = posts.sort((a, b) => a.id - b.id);
-		console.log("sorted", posts);
+		if(!searching) posts = posts.filter(x => !data.pinned?.find(xt => xt.hid == x.hid));
 		if((filters.sort ?? 'desc') == 'desc') return posts.reverse();
 		else return posts;
 	}
@@ -113,7 +121,6 @@
 <h1>Blog Posts</h1>
 
 <div class="filters">
-	<h2>Filters</h2>
 	<div class="filters-inner">
 		<button
 			use:clickoutside
@@ -138,8 +145,8 @@
 		<input
 			type="text"
 			bind:value={filters.search}
-			on:keypress={(e) => handleEnter(e)}
-			placeholder="Write here and press enter!"
+			on:input={() => set()}
+			placeholder="Enter a search query..."
 		/>
 	</div>
 	{#if tags_open}
@@ -149,18 +156,20 @@
 				`top: ${tagsButton?.offsetTop + tagsButton?.offsetHeight}px; ` +
 				`left: ${tagsButton?.offsetLeft}px;`
 			}
-			class="select"
+			class="select tags-menu"
 		>
 			<h3>Filter Tags</h3>
-			{#each data.tags as tag (tag.hid)}
-				<div
-					class="select-option"
-					class:selected={ filters.tags.includes(tag.name) }
-					on:click|stopPropagation={() => changeTags(tag.name)}
-				>
-					{tag.name}
-				</div>
-			{/each}
+			<div class="select-inner">
+				{#each data.tags as tag (tag.hid)}
+					<div
+						class="select-option"
+						class:selected={ filters.tags.includes(tag.name) }
+						on:click|stopPropagation={() => changeTags(tag.name)}
+					>
+						{tag.name}
+					</div>
+				{/each}
+			</div>
 		</div>
 	{/if}
 
@@ -187,6 +196,17 @@
 	{/if}
 </div>
 
+{#if !searching && data.pinned.length}
+	<div class="pinned">
+		<h3><Pin /> Pinned</h3>
+		{#each data.pinned as post (post.hid)}
+			<Compact obj={post} objType="posts" />
+		{/each}
+	</div>
+
+	<hr />
+{/if}
+
 {#if posts?.length}
 	{#each posts as post (post.hid)}
 		<svelte:component this={selected ?? Card} obj={post} objType="posts" />
@@ -200,15 +220,10 @@
 .filters {
 	display: flex;
 	flex-direction: column;
-	background-color: rgba(255,255,255,.09);
-	width: 90%;
 	text-align: center;
-	padding: .5rem;
-	border-radius: .5rem;
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 1rem;
-	max-width: 700px;
 	position: relative;
 }
 
@@ -242,6 +257,17 @@
 	margin-top: .5rem;
 	border-radius: .5rem;
 	text-align: center;
+	max-width: 500px;
+}
+
+.select-inner {
+	display: flex;
+	flex-direction: column;
+}
+
+.tags-menu .select-inner {
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .select-option {
@@ -252,7 +278,26 @@
 	cursor: pointer;
 }
 
+.tags-menu .select-option {
+	margin: 0 .5rem .5rem 0;
+}
+
 .select-option.selected {
 	background: rgba(182, 148, 246, .5);
+}
+
+.pinned {
+	width: 100%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+hr {
+	width: 90%;
+	max-width: 700px;
+	margin-bottom: 1rem;
 }
 </style>

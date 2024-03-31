@@ -42,6 +42,8 @@ export const actions = {
 		var ptags = data.getAll("tags");
 		ptags.map(x => x.toLowerCase().trim())
 			.filter(x => x?.length);
+		var pinned = data.get('pinned');
+		console.log('pinned: ',pinned)
 
 		var toCreate = [];
 		var tids = [];
@@ -61,25 +63,16 @@ export const actions = {
 			tids = tids.concat(td.map(x => x.hid));
 		}
 		
-		console.log({
-			title,
-			hid,
-			short,
-			cover_url,
-			body,
-			tags
-		})
-		
 		var resp = await axios.patch(`${API}/posts/${oldhid}`, {
 			title,
 			hid,
 			short,
 			cover_url,
 			body,
-			tags: tids
+			tags: tids,
+			pinned: !!pinned
 		}, { headers: { 'Authorization': u } })
 
-		console.log(resp.data);
 		return { success: true, hid: resp.data.hid}
 	}
 }

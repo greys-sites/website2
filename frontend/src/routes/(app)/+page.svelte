@@ -1,8 +1,7 @@
 <script>
 	import Compact from '$lib/components/posts/compact.svelte';
+	import Pin from '$lib/components/icons/pin.svelte';
 	export let data;
-
-	
 </script>
 
 <h1>Hi, call us <span style="color: grey">Grey</span></h1>
@@ -14,13 +13,20 @@
 </p>
 <p>
 	Check out the sidebar for links to things we've made,{" "}
-	or check out our recent blog posts below!
+	or check out some things below!
 </p>
 
-<h3>Recent Posts</h3>
 {#if data?.posts?.length}
+	<h3><Pin /> Pinned Posts</h3>
 	{#each data.posts as post (post.hid)}
 		<Compact obj={post} objType="posts" />
+	{/each}
+{/if}
+
+{#if data?.projects?.length}
+	<h3><Pin /> Featured Projects</h3>
+	{#each data.projects as post (post.hid)}
+		<Compact obj={post} objType="projects" />
 	{/each}
 {/if}
 

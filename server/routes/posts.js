@@ -26,6 +26,16 @@ export default class PostRoutes extends Route {
 			return res.status(200).send(posts);
 		})
 
+		this.app.get('/posts/pinned', async (req, res) => {
+			var posts = await this.app.stores.posts.getPinned();
+			for(var p of posts) {
+				await p.getUser();
+				await p.getTags();
+			}
+
+			return res.status(200).send(posts);
+		})
+
 		this.app.get('/posts/:hid', async (req, res) => {
 			var hid = req.params.hid;
 

@@ -14,6 +14,10 @@ export async function load({ cookies }) {
 
 		d = await axios.get(API + `/tags`);
 		var tags = d.data;
+
+		d = await axios.get(API + `/posts/pinned`);
+		var pinned = d.data;
+		console.log(pinned)
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
@@ -26,6 +30,7 @@ export async function load({ cookies }) {
 	return {
 		posts,
 		tags,
-		settings
+		settings,
+		pinned
 	};
 }

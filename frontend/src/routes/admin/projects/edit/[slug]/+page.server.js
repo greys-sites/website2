@@ -29,6 +29,7 @@ export const actions = {
 		var cover_url = data.get('cover_url');
 		var category = data.get('category');
 		var description = data.get('description');
+		var featured = data.get('featured');
 		
 		var resp = await axios.patch(`${API}/projects/${oldhid}`, {
 			name,
@@ -36,7 +37,8 @@ export const actions = {
 			short,
 			cover_url,
 			category,
-			description
+			description,
+			featured
 		}, { headers: { 'Authorization': u } })
 
 		console.log(resp.data);

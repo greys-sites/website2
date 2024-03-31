@@ -4,14 +4,20 @@ import { API } from '$env/static/private';
 
 export async function load({ }) {
 	try {
-		var resp = await axios.get(`${API}/posts/recent`);
+		var resp = await axios.get(`${API}/posts/pinned`);
+		var posts = resp.data;
+
+		resp = await axios.get(`${API}/projects/featured`);
+		var projects = resp.data;
 	} catch(e) {
-		return fail(500, {
+		console.log(e)
+		return error(500, {
 			message: "Internal error"
 		});
 	}
 
 	return {
-		posts: resp.data
+		posts,
+		projects
 	}
 }

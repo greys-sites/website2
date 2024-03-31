@@ -25,7 +25,7 @@
 			<div class="proj-cover" style={ `background-image: url('https://cdn.greysdawn.com/img/81fa.png')` } />
 		{/if}
 		<div class="proj-inner">
-			<h3><a href={`/${apiUrl}/${obj.hid}`}>{obj.name?.length ? obj.name : obj.title}</a></h3>
+			<h3><a href={`/${apiUrl}/${obj.hid}`} target="__blank">{obj.name?.length ? obj.name : obj.title}</a></h3>
 			{#if objType == "posts"}
 				<div class="post-meta">
 					<p>{formatDate(obj.post_timestamp)}</p>
@@ -41,7 +41,7 @@
 		</div>
 	{#if deleteObj}
 	<div class="proj-buttons">
-		<a class="link-button" href={`/admin/${objType}/edit/${obj.hid}`}>
+		<a class="link-button" target="__blank" href={`/admin/${objType}/edit/${obj.hid}`}>
 			<Edit />
 		</a>
 		<button on:click={() => addModal({

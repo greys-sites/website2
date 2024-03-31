@@ -12,7 +12,8 @@ const KEYS = {
 	images: {
 		patch: true,
 		transform: (x) => JSON.stringify(x)
-	}
+	},
+	featured: { patch: true }
 }
 
 export class Project extends DataObject {
@@ -45,10 +46,11 @@ export default class ProjectStore extends DataStore {
 					cover_url,
 					category,
 					tags,
-					images
-				) values ($1, $2, $3, $4, $5, $6, $7, $8)
+					images,
+					featured
+				) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 				returning *
-			`, [data.hid, data.name, data.short, data.description, data.cover_url, data.category, data.tags ?? [], data.images ?? JSON.stringify([])]);
+			`, [data.hid, data.name, data.short, data.description, data.cover_url, data.category, data.tags ?? [], data.images ?? JSON.stringify([])], data.featured);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);
@@ -84,6 +86,18 @@ export default class ProjectStore extends DataStore {
 	async getAll() {
 		try {
 			var data = await this.db.query(`select * from projects`);
+		} catch(e) {
+			console.log(e);
+			return Promise.reject(e.message ?? e);
+		}
+
+		if(data.rows?.[0]) return data.rows.map(x => new Project(this, KEYS, x));
+		else return [];
+	}
+
+	async getFeatured() {
+		try {
+			var data = await this.db.query(`select * from projects where featured = true`);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

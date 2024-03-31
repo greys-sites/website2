@@ -97,6 +97,8 @@
 			on:keyup={() => released = true}
 		/>
 	</div>
+	<input type="checkbox" checked={post.pinned} name="pinned">
+	<label for="pinned">Pin post?</label>	
 	<input type="submit" value="Submit">
 </form>
 

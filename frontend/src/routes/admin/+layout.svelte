@@ -138,30 +138,15 @@
 <slot />
 
 <style>
-.modal-screen {
-	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	background-color: rgba(0, 0, 0, .5);
-	backdrop-filter: blur(3px);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	/*z-index: 150;*/
-}
-
 .menu-screen {
 	position: fixed;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	background-color: rgba(0, 0, 0, .5);
-	backdrop-filter: blur(3px);
+	background-color: rgba(0, 0, 0, .7);
 	transition: .25s;
+	z-index: 10;
 }
 
 .settings {

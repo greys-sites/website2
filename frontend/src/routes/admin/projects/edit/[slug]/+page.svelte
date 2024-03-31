@@ -42,6 +42,7 @@
 	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image" bind:value={proj.cover_url}/>
 	<input type="text" id="category" name="category" placeholder="Category" bind:value={proj.category}/>
 	<textarea rows=10 id="description" name="description" placeholder="Description" bind:value={proj.description}></textarea>
+	<label><input type="checkbox" name="featured" checked={proj.featured}/>Feature project?</label>
 	<input type="submit" value="Submit">
 </form>
 
