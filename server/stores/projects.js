@@ -50,7 +50,7 @@ export default class ProjectStore extends DataStore {
 					featured
 				) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 				returning *
-			`, [data.hid, data.name, data.short, data.description, data.cover_url, data.category, data.tags ?? [], data.images ?? JSON.stringify([])], data.featured);
+			`, [data.hid, data.name, data.short, data.description, data.cover_url, data.category, data.tags ?? [], data.images ?? JSON.stringify([]), data.featured]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

@@ -111,6 +111,7 @@
 {/if}
 <div class={`menu ${show ? "open" : "closed"}`} on:click|stopPropagation on:keypress|stopPropagation>
 	<a href="/">Home</a>
+	<a href="/about">About Us</a>
 	<a href="/blog">Blog </a>
 	<a href="/projects">Projects</a>
 	<a href="/comics">Comics</a>

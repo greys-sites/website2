@@ -49,4 +49,12 @@ $: if(form) {
 {#if data.user}
 	<h1>Admin Page</h1>
 	<h3>Logged in as {data.user.name}</h3>
+	<button on:click={() => {
+		add({
+			message: "yeet",
+			type: "info",
+			canClose: true,
+			timeout: 1000
+		})
+	}}>test</button>
 {/if}

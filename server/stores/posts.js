@@ -66,7 +66,7 @@ export default class PostStore extends DataStore {
 				) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 				returning *
 			`, [data.hid, data.title, data.user_id, data.body, data.short, data.cover_url,
-				data.post_timestamp ?? new Date(), data.edit_timestamp, data.tags ?? []], data.pinned);
+				data.post_timestamp ?? new Date(), data.edit_timestamp, data.tags ?? [], data.pinned]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

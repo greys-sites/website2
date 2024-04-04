@@ -6,27 +6,17 @@
 
 <h1>Hi, call us <span style="color: grey">Grey</span></h1>
 
+<h2>We make stuff. A <em>lot</em> of stuff</h2>
 <p>
-	We're a collective of folks who like to make stuff.{" "}
-	We're best known for the bots we've made, but we also{" "}
-	make websites like this one and occasional art pieces.
+	From art to software to occasional streams, we love to make things!{" "}
+	Check out some of our creations below, or check out the menu for{" "}
+	a full list.
 </p>
-<p>
-	Check out the sidebar for links to things we've made,{" "}
-	or check out some things below!
-</p>
-
-{#if data?.posts?.length}
-	<h3><Pin /> Pinned Posts</h3>
-	{#each data.posts as post (post.hid)}
-		<Compact obj={post} objType="posts" />
-	{/each}
-{/if}
 
 {#if data?.projects?.length}
 	<h3><Pin /> Featured Projects</h3>
-	{#each data.projects as post (post.hid)}
-		<Compact obj={post} objType="projects" />
+	{#each data.projects as proj (proj.hid)}
+		<Compact obj={proj} objType="projects" />
 	{/each}
 {/if}
 
@@ -35,6 +25,7 @@
 		width: 90%;
 		font-size: 16px;
 		max-width: 800px;
+		text-align: center;
 	}
 
 	@media(min-width: 700px) {
