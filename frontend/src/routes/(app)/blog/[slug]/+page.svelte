@@ -25,12 +25,12 @@
 		height: auto;
 		margin-top: 50px;
 		border-radius: 20px;
-		max-width: 800px;
+		max-width: 700px;
 	}
 
 	.heading {
 		width: 90%;
-		max-width: 800px;
+		max-width: 700px;
 	}
 
 	.post-meta {
@@ -41,6 +41,7 @@
 
 	.post-meta p {
 		margin-right: 5px;
+		width: auto;
 	}
 
 	h1 {
@@ -65,19 +66,12 @@
 
 	.body {
 		margin-top: 1em;
-		font-size: 16px;
 		width: 90%;
-		max-width: 800px;
+		max-width: 700px;
 	}
 
 	img {
 		max-width: 90%;
 		height: auto;
-	}
-
-	@media(min-width: 700px) {
-		.body {
-			font-size: 22px;
-		}
 	}
 </style>

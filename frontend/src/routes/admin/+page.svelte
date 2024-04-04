@@ -58,3 +58,16 @@ $: if(form) {
 		})
 	}}>test</button>
 {/if}
+
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  form > input:not([type=checkbox]) {
+    margin-bottom: .5rem;
+  }
+</style>

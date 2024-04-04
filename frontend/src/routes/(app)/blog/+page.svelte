@@ -217,75 +217,6 @@
 {/if}
 
 <style>
-.filters {
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 1rem;
-	position: relative;
-}
-
-.filters-inner {
-	display: flex;
-	flex-direction: row;
-	width: 90%;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-}
-
-.filters button {
-	margin-right: .5rem;
-}
-
-.filters input {
-	background-color: rgba(255, 255, 255, .09);
-	font-size: 16px;
-	border: none;
-	border-radius: .5rem;
-	padding: .5rem;
-	color: white;
-	margin: 0;
-}
-
-.select {
-	position: absolute;
-	background: #202020;
-	padding: 0 .5rem;
-	margin-top: .5rem;
-	border-radius: .5rem;
-	text-align: center;
-	max-width: 500px;
-}
-
-.select-inner {
-	display: flex;
-	flex-direction: column;
-}
-
-.tags-menu .select-inner {
-	flex-direction: row;
-	flex-wrap: wrap;
-}
-
-.select-option {
-	background: rgba(255, 255, 255, .09);
-	margin: .5rem 0 ;
-	border-radius: .5rem;
-	padding: .5rem;
-	cursor: pointer;
-}
-
-.tags-menu .select-option {
-	margin: 0 .5rem .5rem 0;
-}
-
-.select-option.selected {
-	background: rgba(182, 148, 246, .5);
-}
-
 .pinned {
 	width: 100%;
 	text-align: center;
@@ -293,11 +224,5 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-}
-
-hr {
-	width: 90%;
-	max-width: 700px;
-	margin-bottom: 1rem;
 }
 </style>

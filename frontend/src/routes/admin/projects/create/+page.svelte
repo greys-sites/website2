@@ -60,7 +60,6 @@
 		border-radius: .5rem;
 		padding: 10px;
 		margin: 0 0 .5rem 0;
-		font-size: 16px;
 	}
 
 	input:not([type=checkbox]) {
@@ -71,7 +70,7 @@
 		padding: 0.5rem;
 		color: white;
 		margin: 0 0 0.5rem 0;
-		font-size: 16px;
+		font-size: 1rem;
 	}
 
 	input[type=submit] {

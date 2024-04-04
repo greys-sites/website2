@@ -95,6 +95,7 @@
 			bind:value={tinput}
 			on:keydown={handleKeys}
 			on:keyup={() => released = true}
+			placeholder={!stags.length ? "Enter tags..." : ""}
 		/>
 	</div>
 	<input type="checkbox" checked={post.pinned} name="pinned">
@@ -115,7 +116,7 @@
 		border-radius: .5rem;
 		padding: 10px;
 		margin: 0 0 .5rem 0;
-		font-size: 16px;
+		font-size: 1rem;
 	}
 
 	form > input {
@@ -126,7 +127,7 @@
 		padding: 0.5rem;
 		color: white;
 		margin: 0 0 0.5rem 0;
-		font-size: 16px;
+		font-size: 1rem;
 	}
 
 	input[type=submit] {
@@ -139,9 +140,7 @@
 		border: 0px;
 		border-radius: 0.5rem;
 		color: white;
-		font-size: 16px;
 		margin: 0 0 0.5rem 0;
-		padding: .5rem;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -153,7 +152,7 @@
 		background-color: rgba(255, 255, 255, .09);
 		padding: .5rem;
 		border-radius: 5px;
-		margin: 5px 5px 5px 0;
+		margin: .5rem 0 .5rem .5rem;
 		cursor: pointer;
 	}
 
@@ -165,6 +164,7 @@
 		border: none;
 		flex-grow: 1;
 		width: 50px;
+		font-size: 1rem;
 	}
 
 	@media(max-width: 700px) {

@@ -23,14 +23,7 @@
 <style>
 	p {
 		width: 90%;
-		font-size: 16px;
-		max-width: 800px;
+		max-width: 700px;
 		text-align: center;
-	}
-
-	@media(min-width: 700px) {
-		p {
-			font-size: 22px;
-		}
 	}
 </style>

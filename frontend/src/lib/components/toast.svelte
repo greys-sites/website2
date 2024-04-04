@@ -40,7 +40,7 @@ $: setTimeout(() => w = '100%')
 
 <style>
 	.toast {
-		color: #eee;
+		color: #fff;
 		border-radius: 0.5rem;
 		text-align: center;
 		margin: auto;
@@ -56,6 +56,10 @@ $: setTimeout(() => w = '100%')
 		overflow: hidden;
 		cursor: pointer;
 		/*min-height: 2rem;*/
+	}
+
+	.toast p {
+		color: #fff;
 	}
 
 	.progress {
