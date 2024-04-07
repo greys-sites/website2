@@ -225,4 +225,8 @@
 	align-items: center;
 	justify-content: center;
 }
+
+input {
+	margin: 0;
+}
 </style>
