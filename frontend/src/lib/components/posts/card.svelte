@@ -22,7 +22,7 @@
 		<img alt="Item thumbnail" class="proj-cover" src="https://cdn.greysdawn.com/img/81fa.png" />
 	{/if}
 	<div class="proj-inner">
-		<h1><a href={`/${apiUrl}/${obj.hid}`} target="__blank">{obj.name?.length ? obj.name : obj.title}</a></h1>
+		<h1><a href={`/${apiUrl}/${obj.hid}`} target="_blank">{obj.name?.length ? obj.name : obj.title}</a></h1>
 		{#if objType == "posts"}
 			<div class="post-meta">
 				<p>{formatDate(obj.post_timestamp)} |</p>
@@ -36,7 +36,7 @@
 	</div>
 	{#if deleteObj}
 	<div class="proj-buttons">
-		<a class="link-button" target="__blank" href={`/admin/${objType}/edit/${obj.hid}`}>edit</a>
+		<a class="link-button" target="_blank" href={`/admin/${objType}/edit/${obj.hid}`}>edit</a>
 		<button on:click={() => addModal({
 			title: "Delete item",
 			message: "Do you want to delete this item?",
