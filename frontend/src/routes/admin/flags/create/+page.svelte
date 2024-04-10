@@ -45,7 +45,7 @@
 	}
 </script>
 
-<h1>Create Post</h1>
+<h1>Create Flag</h1>
 
 <form method="POST" action="?/create" use:enhance>
 	<input type="text" id="name" name="name" placeholder="Name" />
@@ -85,6 +85,7 @@
 		border-radius: .5rem;
 		padding: 10px;
 		margin: 0 0 .5rem 0;
+		font-size: 1rem;
 	}
 
 	input:not([type=checkbox]) {
@@ -110,6 +111,14 @@
 
 	.img-inputs input {
 		width: 50%;
+		margin: 0 5px;
+	}
+
+	.img-buttons {
+		text-align: center;
+	}
+
+	.img-buttons > button {
 		margin: 0 5px;
 	}
 
