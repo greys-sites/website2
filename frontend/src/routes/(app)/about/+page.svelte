@@ -44,7 +44,7 @@
 		border-radius: 20px;
 		max-width: 700px;
 	}
-	
+
 	p {
 		font-size: 1.2rem;
 		width: 90%;
@@ -53,5 +53,7 @@
 
 	h1 {
 		font-size: 40px;
+		max-width: 700px;
+		width: 90%;
 	}
 </style>
