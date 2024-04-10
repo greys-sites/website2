@@ -54,7 +54,7 @@
 	}
 
 	img {
-		max-width: 90%;
+		max-width: 700px;
 		height: auto;
 	}
 
@@ -76,6 +76,7 @@
 	@media(min-width: 700px) {
 		.gallery {
 			flex-direction: row;
+			flex-wrap: wrap;
 		}
 	}
 </style>
