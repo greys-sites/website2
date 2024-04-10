@@ -10,7 +10,7 @@ export async function load({ cookies }) {
 	var d;
 	try {
 		d = await axios.get(API + `/comics`)
-		d = d.data;
+		d = d.data.sort((a, b) => a.id - b.id);
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
