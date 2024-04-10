@@ -93,7 +93,7 @@
 			placeholder={!stags.length ? "Enter tags..." : ""}
 		/>
 	</div>
-	<label><input type="checkbox" name="pinned" />Pin post??</label>
+	<label><input type="checkbox" name="pinned" />Pin post?</label>
 	<input type="submit" value="Submit">
 </form>
 
