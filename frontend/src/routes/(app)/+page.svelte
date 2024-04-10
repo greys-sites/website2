@@ -13,6 +13,13 @@
 	a full list.
 </p>
 
+{#if data?.posts?.length}
+	<h3><Pin /> Pinned Posts</h3>
+	{#each data.posts as post (post.hid)}
+		<Compact obj={post} objType="posts" />
+	{/each}
+{/if}
+
 {#if data?.projects?.length}
 	<h3><Pin /> Featured Projects</h3>
 	{#each data.projects as proj (proj.hid)}

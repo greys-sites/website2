@@ -24,6 +24,7 @@ export const actions = {
 		var cover_url = data.get('cover_url');
 		var category = data.get('category');
 		var description = data.get('description');
+		var featured = data.get('featured');
 		
 		var resp = await axios.post(`${API}/projects`, {
 			name,
@@ -32,6 +33,7 @@ export const actions = {
 			cover_url,
 			category,
 			description,
+			featured,
 		}, { headers: { 'Authorization': u } })
 
 		return { success: true, hid: resp.data.hid}

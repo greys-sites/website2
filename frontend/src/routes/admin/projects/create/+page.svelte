@@ -44,6 +44,7 @@
 	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image"/>
 	<input type="text" id="category" name="category" placeholder="Category"/>
 	<textarea rows=10 id="description" name="description" placeholder="Description"></textarea>
+	<label><input type="checkbox" name="featured" />Feature project?</label>
 	<input type="submit" value="Submit">
 </form>
 

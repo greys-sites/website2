@@ -31,6 +31,7 @@ export const actions = {
 		var short = data.get('short');
 		var cover_url = data.get('cover_url');
 		var body = data.get('body');
+		var pinned = data.get('pinned');
 		var ptags = data.getAll("tags");
 		ptags.map(x => x.toLowerCase().trim())
 			.filter(x => x?.length);
@@ -59,7 +60,8 @@ export const actions = {
 			short,
 			cover_url,
 			body,
-			tags: tids
+			tags: tids,
+			pinned,
 		}, { headers: { 'Authorization': u } })
 
 		return { success: true, hid: resp.data.hid}
