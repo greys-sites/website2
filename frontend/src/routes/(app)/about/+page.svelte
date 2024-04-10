@@ -56,4 +56,9 @@
 		max-width: 700px;
 		width: 90%;
 	}
+
+	h2, h3 {
+		width: 90%;
+		max-width: 700px;
+	}
 </style>
