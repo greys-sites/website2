@@ -33,6 +33,7 @@ export async function load({ cookies, fetch }) {
 		}
 	}
 
+	d = d.sort((a, b) => a.id - b.id);
 	var categories = {};
 	for(let c of d) {
 		if(!categories[c.story]) {
