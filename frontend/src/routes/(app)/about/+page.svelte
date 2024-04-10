@@ -1,5 +1,5 @@
-<h1>About Us</h1>
-<h2>Hi, we're the <span style="color: #aaa">Grey Skies</span></h2>
+<img src="https://cdn.greysdawn.com/img/69f5.png" class="hero" />
+<h1>Hi, we're the <span style="color: #aaa">Grey Skies</span></h1>
 <p>
 	We're a <a href="/flags/traumagenic">traumagenic</a>
 	and <a href="/flags/polyfrag">polyfragmented</a> system of
@@ -37,8 +37,21 @@
 </p>
 
 <style>
+	.hero {
+		width: 90%;
+		height: auto;
+		margin-top: 50px;
+		border-radius: 20px;
+		max-width: 700px;
+	}
+	
 	p {
+		font-size: 1.2rem;
 		width: 90%;
 		max-width: 700px;
+	}
+
+	h1 {
+		font-size: 40px;
 	}
 </style>
