@@ -32,6 +32,7 @@ export const actions = {
 		var cover_url = data.get('cover_url');
 		var body = data.get('body');
 		var pinned = data.get('pinned');
+		var draft = data.get('draft');
 		var ptags = data.getAll("tags");
 		ptags.map(x => x.toLowerCase().trim())
 			.filter(x => x?.length);
@@ -62,6 +63,7 @@ export const actions = {
 			body,
 			tags: tids,
 			pinned,
+			draft,
 		}, { headers: { 'Authorization': u } })
 
 		return { success: true, hid: resp.data.hid}

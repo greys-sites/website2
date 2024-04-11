@@ -14,12 +14,17 @@ export async function load({ cookies }) {
 
 	var d;
 	try {
-		d = await axios.get(API + `/posts`, {
-			headers: {
-				'Authorization': u
-			}
-		})
+		d = await axios.get(API + `/posts`);
 		d = d.data;
+		var pinned = [];
+		var drafts = [];
+		var posts = [];
+
+		for(var p of d) {
+			if(p.draft) drafts.push(p);
+			else if(p.pinned) pinned.push(p);
+			else posts.push(p)
+		}
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
@@ -33,5 +38,5 @@ export async function load({ cookies }) {
 		}
 	}
 
-	return { posts: d, settings };
+	return { posts, pinned, drafts, settings };
 }

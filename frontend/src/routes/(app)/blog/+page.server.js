@@ -9,15 +9,20 @@ export async function load({ cookies }) {
 
 	var d;
 	try {
-		d = await axios.get(API + `/posts`);
-		var posts = d.data;
-
 		d = await axios.get(API + `/tags`);
 		var tags = d.data;
 
-		d = await axios.get(API + `/posts/pinned`);
-		var pinned = d.data;
-		console.log(pinned)
+		d = await axios.get(API + `/posts`);
+		d = d.data;
+		var pinned = [];
+		var drafts = [];
+		var posts = [];
+
+		for(var p of d) {
+			if(p.draft) drafts.push(p);
+			else if(p.pinned) pinned.push(p);
+			else posts.push(p)
+		}
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {

@@ -7,6 +7,8 @@
 	import Card from '$lib/components/posts/card.svelte';
 	import Compact from '$lib/components/posts/compact.svelte';
 
+	import Pin from '$lib/components/icons/pin.svelte';
+
 	export let data;
 
 	let views = {
@@ -116,6 +118,23 @@
 	<h3>+ Add New</h3>
 </a>
 
+{#if data?.pinned?.length}
+	<div class="pinned">
+		<h3><Pin /> Pinned</h3>
+		{#each data.pinned as post (post.hid)}
+			<Compact obj={post} deleteObj={ deletePost } objType="posts" />
+		{/each}
+	</div>
+
+	<hr />
+{/if}
+
+{#if data?.drafts?.length}
+	{#each data.drafts as post (post.hid)}
+		<svelte:component this={selected ?? Card} obj={ post } deleteObj={ deletePost } objType="posts" />
+	{/each}
+{/if}
+
 {#if data?.posts?.length}
 	{#each data.posts as post (post.hid)}
 		<svelte:component this={selected ?? Card} obj={ post } deleteObj={ deletePost } objType="posts" />
@@ -134,6 +153,15 @@
 	padding: 0 .5rem;
 	border-radius: .5rem;
 	margin-bottom: .5rem;
+}
+
+.pinned {
+	width: 100%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 a {

@@ -43,7 +43,7 @@ export const actions = {
 		ptags.map(x => x.toLowerCase().trim())
 			.filter(x => x?.length);
 		var pinned = data.get('pinned');
-		console.log('pinned: ',pinned)
+		var draft = data.get('draft');
 
 		var toCreate = [];
 		var tids = [];
@@ -70,7 +70,8 @@ export const actions = {
 			cover_url,
 			body,
 			tags: tids,
-			pinned: !!pinned
+			pinned: !!pinned,
+			draft: !!draft
 		}, { headers: { 'Authorization': u } })
 
 		return { success: true, hid: resp.data.hid}

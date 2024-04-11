@@ -2,6 +2,9 @@
 	import { add } from '$lib/stores/toasts';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+
+	import Toggle from '$lib/components/toggle.svelte';
+
 	export let form;
 
 	let stags = [];
@@ -28,11 +31,6 @@
 	      break;
 	  }
 	}
-
-	let visible;
-	function toggle() {
-		visible = !visible;
-	}
 </script>
 
 <h1>Create Post</h1>
@@ -44,7 +42,7 @@
 	<input type="text" id="cover_url" name="cover_url" placeholder="Cover image"/>
 	<input type="text" id="category" name="category" placeholder="Category"/>
 	<textarea rows=10 id="description" name="description" placeholder="Description"></textarea>
-	<label><input type="checkbox" name="featured" />Feature project?</label>
+	<Toggle name="featured" label="Feature project?" />
 	<input type="submit" value="Submit">
 </form>
 

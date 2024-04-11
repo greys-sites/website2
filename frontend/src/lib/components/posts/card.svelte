@@ -33,6 +33,7 @@
 		{/if}
 		{#if obj.tagline?.length}<p>{obj.tagline}</p>{/if}
 		{#if obj.short?.length}<p>{obj.short}</p>{/if}
+		{#if obj.draft}<p class="draft"><em>Draft</em></p>{/if}
 	</div>
 	{#if deleteObj}
 	<div class="proj-buttons">
@@ -123,5 +124,10 @@ h1, p {
 	margin: 5px;
 	font-size: 16px;
 	cursor: pointer;
+}
+
+.draft {
+	color: var(--accent);
+	opacity: .5;
 }
 </style>

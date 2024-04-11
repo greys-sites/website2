@@ -11,7 +11,8 @@ const KEYS = {
 	post_timestamp: { },
 	edit_timestamp: { patch: true },
 	tags: { patch: true },
-	pinned: { patch: true }
+	pinned: { patch: true },
+	draft: { patch: true }
 }
 
 export class Post extends DataObject {
@@ -62,11 +63,12 @@ export default class PostStore extends DataStore {
 					post_timestamp,
 					edit_timestamp,
 					tags,
-					pinned
-				) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+					pinned,
+					draft
+				) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 				returning *
 			`, [data.hid, data.title, data.user_id, data.body, data.short, data.cover_url,
-				data.post_timestamp ?? new Date(), data.edit_timestamp, data.tags ?? [], data.pinned]);
+				data.post_timestamp ?? new Date(), data.edit_timestamp, data.tags ?? [], data.pinned, data.draft]);
 		} catch(e) {
 			console.log(e);
 			return Promise.reject(e.message ?? e);

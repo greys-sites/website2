@@ -58,7 +58,8 @@ class Stores {
 				post_timestamp 	TIMESTAMPTZ,
 				edit_timestamp 	TIMESTAMPTZ,
 				tags			TEXT[],
-				pinned			BOOLEAN
+				pinned			BOOLEAN,
+				draft 			BOOLEAN
 			);
 
 			CREATE TABLE IF NOT EXISTS projects (
@@ -99,9 +100,9 @@ class Stores {
 				description TEXT
 			);
 
-			CREATE OR REPLACE FUNCTION gen_hid() RETURNS TEXT AS
-				'select lower(substr(md5(random()::text), 0, 5));'
-			LANGUAGE SQL VOLATILE;
+			CREATE OR REPLACE FUNCTION gen_hid() RETURNS TEXT AS $$
+				select string_agg(substr('abcdefghijklmnopqrstuvwxyz0123456789', ceil(random() * 36)::integer, 1), '') from generate_series(1, 5)
+			$$ LANGUAGE SQL VOLATILE;
 
 			CREATE OR REPLACE FUNCTION find_unique(_tbl regclass) RETURNS TEXT AS $$
 				DECLARE nhid TEXT;

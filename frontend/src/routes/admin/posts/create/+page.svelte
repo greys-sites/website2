@@ -2,6 +2,9 @@
 	import { add } from '$lib/stores/toasts';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+
+	import Toggle from '$lib/components/toggle.svelte';
+	
 	export let form;
 
 	let stags = [];
@@ -56,11 +59,6 @@
 	      break;
 	  }
 	}
-
-	let visible;
-	function toggle() {
-		visible = !visible;
-	}
 </script>
 
 <h1>Create Post</h1>
@@ -93,7 +91,8 @@
 			placeholder={!stags.length ? "Enter tags..." : ""}
 		/>
 	</div>
-	<label><input type="checkbox" name="pinned" />Pin post?</label>
+	<Toggle name="pinned" label="Pinned?" />
+	<Toggle name="draft" label="Save as draft?" />
 	<input type="submit" value="Submit">
 </form>
 
