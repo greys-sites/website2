@@ -1,6 +1,7 @@
 <script>
 	import { marked } from 'marked';
 	import insane from 'insane';
+	import twemoji from 'twemoji';
 	import { formatDate } from '$lib/utils';
 	
 	export let data;
@@ -17,7 +18,17 @@
 		{/each}
 	</div>
 </div>
-<div class="body">{@html insane(marked.parse(data.post.body))}</div>
+<div class="body">{@html (
+	twemoji.parse(
+		insane(
+			marked.parse(
+				data.post.body
+			)
+		), {
+			base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
+		}
+	)
+)}</div>
 
 <style>
 	.hero {
@@ -68,10 +79,5 @@
 		margin-top: 1em;
 		width: 90%;
 		max-width: 700px;
-	}
-
-	img {
-		max-width: 90%;
-		height: auto;
 	}
 </style>
