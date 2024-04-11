@@ -1,9 +1,10 @@
 {
   "dependencies": {
     "crypto-js": "^4.2.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "twemoji": "^14.0.2"
   },
   "scripts": {
-  	"build": "cd frontend && npm run build && cd .."
+    "build": "cd frontend && npm run build && cd .."
   }
 }
