@@ -26,10 +26,14 @@
 
 	let posts = (
 		data.posts
-		.filter(x => !data.pinned?.find(xt => xt.hid == x.hid))
 		.sort((a, b) => a.id - b.id)
 		.reverse()
 	);
+
+	let all = [
+		...data.pinned,
+		...data.posts
+	]
 
 	let sorts = [
 		{
@@ -91,7 +95,7 @@
 		) searching = true;
 		else searching = false;
 
-		posts = data.posts.filter(p => {
+		posts = all.filter(p => {
 			let s, t;
 			if(!filters.search?.length) s = true;
 			else if(p.title.toLowerCase().includes(filters.search)) s = true;
@@ -112,11 +116,15 @@
 		console.log("filtered", posts);
 
 		posts = posts.sort((a, b) => a.id - b.id);
-		if(!searching) posts = posts.filter(x => !data.pinned?.find(xt => xt.hid == x.hid));
+		if(!searching) posts = data.posts;
 		if((filters.sort ?? 'desc') == 'desc') return posts.reverse();
 		else return posts;
 	}
 </script>
+
+<svelte:head>
+	<title>Blog | The Grey Skies</title>
+</svelte:head>
 
 <h1>Blog Posts</h1>
 
@@ -207,13 +215,14 @@
 	<hr />
 {/if}
 
-{#if posts?.length}
+{#if posts?.length > 0}
 	{#each posts as post (post.hid)}
 		<svelte:component this={selected ?? Card} obj={post} objType="posts" />
 	{/each}
-{:else if data.posts?.length}
+{:else if searching && all.length > 0}
 	<h3>No posts matched your search :(</h3>
 {:else}
+	<h3>No posts to see :)</h3>
 {/if}
 
 <style>

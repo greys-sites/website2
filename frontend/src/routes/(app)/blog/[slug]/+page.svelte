@@ -7,6 +7,10 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>{data.post.title} | The Grey Skies</title>
+</svelte:head>
+
 <img alt="Post thumbnail" class="hero" src={data.post.cover_url ? data.post.cover_url : "https://cdn.greysdawn.com/img/81fa.png"}>
 <div class="heading">
 	<h1>{data.post.title}</h1>

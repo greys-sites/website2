@@ -11,6 +11,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{data.comic.name} | The Grey Skies</title>
+</svelte:head>
+
 <img alt="Comic thumbnail" class="hero" src={data.comic.thumbnail ? data.comic.thumbnail : "https://cdn.greysdawn.com/img/81fa.png"}>
 <div class="heading">
 	<h1>{data.comic.name}</h1>

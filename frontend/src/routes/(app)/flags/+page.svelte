@@ -72,6 +72,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Flags | The Grey Skies</title>
+</svelte:head>
+
 <h1>Flags</h1>
 
 {#if data?.flags?.length}
