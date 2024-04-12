@@ -215,7 +215,7 @@
 	{#each posts as post (post.hid)}
 		<svelte:component this={selected ?? Card} obj={post} objType="posts" />
 	{/each}
-{:else if all.length > 0}
+{:else if searching && all.length > 0}
 	<h3>No posts matched your search :(</h3>
 {:else}
 	<h3>No posts to see :)</h3>
