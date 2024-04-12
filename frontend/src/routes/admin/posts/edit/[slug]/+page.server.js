@@ -70,8 +70,8 @@ export const actions = {
 			cover_url,
 			body,
 			tags: tids,
-			pinned: !!pinned,
-			draft: !!draft
+			pinned: pinned,
+			draft: draft
 		}, { headers: { 'Authorization': u } })
 
 		return { success: true, hid: resp.data.hid}
