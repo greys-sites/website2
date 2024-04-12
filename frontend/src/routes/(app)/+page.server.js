@@ -5,7 +5,7 @@ import { API } from '$env/static/private';
 export async function load({ }) {
 	try {
 		var resp = await axios.get(`${API}/posts/pinned`);
-		var posts = resp.data;
+		var posts = resp.data?.filter(x => !x.draft);
 
 		resp = await axios.get(`${API}/projects/featured`);
 		var projects = resp.data;
