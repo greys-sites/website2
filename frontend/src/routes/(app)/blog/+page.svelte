@@ -122,6 +122,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Blog | The Grey Skies</title>
+</svelte:head>
+
 <h1>Blog Posts</h1>
 
 <div class="filters">

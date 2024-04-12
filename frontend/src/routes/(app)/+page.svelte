@@ -4,6 +4,10 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>Home | The Grey Skies</title>
+</svelte:head>
+
 <h1>Hi, call us <span style="color: grey">Grey</span></h1>
 
 <h2>We make stuff. A <em>lot</em> of stuff</h2>

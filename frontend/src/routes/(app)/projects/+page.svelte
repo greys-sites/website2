@@ -72,6 +72,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Projects | The Grey Skies</title>
+</svelte:head>
+
 <h1>Projects</h1>
 
 {#if data?.projects?.length}

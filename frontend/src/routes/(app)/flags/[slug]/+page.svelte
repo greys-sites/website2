@@ -11,6 +11,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{data.flag.name} | The Grey Skies</title>
+</svelte:head>
+
 <img alt="Flag thumbnail" class="hero" src={data.flag.thumbnail ? data.flag.thumbnail : "https://cdn.greysdawn.com/img/81fa.png"}>
 <div class="heading">
 	<h1>{data.flag.name}</h1>

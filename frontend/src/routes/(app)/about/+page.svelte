@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>About Us | The Grey Skies</title>
+</svelte:head>
+
 <img src="https://cdn.greysdawn.com/img/69f5.png" class="hero" />
 <h1>Hi, we're the <span style="color: #aaa">Grey Skies</span></h1>
 <p>
