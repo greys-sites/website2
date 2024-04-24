@@ -116,6 +116,7 @@
 	<a href="/projects">Projects</a>
 	<a href="/comics">Comics</a>
 	<a href="/flags">Flags</a>
+	<a href="/supporters">Supporters</a>
 	{#if data?.user}<a href="/admin">Dash</a>{/if}
 
 	<div class="settings">

@@ -1,0 +1,50 @@
+<script>
+	import twemoji from 'twemoji';
+</script>
+
+<h1>Supporters</h1>
+
+<p>
+ Our supporters have stuck with us through thick and thin,
+ helping make our dreams of working on our projects full-time come true.
+ We appreciate everything they do for us, and this page is for us to show that appreciation {@html twemoji.parse('💜')}
+</p>
+
+<p style="text-align: center">Here's a list of our current supporters:</p>
+
+<p style="text-align: center">
+	<b>MozarteanChaos</b>
+	<br/>
+	<b>WeARGames</b>
+</p>
+
+<style>
+	.hero {
+		width: 90%;
+		height: auto;
+		margin-top: 50px;
+		border-radius: 20px;
+		max-width: 700px;
+	}
+
+	p {
+		font-size: 1.2rem;
+		width: 90%;
+		max-width: 700px;
+	}
+
+	h1, h2, h3 {
+		text-align: center;
+	}
+
+	h1 {
+		font-size: 40px;
+		max-width: 700px;
+		width: 90%;
+	}
+
+	h2, h3 {
+		width: 90%;
+		max-width: 700px;
+	}
+</style>
