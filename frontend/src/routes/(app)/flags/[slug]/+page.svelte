@@ -58,6 +58,7 @@
 
 	img {
 		max-width: 700px;
+		width: 90%;
 		height: auto;
 	}
 
