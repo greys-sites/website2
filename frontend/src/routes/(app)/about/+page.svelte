@@ -31,6 +31,8 @@
 	<br/>
 	<a href="https://discord.gg/EvDmXGt">Bot support server</a>
 	<br/>
+	<a href="https://twitch.tv/greysdawn">Twitch</a>
+	<br/>
 	<a href="https://bsky.app/profile/greysdawn.com">BlueSky</a>
 	<br/>
 	<a href="https://twitter.com/greysdawn">Twitter/X</a>
