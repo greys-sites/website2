@@ -5,6 +5,7 @@ import ComicRoutes  from './comics.js';
 import FlagRoutes from './flags.js';
 import PostRoutes from './posts.js';
 import TagRoutes from './tags.js';
+import SupporterRoutes from './supporters.js';
 
 export default function routes(app) {
 	new UserRoutes(app).init();
@@ -14,4 +15,5 @@ export default function routes(app) {
 	new FlagRoutes(app).init();
 	new PostRoutes(app).init();
 	new TagRoutes(app).init();
+	new SupporterRoutes(app).init();
 }

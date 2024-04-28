@@ -1,5 +1,7 @@
 <script>
 	import twemoji from 'twemoji';
+
+	export let data;
 </script>
 
 <h1>Supporters</h1>
@@ -12,11 +14,21 @@
 
 <p style="text-align: center">Here's a list of our current supporters:</p>
 
-<p style="text-align: center">
-	<b>MozarteanChaos</b>
-	<br/>
-	<b>WeARGames</b>
-</p>
+{#if data?.supporters?.length}
+	{#each data.supporters as supp (supp.hid)}
+		<p style="text-align: center">
+			<b>
+				{#if supp.link}
+					<a href={supp.link}>
+						{supp.name}
+					</a>
+				{:else}
+					{supp.name}
+				{/if}
+			</b>
+		</p>
+	{/each}
+{/if}
 
 <style>
 	.hero {

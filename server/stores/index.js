@@ -8,6 +8,7 @@ import ProjectStore from './projects.js';
 import UserStore from './users.js';
 import LoginStore from './logins.js';
 import TagStore from './tags.js'
+import SupporterStore from './supporters.js'
 
 const client = new Pool();
 
@@ -22,6 +23,7 @@ class Stores {
 		this.users = new UserStore(this.db);
 		this.logins = new LoginStore(this.db);
 		this.tags = new TagStore(this.db);
+		this.supporters = new SupporterStore(this.db);
 	}
 
 	async init() {
@@ -73,6 +75,13 @@ class Stores {
 				tags 		TEXT[],
 				images 		JSONB,
 				featured	BOOLEAN
+			);
+
+			CREATE TABLE IF NOT EXISTS supporters (
+				id 			SERIAL PRIMARY KEY,
+				hid 		TEXT,
+				name 		TEXT,
+				link	 	TEXT
 			);
 
 			CREATE TABLE IF NOT EXISTS users (

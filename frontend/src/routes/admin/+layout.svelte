@@ -121,6 +121,7 @@
 	<a href="/admin/projects">projects</a>
 	<a href="/admin/comics">comics</a>
 	<a href="/admin/flags">flags</a>
+	<a href="/admin/supporters">supporters</a>
 
 	<div class="settings">
 		<p><b>Settings</b></p>
