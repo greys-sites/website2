@@ -64,7 +64,7 @@ export const actions = {
 		}
 
 		console.log('supporter edit called')
-		return { success: true, data: d.data };
+		return { success: true, data: res.data };
 	},
 
 	create: async ({ cookies, request }) => {
