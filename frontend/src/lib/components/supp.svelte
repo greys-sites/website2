@@ -1,4 +1,6 @@
 <script>
+	import { enhance } from '$app/forms';
+	import { page } from '$app/stores';
 	import { marked } from 'marked';
 	import insane from 'insane';
 	import twemoji from 'twemoji';
@@ -11,6 +13,12 @@
 	export let obj;
 	export let deleteObj;
 	export let editObj;
+
+	$: if($page?.form) {
+		console.log($page.form);
+		if($page.form.data?.hid == obj.hid)
+			editOff()
+	}
 
 	let editing = false;
 
@@ -29,10 +37,10 @@
 
 <div class="proj-item">
 	{#if editing}
-		<form action="/supporters?/edit" method="POST" on:submit={editOff}>
+		<form action="/admin/supporters?/edit" method="POST" use:enhance>
 			<input type="text" name="name" placeholder="Name" bind:value={obj.name} />
 			<input type="text" name="link" placeholder="Link" bind:value={obj.link} />
-			<input type="hidden" name="hid" value={obj.hid} />
+			<input type="hidden" name="hid" bind:value={obj.hid} />
 			<input type="submit" value="save">
 		</form>
 	{:else}

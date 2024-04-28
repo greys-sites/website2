@@ -21,7 +21,11 @@
 		<p style="text-align: center">
 			<b>
 				{#if supp.link}
-					<a href={supp.link}>
+					<a
+						href={supp.link}
+						target="_blank"
+						style="color: var(--accent) !important;"
+					>
 						{@html (
 							twemoji.parse(
 								insane(
