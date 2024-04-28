@@ -51,9 +51,7 @@
 			<h3>{@html (
 				twemoji.parse(
 					insane(
-						marked.parse(
-							obj.name
-						)
+						obj.name
 					), {
 						base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
 					}

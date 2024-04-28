@@ -1,5 +1,4 @@
 <script>
-	import { marked } from 'marked';
 	import insane from 'insane';
 	import twemoji from 'twemoji';
 
@@ -29,9 +28,7 @@
 						{@html (
 							twemoji.parse(
 								insane(
-									marked.parse(
-										supp.name
-									)
+									supp.name
 								), {
 									base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
 								}
@@ -42,9 +39,7 @@
 					{@html (
 						twemoji.parse(
 							insane(
-								marked.parse(
-									supp.name
-								)
+								supp.name
 							), {
 								base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
 							}
