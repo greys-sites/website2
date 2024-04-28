@@ -1,4 +1,8 @@
 <script>
+	import { marked } from 'marked';
+	import insane from 'insane';
+	import twemoji from 'twemoji';
+	
 	import { addModal, closeAll } from '$lib/stores/modals';
 
 	import Edit from '$lib/components/icons/edit.svelte';
@@ -36,7 +40,17 @@
 			<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` } />
 		{/if}
 		<div class="proj-inner">
-			<h3>{obj.name}</h3>
+			<h3>{@html (
+				twemoji.parse(
+					insane(
+						marked.parse(
+							obj.name
+						)
+					), {
+						base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
+					}
+				)
+			)}</h3>
 			{#if obj.link?.length}
 				<a href={obj.link} target="_blank">
 					link

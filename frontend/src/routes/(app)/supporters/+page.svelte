@@ -1,4 +1,6 @@
 <script>
+	import { marked } from 'marked';
+	import insane from 'insane';
 	import twemoji from 'twemoji';
 
 	export let data;
@@ -20,10 +22,30 @@
 			<b>
 				{#if supp.link}
 					<a href={supp.link}>
-						{supp.name}
+						{@html (
+							twemoji.parse(
+								insane(
+									marked.parse(
+										supp.name
+									)
+								), {
+									base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
+								}
+							)
+						)}
 					</a>
 				{:else}
-					{supp.name}
+					{@html (
+						twemoji.parse(
+							insane(
+								marked.parse(
+									supp.name
+								)
+							), {
+								base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
+							}
+						)
+					)}
 				{/if}
 			</b>
 		</p>
