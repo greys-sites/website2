@@ -80,7 +80,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 .5rem;
+	padding: .5rem;
 	border-radius: .5rem;
 	margin-bottom: .5rem;
 }
