@@ -9,6 +9,20 @@
 
 <svelte:head>
 	<title>{data.post.title} | The Grey Skies</title>
+	<meta name="description" content={data.post.short}>
+
+	<meta property="og:url" content={"https://greysdawn.com/blog/"+data.post.slug}>
+	<meta property="og:type" content="website">
+	<meta property="og:title" content={data.post.title + " | The Grey Skies"}>
+	<meta property="og:description" content={data.post.short}>
+	<meta property="og:image" content={data.post.cover_url ?? "https://cdn.greysdawn.com/img/81fa.png"}>
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta property="twitter:domain" content="greysdawn.com">
+	<meta property="twitter:url" content={"https://greysdawn.com/blog/"+data.post.slug}>
+	<meta name="twitter:title" content={data.post.title + " | The Grey Skies"}>
+	<meta name="twitter:description" content={data.post.short}>
+	<meta name="twitter:image" content={data.post.cover_url ?? "https://cdn.greysdawn.com/img/81fa.png"}>
 </svelte:head>
 
 <img alt="Post thumbnail" class="hero" src={data.post.cover_url ? data.post.cover_url : "https://cdn.greysdawn.com/img/81fa.png"}>
