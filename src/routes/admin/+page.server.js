@@ -65,5 +65,34 @@ export const actions = {
 				message: "Login information is incorrect."
 			});
 		}
+	},
+	del: async ({ cookies, request, fetch }) => {
+		var u = cookies.get('user');
+		var fd = await request.formData();
+		var hid = fd.get('hid');
+		var item = fd.get('type');
+
+		try {
+			var resp = await fetch(`/api/${item}/${hid}`, {
+				headers: {
+					'Authorization': u
+				},
+				method: 'DELETE'
+			})
+
+			if(resp) {
+				return json({
+					success: true
+				}, { status: 200 })
+			};
+		} catch(e) {
+			console.log(e);
+			return json({
+				success: false
+			}, {
+				status: e.response?.status ?? 400,
+				message: e.response?.statusText ?? "Something went wrong."
+			});
+		}
 	}
 }
