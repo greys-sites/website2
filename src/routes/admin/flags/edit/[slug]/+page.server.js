@@ -1,23 +1,22 @@
 import { fail, redirect } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
-export const load = async ({ cookies, params }) => {
+export const load = async ({ cookies, params, fetch }) => {
 	var u = cookies.get('user');
 	if(!u) return redirect(307, '/admin');
 
 	var resp;
 	try {
-		resp = await axios.get(`${API}/flags/${params.slug}`);
+		resp = await fetch(`/api/flags/${params.slug}`);
+		resp = await resp.json();
 	} catch(e) {
 		console.log(e)
 	}
 
-	return { flag: resp?.data ?? { } };
+	return { flag: resp ?? { } };
 }
 
 export const actions = {
-	edit: async ({ cookies, request }) => {
+	edit: async ({ cookies, request, fetch }) => {
 		var data = await request.formData();
 		var u = cookies.get('user');
 		console.log(u);
@@ -37,16 +36,20 @@ export const actions = {
 			}
 		})
 		
-		var resp = await axios.patch(`${API}/flags/${oldhid}`, {
-			name,
-			hid,
-			thumbnail,
-			category,
-			description,
-			images
-		}, { headers: { 'Authorization': u } })
+		var resp = await fetch(`/api/flags/${oldhid}`, {
+			headers: { 'Authorization': u },
+			body: {
+				name,
+				hid,
+				thumbnail,
+				category,
+				description,
+				images
+			},
+			method: 'PATCH'
+		})
+		resp = await resp.json();
 
-		console.log(resp.data);
-		return { success: true, hid: resp.data.hid}
+		return { success: true, hid: resp.hid}
 	}
 }

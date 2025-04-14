@@ -1,6 +1,4 @@
 import { fail, redirect } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
 export async function load({ cookies, fetch }) {
 	var u = cookies.get('user');
@@ -14,7 +12,7 @@ export async function load({ cookies, fetch }) {
 
 	var d;
 	try {
-		d = await fetch(API + `/comics`, {
+		d = await fetch(`/api/comics`, {
 			headers: {
 				'Authorization': u
 			}
@@ -24,7 +22,7 @@ export async function load({ cookies, fetch }) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
 			case 401:
-				/* @migration task: add path argument */ cookies.delete('user');
+				cookies.delete('user', { path: '/' });
 				redirect(307, '/admin');
 				break;
 			default:

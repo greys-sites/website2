@@ -1,6 +1,4 @@
 import { fail, redirect } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
 export async function load({ cookies, fetch }) {
 	var u = cookies.get('user');
@@ -14,17 +12,17 @@ export async function load({ cookies, fetch }) {
 
 	var d;
 	try {
-		d = await axios.get(API + `/supporters`, {
+		d = await fetch(`/api/supporters`, {
 			headers: {
 				'Authorization': u
 			}
 		})
-		d = d.data;
+		d = await d.json();
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
 			case 401:
-				/* @migration task: add path argument */ cookies.delete('user');
+				cookies.delete('user', { path: '/' });
 				redirect(307, '/admin');
 				break;
 			default:
@@ -38,7 +36,7 @@ export async function load({ cookies, fetch }) {
 }
 
 export const actions = {
-	edit: async ({ cookies, request }) => {
+	edit: async ({ cookies, request, fetch }) => {
 		var u = cookies.get('user')
 		var d = await request.formData();
 		var name = d.get("name");
@@ -46,13 +44,15 @@ export const actions = {
 		var hid = d.get("hid");
 
 		try {
-			var res = await axios.patch(`${API}/supporters/${hid}`, {
-				name,
-				link
-			}, {
+			var res = await fetch(`/api/supporters/${hid}`, {
 				headers: {
 					'Authorization': u
-				}
+				},
+				body: {
+					name,
+					link
+				},
+				method: 'PATCH'
 			});
 		} catch(e) {
 			console.log(e);
@@ -62,22 +62,27 @@ export const actions = {
 				message: "Internal error"
 			});
 		}
+		res = await res.json()
 
-		console.log('supporter edit called')
-		return { success: true, data: res.data };
+		return { success: true, data: res };
 	},
 
-	create: async ({ cookies, request }) => {
+	create: async ({ cookies, request, fetch }) => {
 		var data = await request.formData();
 		var u = cookies.get('user');
 		var name = data.get('name');
 		var link = data.get('link');
 		
-		var resp = await axios.post(`${API}/supporters`, {
-			name,
-			link
-		}, { headers: { 'Authorization': u } })
+		var resp = await fetch(`/api/supporters`, {
+			headers: { 'Authorization': u },
+			body: {
+				name,
+				link
+			},
+			method: 'POST'
+		})
+		resp = await resp.json();
 
-		return { success: true, hid: resp.data.hid}
+		return { success: true, hid: resp.hid}
 	}
 }

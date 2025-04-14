@@ -1,21 +1,19 @@
 import { fail, redirect } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
-export const load = async ({ cookies }) => {
+export const load = async ({ cookies, fetch }) => {
 	var u = cookies.get('user');
-	var d = await axios.get(API + '/tags', {
+	var d = await fetch('/api/tags', {
 		headers: {
 			'Authorization': u
 		}
 	})
 
-	console.log(d.data);
-	return { tags: d.data };
+	var tags = await d.json();
+	return { tags };
 }
 
 export const actions = {
-	create: async ({ cookies, request }) => {
+	create: async ({ cookies, request, fetch }) => {
 		var data = await request.formData();
 		var u = cookies.get('user');
 		var name = data.get('name');
@@ -26,16 +24,21 @@ export const actions = {
 		var description = data.get('description');
 		var featured = data.get('featured');
 		
-		var resp = await axios.post(`${API}/projects`, {
-			name,
-			hid,
-			short,
-			cover_url,
-			category,
-			description,
-			featured,
-		}, { headers: { 'Authorization': u } })
+		var resp = await fetch(`/api/projects`, {
+			headers: { 'Authorization': u },
+			body: {
+				name,
+				hid,
+				short,
+				cover_url,
+				category,
+				description,
+				featured,
+			},
+			method: 'POST'
+		})
+		resp = await resp.json();
 
-		return { success: true, hid: resp.data.hid}
+		return { success: true, hid: resp.hid}
 	}
 }

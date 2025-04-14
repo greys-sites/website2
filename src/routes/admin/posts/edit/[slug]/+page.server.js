@@ -1,36 +1,34 @@
 import { fail, redirect } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
-export const load = async ({ cookies, params }) => {
+export const load = async ({ cookies, params, fetch }) => {
 	var u = cookies.get('user');
 	if(!u) return redirect(307, '/admin');
 
-	var resp = await axios.get(`${API}/posts/${params.slug}`);
-	var d = await axios.get(API + '/tags', {
+	var resp = await fetch(`/api/posts/${params.slug}`);
+	var d = await fetch('/api/tags', {
 		headers: {
 			'Authorization': u
 		}
 	})
+	var post = await resp.json();
+	var tags = await d.json();
 
-	console.log(resp.data, d.data);
-
-	return { post: resp.data, tags: d.data };
+	return { post, tags };
 }
 
 export const actions = {
-	edit: async ({ cookies, request }) => {
+	edit: async ({ cookies, request, fetch }) => {
 		var data = await request.formData();
 		var u = cookies.get('user');
 		console.log(u);
 		console.log(data);
 
-		var tags = await axios.get(API + '/tags', {
+		var tags = await fetch('/api/tags', {
 			headers: {
 				'Authorization': u
 			}
 		});
-		tags = tags.data;
+		tags = await tags.json();
 		if(!tags?.length) tags = [];
 
 		var title = data.get('title');
@@ -54,26 +52,35 @@ export const actions = {
 		}
 		
 		if(toCreate.length) {
-			var tresp = await axios.post(
-				`${API}/tags/bulk`,
-				toCreate.map(x => ({ name: x})),
-				{ headers: { 'Authorization': u } }
+			var tresp = await fetch(
+				`/api/tags/bulk`,
+				{
+					method: 'POST',
+					headers: { 'Authorization': u },
+					body: toCreate.map(x => ({ name: x})),
+				}
 			)
-			var td = tresp.data.tags;
+			var td = await tresp.json()
+			td = td.tags;
 			tids = tids.concat(td.map(x => x.hid));
 		}
 		
-		var resp = await axios.patch(`${API}/posts/${oldhid}`, {
-			title,
-			hid,
-			short,
-			cover_url,
-			body,
-			tags: tids,
-			pinned: pinned,
-			draft: draft
-		}, { headers: { 'Authorization': u } })
+		var resp = await fetch(`/api/posts/${oldhid}`, {
+			headers: { 'Authorization': u },
+			body: {
+				title,
+				hid,
+				short,
+				cover_url,
+				body,
+				tags: tids,
+				pinned,
+				draft
+			},
+			method: 'PATCH'
+		})
+		resp = await resp.json();
 
-		return { success: true, hid: resp.data.hid}
+		return { success: true, hid: resp.hid}
 	}
 }

@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import axios from 'axios';
 import { API } from '$env/static/private';
 
-export async function load({ cookies }) {
+export async function load({ cookies, fetch }) {
 	var u = cookies.get('user');
 	console.log(u)
 	if(!u) {
@@ -11,12 +11,12 @@ export async function load({ cookies }) {
 
 	var d;
 	try {
-		d = await axios.get(API + `/users/@me`, {
+		d = await axios.get(`/api/users/@me`, {
 			headers: {
 				'Authorization': u
 			}
 		})
-		d = d.data;
+		d = await d.json();
 		console.log(d)
 	} catch(e) {
 		console.log(e.response ?? e);
@@ -25,7 +25,6 @@ export async function load({ cookies }) {
 			case 404:
 				cookies.delete('user', { path: '/' });
 				d = null;
-				// throw redirect(308, '/admin/login');
 				break;
 			default:
 				d = null;
@@ -37,15 +36,18 @@ export async function load({ cookies }) {
 }
 
 export const actions = {
-	login: async ({ cookies, request }) => {
+	login: async ({ cookies, request, fetch }) => {
 		var d = await request.formData();
 		var username = d.get('username');
 		var password = d.get('password');
 
 		try {
-			var u = await axios.post(API + '/logins/verify', {
-				username,
-				password
+			var u = await fetch('/api/logins/verify', {
+				body: {
+					username,
+					password
+				},
+				method: 'POST'
 			});
 
 			if(u) {
