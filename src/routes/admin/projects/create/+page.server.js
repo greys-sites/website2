@@ -26,7 +26,7 @@ export const actions = {
 		
 		var resp = await fetch(`/api/projects`, {
 			headers: { 'Authorization': u },
-			body: {
+			body: JSON.stringify({
 				name,
 				hid,
 				short,
@@ -34,7 +34,7 @@ export const actions = {
 				category,
 				description,
 				featured,
-			},
+			}),
 			method: 'POST'
 		})
 		resp = await resp.json();

@@ -75,10 +75,10 @@ export const actions = {
 		
 		var resp = await fetch(`/api/supporters`, {
 			headers: { 'Authorization': u },
-			body: {
+			body: JSON.stringify({
 				name,
 				link
-			},
+			}),
 			method: 'POST'
 		})
 		resp = await resp.json();

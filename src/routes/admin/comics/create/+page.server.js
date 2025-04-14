@@ -34,7 +34,7 @@ export const actions = {
 		
 		var resp = await fetch(`/api/comics`, {
 			headers: { 'Authorization': u },
-			body: {
+			body: JSON.stringify({
 				name,
 				hid,
 				tagline,
@@ -42,7 +42,7 @@ export const actions = {
 				story,
 				description,
 				images
-			},
+			}),
 			method: 'POST'
 		})
 		resp = await resp.json();

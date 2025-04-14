@@ -67,7 +67,7 @@ export const actions = {
 		
 		var resp = await fetch(`/api/posts/${oldhid}`, {
 			headers: { 'Authorization': u },
-			body: {
+			body: JSON.stringify({
 				title,
 				hid,
 				short,
@@ -76,7 +76,7 @@ export const actions = {
 				tags: tids,
 				pinned,
 				draft
-			},
+			}),
 			method: 'PATCH'
 		})
 		resp = await resp.json();

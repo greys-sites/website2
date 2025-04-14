@@ -32,7 +32,7 @@ export const actions = {
 		
 		var resp = await fetch(`/api/projects/${oldhid}`, {
 			headers: { 'Authorization': u },
-			body: {
+			body: JSON.stringify({
 				name,
 				hid,
 				short,
@@ -40,7 +40,7 @@ export const actions = {
 				category,
 				description,
 				featured
-			},
+			}),
 			method: 'PATCH'
 		})
 		resp = await resp.json();

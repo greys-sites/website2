@@ -1,6 +1,4 @@
 import { fail, redirect } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
 export async function load({ cookies, fetch }) {
 	var u = cookies.get('user');
@@ -11,7 +9,7 @@ export async function load({ cookies, fetch }) {
 
 	var d;
 	try {
-		d = await axios.get(`/api/users/@me`, {
+		d = await fetch(`/api/users/@me`, {
 			headers: {
 				'Authorization': u
 			}
@@ -43,15 +41,15 @@ export const actions = {
 
 		try {
 			var u = await fetch('/api/logins/verify', {
-				body: {
+				body: JSON.stringify({
 					username,
 					password
-				},
+				}),
 				method: 'POST'
 			});
+			u = await u.json();
 
-			if(u) {
-				u = u.data;
+			if(u?.login) {
 				console.log(u);
 				cookies.set('user', u.login.token, { path: '/' });
 			} else return fail(401, {

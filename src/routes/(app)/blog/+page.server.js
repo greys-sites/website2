@@ -10,7 +10,7 @@ export async function load({ cookies, fetch }) {
 		d = await fetch(`/api/tags`);
 		var tags = await d.json();
 
-		d = await fetch(`/api/posts`);;
+		d = await fetch(`/api/posts`);
 		d = await d.json();
 		var pinned = [];
 		var drafts = [];

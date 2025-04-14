@@ -60,7 +60,7 @@ export const actions = {
 		
 		var resp = await fetch(`/api/posts`, {
 			headers: { 'Authorization': u },
-			body: {
+			body: JSON.stringify({
 				title,
 				hid,
 				short,
@@ -69,7 +69,7 @@ export const actions = {
 				tags: tids,
 				pinned,
 				draft,
-			},
+			}),
 			method: 'POST'
 		})
 		resp = await resp.json();

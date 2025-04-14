@@ -96,7 +96,7 @@
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: space-around;;
+	justify-content: space-around;
 	padding: .5rem;
 	border-radius: .5rem;
 	margin-bottom: .5rem;

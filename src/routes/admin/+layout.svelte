@@ -1,5 +1,6 @@
 <script>
 	import { preventDefault, stopPropagation, createBubbler } from 'svelte/legacy';
+	import { DarkMode } from 'flowbite-svelte';
 
 	const bubble = createBubbler();
 	import '../../app.css';
@@ -92,6 +93,7 @@
 		onkeypress={stopPropagation(preventDefault(show ? close : open))}
 		aria-label={ show ? "close menu" : "open menu" }
 	>menu</button>
+	<DarkMode />
 </nav>
 
 {#if $modals.length}

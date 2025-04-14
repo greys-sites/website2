@@ -38,14 +38,14 @@ export const actions = {
 		
 		var resp = await fetch(`/api/flags/${oldhid}`, {
 			headers: { 'Authorization': u },
-			body: {
+			body: JSON.stringify({
 				name,
 				hid,
 				thumbnail,
 				category,
 				description,
 				images
-			},
+			}),
 			method: 'PATCH'
 		})
 		resp = await resp.json();

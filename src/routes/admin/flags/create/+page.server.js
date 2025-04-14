@@ -32,14 +32,14 @@ export const actions = {
 		
 		var resp = await fetch(`/api/flags`, {
 			headers: { 'Authorization': u },
-			body: {
+			body: JSON.stringify({
 				name,
 				hid,
 				thumbnail,
 				category,
 				description,
 				images
-			},
+			}),
 			method: 'POST'
 		})
 		resp = await resp.json()
