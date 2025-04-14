@@ -7,8 +7,6 @@ import {
 	PGDATABASE
 } from '$env/static/private';
 
-console.log(PGUSER, PGHOST)
-
 const pool = new pg.Pool({
 	user: PGUSER,
 	password: PGPASSWORD,

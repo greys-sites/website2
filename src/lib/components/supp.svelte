@@ -29,13 +29,12 @@
 	function editOff() {
 		editing = false;
 	}
-	run(() => {
-		if($page?.form) {
-			console.log($page.form);
-			if($page.form.data?.hid == obj.hid)
-				editOff()
+
+	$effect(() => {
+		if($page?.form?.data?.hid == obj.hid) {
+			editOff();
 		}
-	});
+	})
 </script>
 
 <div class="proj-item">

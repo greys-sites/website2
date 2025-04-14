@@ -1,12 +1,10 @@
 import { fail } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
-export async function load({ cookies }) {
+export async function load({ cookies, fetch }) {
 	var d;
 	try {
-		d = await axios.get(API + `/supporters`)
-		d = d.data;
+		d = await fetch(`/api/supporters`)
+		d = await d.json();
 		console.log(d)
 	} catch(e) {
 		console.log(e.response ?? e);

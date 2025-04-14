@@ -1,11 +1,8 @@
 import { fail, redirect } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
-export const load = async ({ cookies, params }) => {
-	var resp = await axios.get(`${API}/projects/${params.slug}`);
+export const load = async ({ cookies, params, fetch }) => {
+	var resp = await fetch(`/api/projects/${params.slug}`);
+	var project = await resp.json();
 
-	return {
-		project: resp.data
-	}
+	return { project }
 }
