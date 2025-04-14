@@ -1,20 +1,22 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { add } from '$lib/stores/toasts';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 
 	import Toggle from '$lib/components/toggle.svelte';
 
-	export let form;
-	export let data;
+	/** @type {{form: any, data: any}} */
+	let { form, data } = $props();
 
-	let { post, tags } = data;
+	let { post, tags } = $state(data);
 	let oldhid = "" + post.hid;
 
-	let stags = post.full_tags?.map(x => x.name) ?? [];
+	let stags = $state(post.full_tags?.map(x => x.name) ?? []);
 
-	let tinput = '';
-	let released = true;
+	let tinput = $state('');
+	let released = $state(true);
 
 	function remove(ind) {
 		stags = stags.filter((x, i) => i !== ind);
@@ -41,28 +43,30 @@
 		}
 	}
 
-	$: if(form) {
-	  switch(form.success) {
-	    case false:
-	      add({
-	        type: 'error',
-	        message: `${form.status}: ${form.message}`,
-	        timeout: 5000,
-	        canClose: true
-	      })
-	      break;
-	    default:
-	      add({
-	        type: 'success',
-	        message: `Post edited! Redirecting...`,
-	        timeout: 3000,
-	        canClose: true
-	      })
+	run(() => {
+		if(form) {
+		  switch(form.success) {
+		    case false:
+		      add({
+		        type: 'error',
+		        message: `${form.status}: ${form.message}`,
+		        timeout: 5000,
+		        canClose: true
+		      })
+		      break;
+		    default:
+		      add({
+		        type: 'success',
+		        message: `Post edited! Redirecting...`,
+		        timeout: 3000,
+		        canClose: true
+		      })
 
-	      setTimeout(() => goto(`/blog/${form.hid}`), 3000);
-	      break;
-	  }
-	}
+		      setTimeout(() => goto(`/blog/${form.hid}`), 3000);
+		      break;
+		  }
+		}
+	});
 
 </script>
 
@@ -83,7 +87,7 @@
 					name="tags"
 					value={st}
 				/>
-				<span class="tag-item" on:click={() => remove(_)} on:keypress={() => remove(_)}>
+				<span class="tag-item" onclick={() => remove(_)} onkeypress={() => remove(_)}>
 					{st}
 				</span> 
 			{/each}
@@ -92,8 +96,8 @@
 			type="text"
 			id="tags-input"
 			bind:value={tinput}
-			on:keydown={handleKeys}
-			on:keyup={() => released = true}
+			onkeydown={handleKeys}
+			onkeyup={() => released = true}
 			placeholder={!stags.length ? "Enter tags..." : ""}
 		/>
 	</div>

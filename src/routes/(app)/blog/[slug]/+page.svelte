@@ -4,7 +4,8 @@
 	import twemoji from 'twemoji';
 	import { formatDate } from '$lib/utils';
 	
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 </script>
 
 <svelte:head>

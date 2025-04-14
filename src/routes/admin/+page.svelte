@@ -1,30 +1,34 @@
 <script>
+  import { run } from 'svelte/legacy';
+
 import { add } from '$lib/stores/toasts';
 import { addModal, closeAll } from '$lib/stores/modals';
 import { enhance } from '$app/forms';
-export let form;
-export let data;
+  /** @type {{form: any, data: any}} */
+  let { form, data } = $props();
 
-$: if(form) {
-  switch(form.success) {
-    case false:
-      add({
-        type: 'error',
-        message: `${form.status}: ${form.message}`,
-        timeout: 5000,
-        canClose: true
-      })
-      break;
-    default:
-      add({
-        type: 'success',
-        message: `Login successful!`,
-        timeout: 5000,
-        canClose: true
-      })
-      break;
+run(() => {
+    if(form) {
+    switch(form.success) {
+      case false:
+        add({
+          type: 'error',
+          message: `${form.status}: ${form.message}`,
+          timeout: 5000,
+          canClose: true
+        })
+        break;
+      default:
+        add({
+          type: 'success',
+          message: `Login successful!`,
+          timeout: 5000,
+          canClose: true
+        })
+        break;
+    }
   }
-}
+  });
 
 </script>
 
@@ -49,7 +53,7 @@ $: if(form) {
 {#if data.user}
 	<h1>Admin Page</h1>
 	<h3>Logged in as {data.user.name}</h3>
-	<button on:click={() => {
+	<button onclick={() => {
 		add({
 			message: "yeet",
 			type: "info",

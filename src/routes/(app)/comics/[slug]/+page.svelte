@@ -3,9 +3,10 @@
 	import insane from 'insane';
 	import { formatDate } from '$lib/utils';
 	
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 
-	let descEl;
+	let descEl = $state();
 	function jump() {
 		descEl.scrollIntoView({ behavior: 'smooth' })
 	}
@@ -20,7 +21,7 @@
 	<h1>{data.comic.name}</h1>
 	<h2>{data.comic.tagline}</h2>
 </div>
-<button on:click={jump}>jump to description</button>
+<button onclick={jump}>jump to description</button>
 <div class="gallery">
 	{#each data.comic.images as img}
 		<div class="img-container">

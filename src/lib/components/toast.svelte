@@ -1,30 +1,35 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 import { dismiss } from '$lib/stores/toasts';
 import { fly } from 'svelte/transition';
 
-export let props = {
+	/** @type {{props?: any}} */
+	let { props = {
 	id: 0,
 	type: "success",
 	canClose: true,
 	timeout: 5000,
 	message: "This is a toast :)"
-}
+} } = $props();
 
-let w = '0';
+let w = $state('0');
 
-$: setTimeout(() => w = '100%')
+run(() => {
+		setTimeout(() => w = '100%')
+	});
 </script>
 
 <div
 	class={"toast " + props.type}
 	transition:fly|global={{ y: 50, duration: 500 }}
-	on:click={() => {
+	onclick={() => {
 		if(props.canClose) {
 			dismiss(props.id)
 		}
 	}}
 
-	on:keypress={() => {
+	onkeypress={() => {
 		if(props.canClose) {
 			dismiss(props.id)
 		}

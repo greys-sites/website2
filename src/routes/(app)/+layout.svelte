@@ -1,4 +1,7 @@
 <script>
+	import { preventDefault, stopPropagation, createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import '../../app.css';
 
 	import { fade } from 'svelte/transition';
@@ -9,9 +12,10 @@
 		DarkMode
 	} from 'flowbite-svelte';
 	
-	export let data;
+	/** @type {{data: any, children?: import('svelte').Snippet}} */
+	let { data, children } = $props();
 
-	let show = false;
+	let show = $state(false);
 
 	let views = [
 		{
@@ -22,10 +26,10 @@
 		}
 	];
 
-	$: vt = $page.data?.settings?.view_type;
+	let vt = $derived($page.data?.settings?.view_type);
 	let selected = (
-		views.find(x => x.name == $page.data?.settings?.view_type)
-		?? views[0]
+		$state(views.find(x => x.name == $page.data?.settings?.view_type)
+		?? views[0])
 	);
 
 	function open(e) {
@@ -83,16 +87,16 @@
 
 <nav>
 	<button
-		on:click|preventDefault|stopPropagation={show ? close : open}
-		on:keypress|preventDefault|stopPropagation={show ? close : open}
+		onclick={stopPropagation(preventDefault(show ? close : open))}
+		onkeypress={stopPropagation(preventDefault(show ? close : open))}
 	>menu</button>
 	<DarkMode />
 </nav>
 
 {#if show}
-<div class="menu-screen" transition:fade|global={{ duration: 250 }} on:click={close} on:keypress={close}/>
+<div class="menu-screen" transition:fade|global={{ duration: 250 }} onclick={close} onkeypress={close}></div>
 {/if}
-<div class={`menu ${show ? "open" : "closed"}`} on:click|stopPropagation on:keypress|stopPropagation>
+<div class={`menu ${show ? "open" : "closed"}`} onclick={stopPropagation(bubble('click'))} onkeypress={stopPropagation(bubble('keypress'))}>
 	<a href="/">Home</a>
 	<a href="/about">About Us</a>
 	<a href="/blog">Blog </a>
@@ -105,7 +109,7 @@
 	<div class="settings">
 		<p><b>Settings</b></p>
 		<label for="view_type">view type</label>
-		<select name="view_type" id="view_type" bind:value={selected} on:change={() => save()}>
+		<select name="view_type" id="view_type" bind:value={selected} onchange={() => save()}>
 			{#each views as view,_ (_)}
 				<option value={view}>
 					{view.name}
@@ -115,7 +119,7 @@
 	</div>
 </div>
 
-<slot />
+{@render children?.()}
 
 <style>
 .menu-screen {

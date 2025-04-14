@@ -7,16 +7,17 @@
 	import Card from '$lib/components/posts/card.svelte';
 	import Compact from '$lib/components/posts/compact.svelte';
 
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 
 	let views = {
 		'card': Card,
 		'compact': Compact
 	}
 
-	$: selected = (
-		views[data?.settings?.view_type] ??
-		views['card']
+	let selected = (
+		$derived(views[data?.settings?.view_type] ??
+		views['card'])
 	);
 
 	let loading;
@@ -75,7 +76,8 @@
 	{#each Object.keys(data.categories) as cat,i (i)}
 		<h2>{cat.length ? cat.toUpperCase() : "UNSORTED"}</h2>
 		{#each data.categories[cat].comics as com (com.hid)}
-			<svelte:component this={selected ?? Card} obj={com} deleteObj={ deleteComic } objType="comics" />
+			{@const SvelteComponent = selected ?? Card}
+			<SvelteComponent obj={com} deleteObj={ deleteComic } objType="comics" />
 		{/each}
 	{/each}
 {/if}

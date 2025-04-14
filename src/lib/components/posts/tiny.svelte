@@ -5,11 +5,10 @@
 	import Edit from '$lib/components/icons/edit.svelte';
 	import Delete from '$lib/components/icons/delete.svelte';
 
-	export let obj;
-	export let deleteObj;
-	export let objType;
+	/** @type {{obj: any, deleteObj: any, objType: any}} */
+	let { obj, deleteObj, objType } = $props();
 
-	$: apiUrl = objType == "posts" ? "blog" : objType
+	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
 
 	function del(hid) {
 		deleteObj(hid)
@@ -18,11 +17,11 @@
 
 <div class="proj-item">
 	{#if obj.thumbnail?.length}
-		<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` } />
+		<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` }></div>
 	{:else if obj.cover_url?.length}
-		<div class="proj-cover" style={ `background-image: url('${obj.cover_url}')` } />
+		<div class="proj-cover" style={ `background-image: url('${obj.cover_url}')` }></div>
 	{:else}
-		<div class="proj-cover" style={ `background-image: url('https://cdn.greysdawn.com/img/81fa.png')` } />
+		<div class="proj-cover" style={ `background-image: url('https://cdn.greysdawn.com/img/81fa.png')` }></div>
 	{/if}
 	<div class="proj-inner">
 		<h3><a href={`/${apiUrl}/${obj.hid}`} target="_blank">{obj.name?.length ? obj.name : obj.title}</a></h3>
@@ -35,7 +34,7 @@
 	{#if deleteObj}
 	<div class="proj-buttons">
 		<a class="link-button" target="_blank" href={`/admin/${objType}/edit/${obj.hid}`}><Edit /></a>
-		<button on:click={() => addModal({
+		<button onclick={() => addModal({
 			title: "Delete item",
 			message: "Do you want to delete this item?",
 			type: "confirm",

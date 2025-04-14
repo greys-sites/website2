@@ -1,7 +1,8 @@
 <script>
 	import Compact from '$lib/components/posts/compact.svelte';
 	import Pin from '$lib/components/icons/pin.svelte';
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 </script>
 
 <svelte:head>

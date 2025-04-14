@@ -2,7 +2,8 @@
 	import insane from 'insane';
 	import twemoji from 'twemoji';
 
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 </script>
 
 <h1>Supporters</h1>

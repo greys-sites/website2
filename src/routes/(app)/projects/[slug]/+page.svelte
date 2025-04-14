@@ -3,7 +3,8 @@
 	import insane from 'insane';
 	import { formatDate } from '$lib/utils';
 	
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 </script>
 
 <svelte:head>

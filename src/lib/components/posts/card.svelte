@@ -2,11 +2,10 @@
 	import { addModal, closeAll } from '$lib/stores/modals';
 	import { formatDate } from '$lib/utils';
 
-	export let obj;
-	export let deleteObj;
-	export let objType;
+	/** @type {{obj: any, deleteObj: any, objType: any}} */
+	let { obj, deleteObj, objType } = $props();
 
-	$: apiUrl = objType == "posts" ? "blog" : objType
+	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
 
 	function del(hid) {
 		deleteObj(hid)
@@ -38,7 +37,7 @@
 	{#if deleteObj}
 	<div class="proj-buttons">
 		<a class="link-button" target="_blank" href={`/admin/${objType}/edit/${obj.hid}`}>edit</a>
-		<button on:click={() => addModal({
+		<button onclick={() => addModal({
 			title: "Delete item",
 			message: "Do you want to delete this item?",
 			type: "confirm",

@@ -1,8 +1,11 @@
 <script>
-	export let value = false;
-	export let name = "value";
-	export let label = "Some Value";
-	export let ontoggle = () => { }
+	/** @type {{value?: boolean, name?: string, label?: string, ontoggle?: any}} */
+	let {
+		value = $bindable(false),
+		name = "value",
+		label = "Some Value",
+		ontoggle = () => { }
+	} = $props();
 
 	function toggle() {
 		value = !value;
@@ -12,7 +15,7 @@
 
 <div class="toggle-wrapper">
 	<p>{label}</p>
-	<div role="button" tabindex=-1 class="toggle" class:toggled={value} on:click={toggle} on:keydown={toggle}>
+	<div role="button" tabindex=-1 class="toggle" class:toggled={value} onclick={toggle} onkeydown={toggle}>
 		<div class="toggle-button"></div>
 	</div>
 	<input type="hidden" bind:value={value} name={name} />

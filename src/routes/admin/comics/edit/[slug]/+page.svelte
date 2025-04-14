@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { add } from '$lib/stores/toasts';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
@@ -6,38 +8,40 @@
 	import Plus from '$lib/components/icons/plus.svelte';
 	import Minus from '$lib/components/icons/minus.svelte';
 
-	export let form;
-	export let data;
+	/** @type {{form: any, data: any}} */
+	let { form, data } = $props();
 
-	let { com } = data;
+	let { com } = $state(data);
 	let oldhid = "" + com.hid;
 
-	let imgCount = com.images?.length || 1;
+	let imgCount = $state(com.images?.length || 1);
 
-	$: canSub = imgCount > 1;
+	let canSub = $derived(imgCount > 1);
 
-	$: if(form) {
-	  switch(form.success) {
-	    case false:
-	      add({
-	        type: 'error',
-	        message: `${form.status}: ${form.message}`,
-	        timeout: 5000,
-	        canClose: true
-	      })
-	      break;
-	    default:
-	      add({
-	        type: 'success',
-	        message: `Comic edited! Redirecting...`,
-	        timeout: 3000,
-	        canClose: true
-	      })
+	run(() => {
+		if(form) {
+		  switch(form.success) {
+		    case false:
+		      add({
+		        type: 'error',
+		        message: `${form.status}: ${form.message}`,
+		        timeout: 5000,
+		        canClose: true
+		      })
+		      break;
+		    default:
+		      add({
+		        type: 'success',
+		        message: `Comic edited! Redirecting...`,
+		        timeout: 3000,
+		        canClose: true
+		      })
 
-	      setTimeout(() => goto(`/comics/${form.hid}`), 3000);
-	      break;
-	  }
-	}
+		      setTimeout(() => goto(`/comics/${form.hid}`), 3000);
+		      break;
+		  }
+		}
+	});
 
 	function addImg() {
 		imgCount += 1;
@@ -60,10 +64,10 @@
 	<input type="text" id="story" name="story" placeholder="story" bind:value={com.story}/>
 	<div class="img-setup">
 		<div class="img-buttons">
-			<button type="button" on:click={addImg} on:keypress={addImg}>
+			<button type="button" onclick={addImg} onkeypress={addImg}>
 				<Plus />
 			</button>
-			<button type="button" on:click={subImg} on:keypress={subImg}>
+			<button type="button" onclick={subImg} onkeypress={subImg}>
 				<Minus />
 			</button>
 		</div>

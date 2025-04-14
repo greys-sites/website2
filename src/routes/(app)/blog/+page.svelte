@@ -1,4 +1,6 @@
 <script>
+	import { stopPropagation } from 'svelte/legacy';
+
 	import { invalidateAll, goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 	import { clickoutside } from '@svelte-put/clickoutside'
@@ -12,22 +14,23 @@
 	import Tag from '$lib/components/icons/tag.svelte';
 	import Pin from '$lib/components/icons/pin.svelte';
 
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 
 	let views = {
 		'card': Card,
 		'compact': Compact
 	}
 
-	$: selected = (
-		views[data?.settings?.view_type] ??
-		views['card']
+	let selected = (
+		$derived(views[data?.settings?.view_type] ??
+		views['card'])
 	);
 
 	let posts = (
-		data.posts
+		$state(data.posts
 		.sort((a, b) => a.id - b.id)
-		.reverse()
+		.reverse())
 	);
 
 	let all = [
@@ -46,14 +49,14 @@
 		}
 	]
 
-	let filters = {
+	let filters = $state({
 		sort: sorts[0].value,
 		tags: [],
 		search: ''
-	}
+	})
 
-	let tagsButton;
-	let tags_open = false;
+	let tagsButton = $state();
+	let tags_open = $state(false);
 	function toggleTags() {
 		tags_open = !tags_open;
 	}
@@ -65,8 +68,8 @@
 		set();
 	}
 
-	let sortButton;
-	let sort_open = false;
+	let sortButton = $state();
+	let sort_open = $state(false);
 	function toggleSort() {
 		sort_open = !sort_open;
 	}
@@ -87,7 +90,7 @@
 		timeout = setTimeout(()=> search(), 250)
 	}
 
-	let searching = false;
+	let searching = $state(false);
 	function search() {
 		if(
 			filters.tags.length ||
@@ -132,16 +135,16 @@
 	<div class="filters-inner">
 		<button
 			use:clickoutside
-			on:clickoutside={() => tags_open = false}
-			on:click={() => {toggleTags()}}
+			onclickoutside={() => tags_open = false}
+			onclick={() => {toggleTags()}}
 			bind:this={tagsButton}
 		>
 			<Tag />
 		</button>
 		<button
 			use:clickoutside
-			on:clickoutside={() => sort_open = false}
-			on:click={() => {toggleSort()}}
+			onclickoutside={() => sort_open = false}
+			onclick={() => {toggleSort()}}
 			bind:this={sortButton}
 		>
 			{#if filters.sort == "asc"}
@@ -153,7 +156,7 @@
 		<input
 			type="text"
 			bind:value={filters.search}
-			on:input={() => set()}
+			oninput={() => set()}
 			placeholder="Enter a search query..."
 		/>
 	</div>
@@ -172,7 +175,7 @@
 					<div
 						class="select-option"
 						class:selected={ filters.tags.includes(tag.name) }
-						on:click|stopPropagation={() => changeTags(tag.name)}
+						onclick={stopPropagation(() => changeTags(tag.name))}
 					>
 						{tag.name}
 					</div>
@@ -195,7 +198,7 @@
 				<div
 					class="select-option"
 					class:selected={ filters.sort == opt.value }
-					on:click|stopPropagation={() => changeSort(opt.value)}
+					onclick={stopPropagation(() => changeSort(opt.value))}
 				>
 					{opt.name}
 				</div>
@@ -217,7 +220,8 @@
 
 {#if posts?.length > 0}
 	{#each posts as post (post.hid)}
-		<svelte:component this={selected ?? Card} obj={post} objType="posts" />
+		{@const SvelteComponent = selected ?? Card}
+		<SvelteComponent obj={post} objType="posts" />
 	{/each}
 {:else if searching && all.length > 0}
 	<h3>No posts matched your search :(</h3>

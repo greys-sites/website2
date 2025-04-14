@@ -1,6 +1,6 @@
 <script>
-	export let color = '#ffffff';
-	export let size = '20px';
+	/** @type {{color?: string, size?: string}} */
+	let { color = '#ffffff', size = '20px' } = $props();
 </script>
 
 <svg

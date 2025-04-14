@@ -1,13 +1,17 @@
 <script>
+	import { createBubbler, stopPropagation, once } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 import { closeModal, closeAll } from '$lib/stores/modals';
 import { fly } from 'svelte/transition';
 
-export let props = {
+	/** @type {{props?: any}} */
+	let { props = {
 	id: 0,
 	type: "alert",
 	title: "This is a modal :)",
 	message: "This is some text inside a modal"
-}
+} } = $props();
 
 async function confirm() {
 	if(props.onConfirm) await props.onConfirm(props);
@@ -24,7 +28,7 @@ async function cancel() {
 }
 </script>
 
-<dialog on:click|stopPropagation on:keypress|stopPropagation class={"modal-" + props.type} transition:fly|global={{ y: 25, duration: 250 }}>
+<dialog onclick={stopPropagation(bubble('click'))} onkeypress={stopPropagation(bubble('keypress'))} class={"modal-" + props.type} transition:fly|global={{ y: 25, duration: 250 }}>
 	<div class="modal-content">
 		<h1>{props.title}</h1>
 		<p>{props.message}
@@ -33,20 +37,20 @@ async function cancel() {
 		{#if props.type == "alert"}
 			<button
 				id={`modal-${props.id}-close`}
-				on:click|once|stopPropagation={() => close()}
-				on:keypress|once|stopPropagation={() => close()}
+				onclick={once(stopPropagation(() => close()))}
+				onkeypress={once(stopPropagation(() => close()))}
 			>Okay</button>
 		{/if}
 		{#if props.type == "confirm"}
 			<button
 				id={`modal-${props.id}-cancel`}
-				on:click|once|stopPropagation={() => cancel()}
-				on:keypress|once|stopPropagation={() => cancel()}
+				onclick={once(stopPropagation(() => cancel()))}
+				onkeypress={once(stopPropagation(() => cancel()))}
 			>Cancel</button>
 			<button
 				id={`modal-${props.id}-confirm`}
-				on:click|once|stopPropagation={() => confirm()}
-				on:keypress|once|stopPropagation={() => confirm()}
+				onclick={once(stopPropagation(() => confirm()))}
+				onkeypress={once(stopPropagation(() => confirm()))}
 			>Confirm</button>
 		{/if}
 	</div>

@@ -3,9 +3,10 @@
 	import insane from 'insane';
 	import { formatDate } from '$lib/utils';
 	
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 
-	let descEl;
+	let descEl = $state();
 	function jump() {
 		descEl.scrollIntoView({ behavior: 'smooth' })
 	}
@@ -19,7 +20,7 @@
 <div class="heading">
 	<h1>{data.flag.name}</h1>
 </div>
-<button on:click={jump}>jump to description</button>
+<button onclick={jump}>jump to description</button>
 <div class="gallery">
 	{#each data.flag.images as img}
 		<div class="img-container">

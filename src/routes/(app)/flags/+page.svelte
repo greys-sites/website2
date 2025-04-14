@@ -5,19 +5,20 @@
 	import Card from '$lib/components/posts/card.svelte';
 	import Compact from '$lib/components/posts/compact.svelte';
 
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 
 	let views = {
 		'card': Card,
 		'compact': Compact
 	}
 
-	$: selected = (
-		views[data?.settings?.view_type] ??
-		views['card']
+	let selected = (
+		$derived(views[data?.settings?.view_type] ??
+		views['card'])
 	);
 
-	let categories = {};
+	let categories = $state({});
 	for(let p of data.flags) {
 		if(!categories[p.category]) {
 			categories[p.category] = {
@@ -82,7 +83,8 @@
 	{#each Object.keys(categories) as cat,_ (_)}
 		<h2>{cat.toUpperCase()}</h2>
 		{#each categories[cat].flags as com (com.hid)}
-			<svelte:component this={selected ?? Card} obj={com} objType="flags" />
+			{@const SvelteComponent = selected ?? Card}
+			<SvelteComponent obj={com} objType="flags" />
 		{/each}
 	{/each}
 {/if}

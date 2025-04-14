@@ -1,4 +1,7 @@
 <script>
+	import { preventDefault, stopPropagation, createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import '../../app.css';
 	
 	import { toasts, add as addToast } from '$lib/stores/toasts';
@@ -10,8 +13,10 @@
 	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
 	import { invalidateAll, goto } from '$app/navigation';
+	/** @type {{children?: import('svelte').Snippet}} */
+	let { children } = $props();
 	
-	let show = false;
+	let show = $state(false);
 
 	let views = [
 		{
@@ -22,10 +27,10 @@
 		}
 	];
 
-	$: vt = $page.data?.settings?.view_type;
+	let vt = $derived($page.data?.settings?.view_type);
 	let selected = (
-		views.find(x => x.name == $page.data?.settings?.view_type)
-		?? views[0]
+		$state(views.find(x => x.name == $page.data?.settings?.view_type)
+		?? views[0])
 	);
 
 	function open(e) {
@@ -83,14 +88,14 @@
 
 <nav>
 	<button
-		on:click|preventDefault|stopPropagation={show ? close : open}
-		on:keypress|preventDefault|stopPropagation={show ? close : open}
+		onclick={stopPropagation(preventDefault(show ? close : open))}
+		onkeypress={stopPropagation(preventDefault(show ? close : open))}
 		aria-label={ show ? "close menu" : "open menu" }
 	>menu</button>
 </nav>
 
 {#if $modals.length}
-	<div on:click={closeAll} on:keypress={closeAll} class="modal-screen" scroll="no" transition:fade|global={{ duration: 250 }}>
+	<div onclick={closeAll} onkeypress={closeAll} class="modal-screen" scroll="no" transition:fade|global={{ duration: 250 }}>
 		{#each $modals as m (m.id)}
 			<Modal
 				props={m}
@@ -108,12 +113,12 @@
 </div>
 
 {#if show}
-<div class="menu-screen" transition:fade|global={{ duration: 250 }} on:click={close} on:keypress={close}/>
+<div class="menu-screen" transition:fade|global={{ duration: 250 }} onclick={close} onkeypress={close}></div>
 {/if}
 <div
 	class={`menu ${show ? "open" : "closed"}`}
-	on:click|stopPropagation
-	on:keypress|stopPropagation
+	onclick={stopPropagation(bubble('click'))}
+	onkeypress={stopPropagation(bubble('keypress'))}
 	aria-hidden={ show ? false : true }
 	focusable={ show ? true : false }
 >
@@ -128,7 +133,7 @@
 	<div class="settings">
 		<p><b>Settings</b></p>
 		<label for="view_type">view type</label>
-		<select name="view_type" id="view_type" bind:value={selected} on:change={() => save()}>
+		<select name="view_type" id="view_type" bind:value={selected} onchange={() => save()}>
 			{#each views as view,_ (_)}
 				<option value={view}>
 					{view.name}
@@ -138,7 +143,7 @@
 	</div>
 </div>
 
-<slot />
+{@render children?.()}
 
 <style>
 .menu-screen {

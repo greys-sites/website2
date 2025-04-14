@@ -9,16 +9,17 @@
 
 	import Pin from '$lib/components/icons/pin.svelte';
 
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 
 	let views = {
 		'card': Card,
 		'compact': Compact
 	}
 
-	$: selected = (
-		views[data?.settings?.view_type] ??
-		views['card']
+	let selected = (
+		$derived(views[data?.settings?.view_type] ??
+		views['card'])
 	);
 
 	let loading;
@@ -131,13 +132,15 @@
 
 {#if data?.drafts?.length}
 	{#each data.drafts as post (post.hid)}
-		<svelte:component this={selected ?? Card} obj={ post } deleteObj={ deletePost } objType="posts" />
+		{@const SvelteComponent = selected ?? Card}
+		<SvelteComponent obj={ post } deleteObj={ deletePost } objType="posts" />
 	{/each}
 {/if}
 
 {#if data?.posts?.length}
 	{#each data.posts as post (post.hid)}
-		<svelte:component this={selected ?? Card} obj={ post } deleteObj={ deletePost } objType="posts" />
+		{@const SvelteComponent_1 = selected ?? Card}
+		<SvelteComponent_1 obj={ post } deleteObj={ deletePost } objType="posts" />
 	{/each}
 {/if}
 

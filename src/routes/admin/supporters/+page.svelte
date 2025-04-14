@@ -6,7 +6,8 @@
 
 	import Supp from '$lib/components/supp.svelte';
 	
-	export let data;
+	/** @type {{data: any}} */
+	let { data } = $props();
 
 	let loading;
 	let error;
@@ -67,7 +68,7 @@
 
 {#if data?.supporters}
 	{#each data.supporters as sup (sup.hid)}
-		<svelte:component this={Supp} obj={sup} deleteObj={ deleteSupp }  />
+		<Supp obj={sup} deleteObj={ deleteSupp }  />
 	{/each}
 {/if}
 

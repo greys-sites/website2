@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { marked } from 'marked';
@@ -10,17 +12,11 @@
 	import Edit from '$lib/components/icons/edit.svelte';
 	import Delete from '$lib/components/icons/delete.svelte';
 
-	export let obj;
-	export let deleteObj;
-	export let editObj;
+	/** @type {{obj: any, deleteObj: any, editObj: any}} */
+	let { obj = $bindable(), deleteObj, editObj } = $props();
 
-	$: if($page?.form) {
-		console.log($page.form);
-		if($page.form.data?.hid == obj.hid)
-			editOff()
-	}
 
-	let editing = false;
+	let editing = $state(false);
 
 	function del(hid) {
 		deleteObj(hid)
@@ -33,6 +29,13 @@
 	function editOff() {
 		editing = false;
 	}
+	run(() => {
+		if($page?.form) {
+			console.log($page.form);
+			if($page.form.data?.hid == obj.hid)
+				editOff()
+		}
+	});
 </script>
 
 <div class="proj-item">
@@ -45,7 +48,7 @@
 		</form>
 	{:else}
 		{#if obj.image?.length}
-			<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` } />
+			<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` }></div>
 		{/if}
 		<div class="proj-inner">
 			<h3>{@html (
@@ -65,10 +68,10 @@
 		</div>
 		{#if deleteObj}
 		<div class="proj-buttons">
-			<button on:click={() => editOn()}>
+			<button onclick={() => editOn()}>
 				<Edit />
 			</button>
-			<button on:click={() => addModal({
+			<button onclick={() => addModal({
 				title: "Delete item",
 				message: "Do you want to delete this item?",
 				type: "confirm",

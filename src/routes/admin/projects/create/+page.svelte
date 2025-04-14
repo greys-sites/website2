@@ -1,36 +1,41 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { add } from '$lib/stores/toasts';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 
 	import Toggle from '$lib/components/toggle.svelte';
 
-	export let form;
+	/** @type {{form: any}} */
+	let { form } = $props();
 
 	let stags = [];
 
-	$: if(form) {
-	  switch(form.success) {
-	    case false:
-	      add({
-	        type: 'error',
-	        message: `${form.status}: ${form.message}`,
-	        timeout: 5000,
-	        canClose: true
-	      })
-	      break;
-	    default:
-	      add({
-	        type: 'success',
-	        message: `Project created! Redirecting...`,
-	        timeout: 3000,
-	        canClose: true
-	      })
+	run(() => {
+		if(form) {
+		  switch(form.success) {
+		    case false:
+		      add({
+		        type: 'error',
+		        message: `${form.status}: ${form.message}`,
+		        timeout: 5000,
+		        canClose: true
+		      })
+		      break;
+		    default:
+		      add({
+		        type: 'success',
+		        message: `Project created! Redirecting...`,
+		        timeout: 3000,
+		        canClose: true
+		      })
 
-	      setTimeout(() => goto(`/projects/${form.hid}`), 3000);
-	      break;
-	  }
-	}
+		      setTimeout(() => goto(`/projects/${form.hid}`), 3000);
+		      break;
+		  }
+		}
+	});
 </script>
 
 <h1>Create Post</h1>
