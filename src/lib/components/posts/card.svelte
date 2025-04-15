@@ -1,5 +1,4 @@
 <script>
-	import { addModal, closeAll } from '$lib/stores/modals';
 	import { formatDate } from '$lib/utils';
 
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
@@ -37,19 +36,7 @@
 	{#if deleteObj}
 	<div class="proj-buttons">
 		<a class="link-button" target="_blank" href={`/admin/${objType}/edit/${obj.hid}`}>edit</a>
-		<button onclick={() => addModal({
-			title: "Delete item",
-			message: "Do you want to delete this item?",
-			type: "confirm",
-			onConfirm: () => {
-				addModal({
-					title: "Are you sure?",
-					message: "This action can't be undone.",
-					type: "confirm",
-					onConfirm: () => del(obj.hid)
-				})
-			}
-		})}>delete</button>
+		<button>delete</button>
 	</div>
 	{/if}
 </div>

@@ -1,5 +1,4 @@
 <script>
-	import { addModal, closeAll } from '$lib/stores/modals';
 	import { formatDate } from '$lib/utils';
 
 	import Edit from '$lib/components/icons/edit.svelte';
@@ -44,19 +43,7 @@
 		<a class="link-button" target="_blank" href={`/admin/${objType}/edit/${obj.hid}`}>
 			<Edit />
 		</a>
-		<button onclick={() => addModal({
-			title: "Delete item",
-			message: "Do you want to delete this item?",
-			type: "confirm",
-			onConfirm: () => {
-				addModal({
-					title: "Are you sure?",
-					message: "This action can't be undone.",
-					type: "confirm",
-					onConfirm: () => del(obj.hid)
-				})
-			}
-		})}><Delete /></button>
+		<button><Delete /></button>
 	</div>
 	{/if}
 </div>
