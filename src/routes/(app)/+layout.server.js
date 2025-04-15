@@ -2,19 +2,23 @@ import { fail } from '@sveltejs/kit';
 
 export async function load({ cookies, fetch }) {
 	var u = cookies.get('user');
-	if(!u) {
-		return { user: null }
-	}
 
-	var d;
+	var d, user, posts, projects;
 	try {
-		d = await fetch(`/api/users/@me`, {
-			headers: {
-				'Authorization': u
-			}
-		})
-		d = await d.json();
-		console.log(d)
+		if(u) {
+			d = await fetch(`/api/users/@me`, {
+				headers: {
+					'Authorization': u
+				}
+			})
+			user = await d.json();
+		}
+
+		d = await fetch(`/api/posts?pinned=true`);
+		posts = await d.json();
+
+		d = await fetch(`/api/projects?featured=true`);
+		projects = await d.json();
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
@@ -29,5 +33,5 @@ export async function load({ cookies, fetch }) {
 		}
 	}
 
-	return { user: d };
+	return { user, posts, projects };
 }

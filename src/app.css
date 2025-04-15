@@ -36,8 +36,6 @@
 }
 
 html, body {
-/*	min-height: 100vh;*/
-	width: 100%;
 	padding-bottom: 1em;
 	font-size: 18px;
 	@apply text-black;
@@ -47,12 +45,12 @@ html, body {
 body {
 	@apply bg-white;
 	@apply dark:bg-gray-900;
+	width: 100vw;
 	margin: 0;
 	font-family: Roboto;
-	display: flex;
+/*	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
+	align-items: center;*/
 }
 
 h1 {
@@ -75,7 +73,7 @@ p {
 h1, h2, h3 {
 	@apply mt-2;
 	@apply font-bold;
-	max-width: 700px;
+/*	max-width: 700px;*/
 }
 
 h1, h2, h3, p {
@@ -85,7 +83,7 @@ h1, h2, h3, p {
 
 .body {
 	width: 90%;
-	max-width: 700px;
+/*	max-width: 700px;*/
 }
 
 .body li {
@@ -132,57 +130,6 @@ a {
 
 a:hover {
 	text-decoration: underline;
-}
-
-.menu {
-	@apply bg-white;
-	@apply dark:bg-gray-900;
-	position: fixed;
-	z-index: 10;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
-	overflow-x: hidden;
-	overflow-y: auto;
-	left: 0;
-	top: 0;
-	padding-top: 50px;
-	width: 150px;
-	height: 100%;
-	transform: translateX(0);
-	transition: .25s;
-	background-image: linear-gradient(0deg, rgba(255,255,255,.09), rgba(255,255,255,.09));
-}
-
-.menu.closed {
-	transform: translateX(-150px);
-	transition: .25s;
-}
-
-.menu a {
-	text-align: center;
-	width: 100%;
-	padding: 1em; 
-/*	background-color: rgba(255, 255, 255, .15);*/
-	overflow-x: hidden;
-	/* padding: 1.2em; */
-}
-
-.toasts {
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	width: 100%;
-	
-	display: flex;
-	flex-direction: column-reverse;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	/* margin: auto; */
-	margin-top: 0;
-	margin-bottom: 50px;
 }
 
 .body img:not(.emoji) {
@@ -284,45 +231,7 @@ textarea {
 	font-size: 1rem;
 }
 
-.modal-screen {
-	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	background-color: rgba(0, 0, 0, .7);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	/*z-index: 150;*/
-}
-
 code, pre {
 	font-family: 'Roboto Mono', monospace;
 	background-color: rgba(255,255,255, .2);
-}
-
-@media(max-width: 700px) {
-	form {
-		flex-direction: column;
-	}
-
-	.container p {
-		width: 100%;
-	}
-
-	input:not([type=select]), select {
-		margin-right: 0;
-		margin-bottom: .5rem;
-	}
-}
-
-@media(min-width: 700px) {
-	.toasts {
-		top: 0;
-		bottom: unset;
-		margin-top: 50px;
-		margin-bottom: 0;
-	}
 }

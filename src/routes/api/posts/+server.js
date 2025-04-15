@@ -4,8 +4,9 @@ import { handleWebhook } from '$lib/utils.server.js';
 
 export async function GET({ request, url, cookies }) {
 	let posts;
-	let pinned = url.searchParams.get('pinned');
-	let recent = url.searchParams.get('recent');
+	let pinned = !!url.searchParams.get('pinned');
+	let recent = !!url.searchParams.get('recent');
+	console.log(pinned, recent);
 
 	switch(true) {
 		case pinned:

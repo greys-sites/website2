@@ -23,7 +23,7 @@
 			<div class="proj-cover" style={ `background-image: url('https://cdn.greysdawn.com/img/81fa.png')` }></div>
 		{/if}
 		<div class="proj-inner">
-			<h3><a href={`/${apiUrl}/${obj.hid}`} target="_blank">{obj.name?.length ? obj.name : obj.title}</a></h3>
+			<h3><a href={`/${apiUrl}/${obj.hid}`}>{obj.name?.length ? obj.name : obj.title}</a></h3>
 			{#if objType == "posts"}
 				<div class="post-meta">
 					<p>{formatDate(obj.post_timestamp)}</p>

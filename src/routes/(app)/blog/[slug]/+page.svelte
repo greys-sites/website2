@@ -55,12 +55,10 @@
 		height: auto;
 		margin-top: 50px;
 		border-radius: 20px;
-		max-width: 700px;
 	}
 
 	.heading {
 		width: 90%;
-		max-width: 700px;
 	}
 
 	.post-meta {
@@ -84,6 +82,5 @@
 	.body {
 		margin-top: 1em;
 		width: 90%;
-		max-width: 700px;
 	}
 </style>

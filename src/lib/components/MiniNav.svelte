@@ -13,11 +13,20 @@
   hidden w-full sticky top-12 lg:top-0 p-2 bg-white dark:bg-gray-900
   z-10 md:flex flex-row justify-start items-center mb-2
   border border-gray-300 dark:border-gray-700
+  max-w-[700px]
 ">
   <Button pill color="alternative" on:click={back} class="border-none rounded-full p-2 mr-2">
       <span class="sr-only">Go back</span>
       <Arrow class="p-0 m-0 w-6 h-6" />
     </Button>
 
-  <h1 class="text-lg">{text}</h1>
+  <h3>{text}</h3>
 </nav>
+
+<style>
+  @reference "tailwindcss";
+
+  h3 {
+    @apply mt-0;
+  }
+</style>

@@ -1,8 +1,12 @@
 import { error, json } from '@sveltejs/kit';
 import Projects from '$lib/data/projects.js';
 
-export async function GET({ request, cookies }) {
-	var projects = await Projects.getAll();
+export async function GET({ request, url }) {
+	var projects;
+	let pinned = url.searchParams.get('pinned');
+	if(pinned) projects = await Projects.getFeatured();
+	else projects = await Projects.getAll();
+
 	return json(projects);
 }
 

@@ -27,6 +27,7 @@
 	import MiniNav from '$lib/components/MiniNav.svelte';
 	import SiteInfo from '$lib/components/SiteInfo.svelte';
 	import SettingsModal from '$lib/components/SettingsModal.svelte';
+	import Tiny from '$lib/components/posts/tiny.svelte';
 
 	import Pin from '~icons/mdi/pin';
 	import Info from '~icons/mdi/information-outline';
@@ -54,6 +55,7 @@
 	const bubble = createBubbler();
 	/** @type {{data: any, children?: import('svelte').Snippet}} */
 	let { data, children } = $props();
+	$inspect(data)
 
 	let menuHidden = $state(true);
 	let menuClick = $state(false);
@@ -168,7 +170,7 @@
 	</script>
 </svelte:head>
 
-<Navbar let:hidden let:toggle class="px-0 md:pl-64 lg:hidden fixed bg-white dark:bg-gray-900 z-10">
+<Navbar let:hidden let:toggle class="px-0 md:pl-64 lg:hidden fixed bg-white dark:bg-gray-900 z-10 w-full">
 	<NavHamburger
 	onClick={(e) => openMenu(e)}
 	btnClass="lg:hidden"
@@ -181,29 +183,6 @@
 </Navbar>
 
 <SettingsModal bind:open={settingsOpen} />
-
-<div class={`menu ${show ? "open" : "closed"}`} onclick={stopPropagation(bubble('click'))} onkeypress={stopPropagation(bubble('keypress'))}>
-	<Button href="/">Home</Button>
-	<Button href="/about">About Us</Button>
-	<Button href="/blog">Blog </Button>
-	<Button href="/projects">Projects</Button>
-	<Button href="/comics">Comics</Button>
-	<Button href="/flags">Flags</Button>
-	<Button href="/supporters">Supporters</Button>
-	{#if data?.user}<Button href="/admin">Dash</Button>{/if}
-
-	<div class="settings">
-		<p><b>Settings</b></p>
-		<label for="view_type">view type</label>
-		<select name="view_type" id="view_type" bind:value={selected} onchange={() => save()}>
-			{#each views as view,_ (_)}
-			<option value={view}>
-				{view.name}
-			</option>
-			{/each}
-		</select>
-	</div>
-</div>
 
 <Drawer
 	transitionType="fly"
@@ -359,8 +338,6 @@
 	p-8 flex flex-col items-center
 	mx-auto
 	pt-16 lg:pt-2
-	min-h-screen
-	max-w-[700px]
 	sm:mx-auto md:ml-64 lg:mx-64
 ">
 	{#if activeUrl?.startsWith('/u/')}
@@ -370,33 +347,14 @@
 		<MiniNav {back} text="Post" />
 	{/if}
 	<div id="content-area" class="
-		flex flex-col justify-center items-center w-full
+		flex flex-col justify-center items-center
+		max-w-[700px]
 		overflow-auto
-		mx-0 sm:mx-0 md:mx-64 lg:mx-0
+		mx-auto w-full
 	">
 		{@render children?.()}
 	</div>
 </div>
 
 <style>
-	.menu-screen {
-		position: fixed;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		background-color: rgba(0, 0, 0, .7);
-		transition: .25s;
-		z-index: 10;
-	}
-
-	.settings {
-		align-self: flex-end;
-		text-align: center;
-	}
-
-	option {
-		color: white;
-		background-color: #202020;
-	}
 </style>

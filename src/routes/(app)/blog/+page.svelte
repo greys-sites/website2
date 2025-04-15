@@ -12,6 +12,8 @@
 	import Tag from '~icons/majesticons/tag';
 	import Pin from '~icons/mdi/pin';
 
+	import { settings } from '$lib/stores/settings.js';
+
 	/** @type {{data: any}} */
 	let { data } = $props();
 
@@ -20,10 +22,7 @@
 		'compact': Compact
 	}
 
-	let selected = (
-		$derived(views[data?.settings?.view_type] ??
-		views['card'])
-	);
+	let selected = $derived(views[$settings.get('view')]);
 
 	let posts = (
 		$state(data.posts

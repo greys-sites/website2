@@ -6,7 +6,7 @@ export async function load({ fetch }) {
 		var posts = await resp.json();
 		posts = posts?.filter(x => !x.draft);
 
-		resp = await fetch(`/api/projects/featured`);
+		resp = await fetch(`/api/projects?featured=true`);
 		var projects = await resp.json();
 	} catch(e) {
 		console.log(e)
