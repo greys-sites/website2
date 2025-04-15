@@ -1,6 +1,6 @@
 <script>
 	import Compact from '$lib/components/posts/compact.svelte';
-	import Pin from '$lib/components/icons/pin.svelte';
+	import Pin from '~icons/mdi/pin';
 	/** @type {{data: any}} */
 	let { data } = $props();
 </script>
@@ -9,7 +9,7 @@
 	<title>Home | The Grey Skies</title>
 </svelte:head>
 
-<h1>Hi, call us <span style="color: grey">Grey</span></h1>
+<h1>Hi, we're <span style="color: grey">Grey</span></h1>
 
 <h2>We make stuff. A <em>lot</em> of stuff</h2>
 <p>

@@ -4,15 +4,13 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 	import { clickoutside } from '@svelte-put/clickoutside'
-	import { add as addToast } from '$lib/stores/toasts';
 
 	import Card from '$lib/components/posts/card.svelte';
 	import Compact from '$lib/components/posts/compact.svelte';
 
-	import FAsc from '$lib/components/icons/filter_asc.svelte';
-	import FDesc from '$lib/components/icons/filter_desc.svelte';
-	import Tag from '$lib/components/icons/tag.svelte';
-	import Pin from '$lib/components/icons/pin.svelte';
+	import Filter from '~icons/material-symbols/filter-list-rounded';
+	import Tag from '~icons/majesticons/tag';
+	import Pin from '~icons/mdi/pin';
 
 	/** @type {{data: any}} */
 	let { data } = $props();
@@ -148,9 +146,9 @@
 			bind:this={sortButton}
 		>
 			{#if filters.sort == "asc"}
-				<FAsc />
+				<Filter class="rotate-180" />
 			{:else}
-				<FDesc />
+				<Filter />
 			{/if}
 		</button>
 		<input

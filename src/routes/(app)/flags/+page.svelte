@@ -1,6 +1,5 @@
 <script>
 	import { invalidateAll, goto } from '$app/navigation';
-	import { add as addToast } from '$lib/stores/toasts';
 
 	import Card from '$lib/components/posts/card.svelte';
 	import Compact from '$lib/components/posts/compact.svelte';

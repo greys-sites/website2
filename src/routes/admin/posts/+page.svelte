@@ -1,13 +1,11 @@
 <script>
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
-	import { add as addToast } from '$lib/stores/toasts';
-	import { addModal, closeAll } from '$lib/stores/modals';
 
 	import Card from '$lib/components/posts/card.svelte';
 	import Compact from '$lib/components/posts/compact.svelte';
 
-	import Pin from '$lib/components/icons/pin.svelte';
+	import Pin from '~icons/mdi/pin';
 
 	/** @type {{data: any}} */
 	let { data } = $props();

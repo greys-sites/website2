@@ -1,8 +1,6 @@
 <script>
   import { run } from 'svelte/legacy';
 
-import { add } from '$lib/stores/toasts';
-import { addModal, closeAll } from '$lib/stores/modals';
 import { enhance } from '$app/forms';
   /** @type {{form: any, data: any}} */
   let { form, data } = $props();

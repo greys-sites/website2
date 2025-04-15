@@ -5,7 +5,6 @@ export async function load({ cookies, fetch }) {
 	try {
 		d = await fetch(`/api/supporters`)
 		d = await d.json();
-		console.log(d)
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {

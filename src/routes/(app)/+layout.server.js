@@ -1,6 +1,4 @@
 import { fail } from '@sveltejs/kit';
-import axios from 'axios';
-import { API } from '$env/static/private';
 
 export async function load({ cookies, fetch }) {
 	var u = cookies.get('user');
@@ -15,7 +13,7 @@ export async function load({ cookies, fetch }) {
 				'Authorization': u
 			}
 		})
-		d = d.data;
+		d = await d.json();
 		console.log(d)
 	} catch(e) {
 		console.log(e.response ?? e);
@@ -24,7 +22,6 @@ export async function load({ cookies, fetch }) {
 			case 404:
 				cookies.delete('user');
 				d = null;
-				// throw redirect(308, '/admin/login');
 				break;
 			default:
 				d = null;

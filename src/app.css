@@ -4,6 +4,8 @@
 
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+
 @plugin 'flowbite/plugin';
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -53,27 +55,43 @@ body {
 	justify-content: flex-start;
 }
 
-.container {
-	background-color: rgba(255, 255, 255, .07);
-	width: 90%;
-	margin: auto;
-	margin-top: 1vh;
-	margin-bottom: 1vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding: 20px;
-	border-radius: 10px;
+h1 {
+	@apply text-3xl;
 }
 
-.container p {
-	width: 70%;
-	opacity: .8;
+h2 {
+	@apply text-2xl;
 }
 
-.container h1 {
-	opacity: .8;
+h3 {
+	@apply text-xl;
+}
+
+p {
+	@apply text-base;
+}
+
+h1, h2, h3 {
+	@apply font-bold;
+}
+
+h1, h2, h3, p {
+	@apply my-4;
+	@apply text-black/75;
+	@apply dark:text-white/75;
+}
+
+.body li {
+	@apply list-disc;
+	@apply ml-4;
+}
+
+svg {
+	display: inline-block;
+}
+
+.emoji {
+	display: inline-block;
 }
 
 form {
@@ -96,25 +114,6 @@ form > input:not([type=checkbox]), select {
 	margin: 0 .5rem 0 0;
 }
 
-button, input[type=submit], .link-button {
-    text-transform: uppercase;
-    font-weight: bold;
-    background-color: rgba(255, 255, 255, .09);
-    border-radius: .5rem;
-    box-shadow: none;
-    text-shadow: none;
-    border-style: none; 
-    padding: .5rem .7rem;
-    transition: .25s;
-    text-align: center;
-    width: auto;
-}
-
-button:hover, input[type=submit]:hover {
-    background-color: rgba(255, 255, 255, .2);
-    transition: .25s;
-}
-
 a {
 	text-decoration: none;
 	font-weight: bold;
@@ -122,28 +121,6 @@ a {
 
 a:hover {
 	text-decoration: underline;
-}
-
-nav {
-	@apply bg-gray-200;
-	@apply dark:bg-gray-800;
-	height: 50px;
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-start;
-	padding: .5rem;
-	margin: 0;
-	position: sticky;
-	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 100;
-}
-
-nav > * {
-	margin-right: .5rem;
 }
 
 .menu {
@@ -203,7 +180,6 @@ nav > * {
 }
 
 .body p, .body li {
-	font-size: 1.2rem;
 	width: 90%;
 	max-width: 700px;
 }

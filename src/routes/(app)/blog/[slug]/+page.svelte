@@ -74,19 +74,6 @@
 		width: auto;
 	}
 
-	h1 {
-		/*text-align: center;*/
-		font-size: 40px;
-		margin: .5rem 0;
-	}
-
-	h3 {
-		/*opacity: 80%;*/
-		font-weight: normal;
-		margin: 0;
-		z-index: 0;
-	}
-
 	.post-tag {
 		padding: 5px;
 		background-color: rgba(255, 255, 255, .09);

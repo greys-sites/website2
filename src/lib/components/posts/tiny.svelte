@@ -1,8 +1,8 @@
 <script>
 	import { formatDate } from '$lib/utils';
 
-	import Edit from '$lib/components/icons/edit.svelte';
-	import Delete from '$lib/components/icons/delete.svelte';
+	import Edit from '~icons/material-symbols/edit';
+	import Delete from '~icons/material-symbols/delete-rounded';
 
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
 	let { obj, deleteObj, objType } = $props();

@@ -1,10 +1,8 @@
 <script>
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize, enhance } from '$app/forms';
-	import { add as addToast } from '$lib/stores/toasts';
-	import { addModal, closeAll } from '$lib/stores/modals';
 
-	import Supp from '$lib/components/supp.svelte';
+	import Supp from '$lib/components/Supp.svelte';
 	
 	/** @type {{data: any}} */
 	let { data } = $props();

@@ -4,12 +4,6 @@
 
 	const bubble = createBubbler();
 	import '../../app.css';
-	
-	import { toasts, add as addToast } from '$lib/stores/toasts';
-	import Toast from '$lib/components/toast.svelte';
-
-	import { modals, closeAll } from '$lib/stores/modals';
-	import Modal from '$lib/components/modal.svelte';
 
 	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
@@ -95,24 +89,6 @@
 	>menu</button>
 	<DarkMode />
 </nav>
-
-{#if $modals.length}
-	<div onclick={closeAll} onkeypress={closeAll} class="modal-screen" scroll="no" transition:fade|global={{ duration: 250 }}>
-		{#each $modals as m (m.id)}
-			<Modal
-				props={m}
-			/>
-		{/each}
-	</div>
-{/if}
-
-<div class="toasts" style={ 'z-index: 300;' }>
-	{#each $toasts as t (t.id)}
-		<Toast
-			props={t}
-		/>
-	{/each}
-</div>
 
 {#if show}
 <div class="menu-screen" transition:fade|global={{ duration: 250 }} onclick={close} onkeypress={close}></div>
