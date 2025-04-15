@@ -127,7 +127,7 @@
 	<title>Blog | The Grey Skies</title>
 </svelte:head>
 
-<h1>Blog Posts</h1>
+<h1 class="text-center mb-4">Blog Posts</h1>
 
 <div class="filters">
 	<div class="filters-inner">

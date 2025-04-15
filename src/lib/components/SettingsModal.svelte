@@ -16,11 +16,11 @@
   import { enhance } from '$app/forms';
   import { settings, update } from '$lib/stores/settings';
 
-  $: theme = $settings.get('theme');
-  $: time = $settings.get('time');
+  let theme = $derived($settings.get('theme'));
+  let view = $derived($settings.get('view'));
+  let time = $derived($settings.get('time'));
 
-	export let open;
-  export let error;
+	let { open = $bindable(), error } = $props();
 
   const save = (key, val) => {
     update(key, val);
@@ -48,6 +48,20 @@
             color={theme == 'system' ? 'blue' : 'alternative'}
             on:click={() => save('theme', 'system')}
           >System</Button>
+        </ButtonGroup>
+      </div>
+
+      <div id="view-settings" class="w-full flex flex-row items-center justify-between mb-2">
+        <p>View</p>
+        <ButtonGroup>
+          <Button
+            color={view == 'card' ? 'blue' : 'alternative'}
+            on:click={() => save('view', 'card')}
+          >Card</Button>
+          <Button
+            color={view == 'compact' ? 'blue' : 'alternative'}
+            on:click={() => save('view', 'compact')}
+          >Compact</Button>
         </ButtonGroup>
       </div>
 

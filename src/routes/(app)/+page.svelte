@@ -33,9 +33,7 @@
 {/if}
 
 <style>
-	p {
-		width: 90%;
-		max-width: 700px;
-		text-align: center;
+	h1, h2, h3, p {
+		@apply text-center;
 	}
 </style>

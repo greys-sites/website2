@@ -10,6 +10,10 @@ if(browser) {
 			tmp.set(k, data[k]);
 		}
 	}
+
+	if(!tmp.get('theme')) tmp.set('theme', 'system');
+	if(!tmp.get('view')) tmp.set('view', 'card');
+	if(!tmp.get('time')) tmp.set('time', '12');
 }
 
 export const settings = writable(tmp);

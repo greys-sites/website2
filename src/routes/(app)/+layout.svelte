@@ -33,6 +33,8 @@
 
 	import Home from '~icons/material-symbols/home-outline-rounded';
 	import HomeFill from '~icons/material-symbols/home-rounded';
+	import About from '~icons/material-symbols/info-outline-rounded';
+	import AboutFill from '~icons/material-symbols/info-rounded';
 	import Blog from '~icons/material-symbols/note-stack-outline-rounded';
 	import BlogFill from '~icons/material-symbols/note-stack-rounded';
 	import Projects from '~icons/fluent/toolbox-12-regular';
@@ -228,6 +230,15 @@
 						<HomeFill class="w-6 h-6 mr-2"/>
 						{:else}
 						<Home class="w-6 h-6 mr-2"/>
+						{/if}
+					</svelte:fragment>
+				</SidebarItem>
+				<SidebarItem label="About Us" href="/about" on:click={toggleMenu}>
+					<svelte:fragment slot="icon">
+						{#if activeUrl == '/about'}
+						<AboutFill class="w-6 h-6 mr-2"/>
+						{:else}
+						<About class="w-6 h-6 mr-2"/>
 						{/if}
 					</svelte:fragment>
 				</SidebarItem>

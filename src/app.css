@@ -69,16 +69,23 @@ h3 {
 
 p {
 	@apply text-base;
+	@apply mb-2;
 }
 
 h1, h2, h3 {
+	@apply mt-2;
 	@apply font-bold;
+	max-width: 700px;
 }
 
 h1, h2, h3, p {
-	@apply my-4;
 	@apply text-black/75;
 	@apply dark:text-white/75;
+}
+
+.body {
+	width: 90%;
+	max-width: 700px;
 }
 
 .body li {
@@ -92,6 +99,10 @@ svg {
 
 .emoji {
 	display: inline-block;
+}
+
+button {
+	cursor: pointer;
 }
 
 form {
