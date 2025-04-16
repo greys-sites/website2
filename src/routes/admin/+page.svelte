@@ -1,33 +1,10 @@
 <script>
   import { run } from 'svelte/legacy';
 
-import { enhance } from '$app/forms';
+  import { enhance } from '$app/forms';
   /** @type {{form: any, data: any}} */
+
   let { form, data } = $props();
-
-run(() => {
-    if(form) {
-    switch(form.success) {
-      case false:
-        add({
-          type: 'error',
-          message: `${form.status}: ${form.message}`,
-          timeout: 5000,
-          canClose: true
-        })
-        break;
-      default:
-        add({
-          type: 'success',
-          message: `Login successful!`,
-          timeout: 5000,
-          canClose: true
-        })
-        break;
-    }
-  }
-  });
-
 </script>
 
 <svelte:head>
@@ -51,14 +28,6 @@ run(() => {
 {#if data.user}
 	<h1>Admin Page</h1>
 	<h3>Logged in as {data.user.name}</h3>
-	<button onclick={() => {
-		add({
-			message: "yeet",
-			type: "info",
-			canClose: true,
-			timeout: 1000
-		})
-	}}>test</button>
 {/if}
 
 <style>

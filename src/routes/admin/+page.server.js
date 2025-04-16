@@ -16,6 +16,7 @@ export async function load({ cookies, fetch }) {
 		})
 		d = await d.json();
 		console.log(d)
+		if(d?.message) d = null;
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
@@ -48,6 +49,7 @@ export const actions = {
 				method: 'POST'
 			});
 			u = await u.json();
+			console.log(u);
 
 			if(u?.login) {
 				console.log(u);

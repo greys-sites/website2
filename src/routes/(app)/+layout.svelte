@@ -82,21 +82,6 @@
 
 	$effect(() => width && widthCheck())
 
-	let views = [
-		{
-			name: 'card'
-		},
-		{
-			name: 'compact'
-		}
-	];
-
-	let vt = $derived($page.data?.settings?.view_type);
-	let selected = (
-		$state(views.find(x => x.name == $page.data?.settings?.view_type)
-			?? views[0])
-		);
-
 	const widthCheck = () => {
 		if(width >= menuBreak) {
 			menuHidden = false;
@@ -175,6 +160,10 @@
 	onClick={openMenu}
 	class="md:flex"
 	/>
+
+	{#if activeUrl?.startsWith('/blog/')}
+		<MiniNav {back} text="Post" />
+	{/if}
 
 	<Button color="alternative" class="border-none p-1 me-3 rounded-lg lg:hidden ms-auto" on:click={openPins}>
 		<span class="sr-only">Info drawer</span>
@@ -300,18 +289,16 @@
 	</Sidebar>
 </Drawer>
 
+{#if activeUrl?.startsWith('/blog/') && width > menuBreak}
+	<MiniNav {back} text="Post" />
+{/if}
+
 <div id="content-wrapper" class="
 	p-8 flex flex-col items-center
 	mx-auto
 	pt-16 lg:pt-2
 	sm:mx-auto lg:mx-64
 ">
-	{#if activeUrl?.startsWith('/u/')}
-		<MiniNav {back} text={$page?.data?.user?.displayName} />
-	{/if}
-	{#if activeUrl?.startsWith('/blog/')}
-		<MiniNav {back} text="Post" />
-	{/if}
 	<div id="content-area" class="
 		flex flex-col justify-center items-center
 		max-w-[700px]
