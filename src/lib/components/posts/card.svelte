@@ -11,7 +11,18 @@
 	}
 </script>
 
-<div class="proj-item">
+<a class="
+	w-9/10 max-w-[700px]
+	bg-white dark:bg-gray-800
+	hover:bg-gray-200 dark:hover:bg-gray-700
+	border border-gray-200 dark:border-gray-700
+	shadow-gray-400 shadow-md dark:shadow-none
+	hover:-translate-y-2
+	transition-all
+	flex flex-col items-center justify-center px-2 rounded-lg mb-2
+	cursor-pointer
+	no-underline hover:no-underline
+" href={`/${apiUrl}/${obj.hid}`}>
 	{#if obj.thumbnail?.length}
 		<img alt="Item thumbnail" class="proj-cover" src={ obj.thumbnail } />
 	{:else if obj.cover_url?.length}
@@ -20,7 +31,7 @@
 		<img alt="Item thumbnail" class="proj-cover" src="https://cdn.greysdawn.com/img/81fa.png" />
 	{/if}
 	<div class="proj-inner">
-		<h1><a href={`/${apiUrl}/${obj.hid}`}>{obj.name?.length ? obj.name : obj.title}</a></h1>
+		<h1>{obj.name?.length ? obj.name : obj.title}</h1>
 		{#if objType == "posts"}
 			<div class="post-meta">
 				<p>{formatDate(obj.post_timestamp)} |</p>
@@ -39,81 +50,70 @@
 		<button>delete</button>
 	</div>
 	{/if}
-</div>
+</a>
 
 <style>
-.proj-item {
-	width: 90%;
-	max-width: 700px;
-	background: rgba(255, 255, 255, .09);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 .5rem;
-	border-radius: .5rem;
-	margin-bottom: .5rem;
-}
+	@reference "tailwindcss";
 
-.proj-cover {
-	width: 100%;
-	max-width: 700px;
-	height: auto;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	margin: 10px 0;
-	border-radius: 10px;
-}
+	.proj-cover {
+		width: 100%;
+		max-width: 700px;
+		height: auto;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		margin: 10px 0;
+		border-radius: 10px;
+	}
 
-.proj-inner {
-	width: 100%;
-	margin-bottom: 10px;
-	text-align: center;
-}
+	.proj-inner {
+		width: 100%;
+		margin-bottom: 10px;
+		text-align: center;
+	}
 
-.post-tag {
-	padding: 5px;
-	background-color: rgba(255, 255, 255, .09);
-	border-radius: 5px;
-	margin-right: 5px;
-}
+	.proj-inner p {
+		font-weight: normal;
+	}
 
-.post-meta {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-}
+	.post-tag {
+		padding: 5px;
+		background-color: rgba(255, 255, 255, .09);
+		border-radius: 5px;
+		margin-right: 5px;
+	}
 
-.post-meta p {
-	margin-right: 5px;
-}
+	.post-meta {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
 
-a {
-	text-decoration: none;
-}
+	.post-meta p {
+		margin-right: 5px;
+	}
 
-h1, p {
-	margin: .5rem 0;
-}
+	h1, p {
+		margin: .5rem 0;
+	}
 
-.proj-buttons {
-	display: flex;
-	flex-direction: row;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-}
+	.proj-buttons {
+		display: flex;
+		flex-direction: row;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+	}
 
-.proj-buttons > * {
-	margin: 5px;
-	font-size: 16px;
-	cursor: pointer;
-}
+	.proj-buttons > * {
+		margin: 5px;
+		font-size: 16px;
+		cursor: pointer;
+	}
 
-.draft {
-	color: var(--accent);
-	opacity: .5;
-}
+	.draft {
+		color: var(--accent);
+		opacity: .5;
+	}
 </style>

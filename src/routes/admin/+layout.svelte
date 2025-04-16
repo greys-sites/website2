@@ -22,8 +22,8 @@
 
 	import Home from '~icons/material-symbols/home-outline-rounded';
 	import HomeFill from '~icons/material-symbols/home-rounded';
-	import About from '~icons/material-symbols/info-outline-rounded';
-	import AboutFill from '~icons/material-symbols/info-rounded';
+	import Dash from '~icons/material-symbols/dashboard-outline-rounded';
+	import DashFill from '~icons/material-symbols/dashboard-rounded';
 	import Blog from '~icons/material-symbols/note-stack-outline-rounded';
 	import BlogFill from '~icons/material-symbols/note-stack-rounded';
 	import Projects from '~icons/fluent/toolbox-12-regular';
@@ -189,54 +189,54 @@
 						{/if}
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="About Us" href="/about" on:click={toggleMenu}>
+				<SidebarItem label="Dash" href="/admin" on:click={toggleMenu}>
 					<svelte:fragment slot="icon">
-						{#if activeUrl == '/about'}
-						<AboutFill class="w-6 h-6 mr-2"/>
+						{#if activeUrl == '/admin'}
+						<DashFill class="w-6 h-6 mr-2"/>
 						{:else}
-						<About class="w-6 h-6 mr-2"/>
+						<Dash class="w-6 h-6 mr-2"/>
 						{/if}
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Blog" href="/blog" on:click={toggleMenu}>
+				<SidebarItem label="Posts" href="/admin/posts" on:click={toggleMenu}>
 					<svelte:fragment slot="icon">
-						{#if activeUrl == '/blog'}
+						{#if activeUrl == '/admin/posts'}
 						<BlogFill class="w-6 h-6 mr-2"/>
 						{:else}
 						<Blog class="w-6 h-6 mr-2"/>
 						{/if}
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Projects" href="/projects" on:click={toggleMenu}>
+				<SidebarItem label="Projects" href="/admin/projects" on:click={toggleMenu}>
 					<svelte:fragment slot="icon">
-						{#if activeUrl == '/projects'}
+						{#if activeUrl == '/admin/projects'}
 						<ProjectsFill class="w-6 h-6 mr-2"/>
 						{:else}
 						<Projects class="w-6 h-6 mr-2"/>
 						{/if}
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Comics" href="/comics" on:click={toggleMenu}>
+				<SidebarItem label="Comics" href="/admin/comics" on:click={toggleMenu}>
 					<svelte:fragment slot="icon">
-						{#if activeUrl == '/comics'}
+						{#if activeUrl == '/admin/comics'}
 						<ComicsFill class="w-6 h-6 mr-2"/>
 						{:else}
 						<Comics class="w-6 h-6 mr-2"/>
 						{/if}
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Flags" href="/flags" on:click={toggleMenu}>
+				<SidebarItem label="Flags" href="/admin/flags" on:click={toggleMenu}>
 					<svelte:fragment slot="icon">
-						{#if activeUrl == '/flags'}
+						{#if activeUrl == '/admin/flags'}
 						<FlagsFill class="w-6 h-6 mr-2"/>
 						{:else}
 						<Flags class="w-6 h-6 mr-2"/>
 						{/if}
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Supporters" href="/supporters" on:click={toggleMenu}>
+				<SidebarItem label="Supporters" href="/admin/supporters" on:click={toggleMenu}>
 					<svelte:fragment slot="icon">
-						{#if activeUrl == '/supporters'}
+						{#if activeUrl == '/admin/supporters'}
 						<SuppsFill class="w-6 h-6 mr-2"/>
 						{:else}
 						<Supps class="w-6 h-6 mr-2"/>

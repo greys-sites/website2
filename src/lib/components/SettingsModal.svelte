@@ -62,6 +62,10 @@
             color={view == 'compact' ? 'blue' : 'alternative'}
             on:click={() => save('view', 'compact')}
           >Compact</Button>
+          <Button
+            color={view == 'tiny' ? 'blue' : 'alternative'}
+            on:click={() => save('view', 'tiny')}
+          >Tiny</Button>
         </ButtonGroup>
       </div>
 

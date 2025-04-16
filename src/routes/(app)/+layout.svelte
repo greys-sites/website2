@@ -46,6 +46,8 @@
 	import FlagsFill from '~icons/material-symbols/flag-2-rounded';
 	import Supps from '~icons/material-symbols/celebration-outline-rounded';
 	import SuppsFill from '~icons/material-symbols/celebration-rounded';
+	import Dash from '~icons/material-symbols/dashboard-outline-rounded';
+	import DashFill from '~icons/material-symbols/dashboard-rounded';
 
 	import Arrow from '~icons/mdi/arrow-left';
 	import Gear from '~icons/mdi/gear';
@@ -55,7 +57,6 @@
 	const bubble = createBubbler();
 	/** @type {{data: any, children?: import('svelte').Snippet}} */
 	let { data, children } = $props();
-	$inspect(data)
 
 	let menuHidden = $state(true);
 	let menuClick = $state(false);
@@ -252,6 +253,17 @@
 						{/if}
 					</svelte:fragment>
 				</SidebarItem>
+				{#if data?.user}
+					<SidebarItem label="Dash" href="/admin" on:click={toggleMenu}>
+						<svelte:fragment slot="icon">
+							{#if activeUrl == '/admin'}
+							<DashFill class="w-6 h-6 mr-2"/>
+							{:else}
+							<Dash class="w-6 h-6 mr-2"/>
+							{/if}
+						</svelte:fragment>
+					</SidebarItem>
+				{/if}
 			</SidebarGroup>
 			<SidebarGroup class="absolute bottom-0 pb-2 w-54">
 				<SidebarItem label="Settings" on:click={handleSettingsClick} class="opacity-50">

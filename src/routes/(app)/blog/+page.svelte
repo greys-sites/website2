@@ -7,6 +7,7 @@
 
 	import Card from '$lib/components/posts/card.svelte';
 	import Compact from '$lib/components/posts/compact.svelte';
+	import Tiny from '$lib/components/posts/tiny.svelte';
 
 	import Filter from '~icons/material-symbols/filter-list-rounded';
 	import Tag from '~icons/majesticons/tag';
@@ -19,7 +20,8 @@
 
 	let views = {
 		'card': Card,
-		'compact': Compact
+		'compact': Compact,
+		'tiny': Tiny
 	}
 
 	let selected = $derived(views[$settings.get('view')]);
@@ -206,7 +208,7 @@
 
 {#if !searching && data.pinned.length}
 	<div class="pinned">
-		<h3><Pin /> Pinned</h3>
+		<h3 class="mb-2"><Pin /> Pinned</h3>
 		{#each data.pinned as post (post.hid)}
 			<Compact obj={post} objType="posts" />
 		{/each}
@@ -227,16 +229,19 @@
 {/if}
 
 <style>
-.pinned {
-	width: 100%;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
+	@reference "tailwindcss";
 
-input {
-	margin: 0;
-}
+	.pinned {
+		@apply mb-2;
+		width: 100%;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	input {
+		margin: 0;
+	}
 </style>

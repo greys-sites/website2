@@ -10,7 +10,18 @@
 	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
 </script>
 
-<div class="proj-item">
+<a class="
+	w-[150px]
+	bg-white dark:bg-gray-800
+	hover:bg-gray-200 dark:hover:bg-gray-700
+	border border-gray-200 dark:border-gray-700
+	shadow-gray-400 shadow-md dark:shadow-none
+	hover:-translate-y-2
+	transition-all
+	flex flex-col items-center justify-center p-2 rounded-lg mb-2
+	cursor-pointer
+	no-underline hover:no-underline
+" href={`/${apiUrl}/${obj.hid}`}>
 	{#if obj.thumbnail?.length}
 		<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` }></div>
 	{:else if obj.cover_url?.length}
@@ -19,7 +30,7 @@
 		<div class="proj-cover" style={ `background-image: url('https://cdn.greysdawn.com/img/81fa.png')` }></div>
 	{/if}
 	<div class="proj-inner">
-		<h3><a href={`/${apiUrl}/${obj.hid}`}>{obj.name?.length ? obj.name : obj.title}</a></h3>
+		<h3>{obj.name?.length ? obj.name : obj.title}</h3>
 		{#if objType == "posts"}
 			<div class="post-meta">
 				<p>{formatDate(obj.post_timestamp)}</p>
@@ -32,7 +43,7 @@
 		<button><Delete /></button>
 	</div>
 	{/if}
-</div>
+</a>
 
 <style>
 .proj-item {

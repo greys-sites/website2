@@ -128,10 +128,6 @@ a {
 	font-weight: bold;
 }
 
-a:hover {
-	text-decoration: underline;
-}
-
 .body img:not(.emoji) {
 	max-width: 100%;
 	height: auto;
