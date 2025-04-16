@@ -69,7 +69,7 @@
 	let error = $state(null);
 
 	let width = $state();
-	let menuBreak = 768;
+	let menuBreak = 1024;
 	let pinsBreak = 1024;
 
 	let show = $state(false);
@@ -170,10 +170,10 @@
 	</script>
 </svelte:head>
 
-<Navbar let:hidden let:toggle class="px-0 md:pl-64 lg:hidden fixed bg-white dark:bg-gray-900 z-10 w-full">
+<Navbar let:hidden let:toggle class="px-0 lg:hidden fixed bg-white dark:bg-gray-900 z-10 w-full">
 	<NavHamburger
-	onClick={(e) => openMenu(e)}
-	btnClass="lg:hidden"
+	onClick={openMenu}
+	class="md:flex"
 	/>
 
 	<Button color="alternative" class="border-none p-1 me-3 rounded-lg lg:hidden ms-auto" on:click={openPins}>
@@ -191,17 +191,14 @@
 	bind:hidden={menuHidden}
 	bind:activateClickOutside={menuClick}
 	width="w-64"
-	class="overflow-auto p-4 dark:bg-gray-900 md:border-r-2 border-gray-200 dark:border-gray-800"
+	class="overflow-auto p-4 dark:bg-gray-900 lg:border-r-2 border-gray-200 dark:border-gray-800"
 	id="sidebar"
 >
-<div class="flex items-center">
-	<CloseButton on:click={() => menuHidden = true} class="mb-2 dark:text-white md:hidden" />
-	</div>
 	<SidebarGroup>
 		<SiteInfo />
 	</SidebarGroup>
 	<Sidebar asideClass="w-54" {activeUrl} >
-		<SidebarWrapper divClass="rounded px-2 dark:bg-gray-900">
+		<SidebarWrapper divClass="rounded dark:bg-gray-900">
 			<SidebarGroup>
 				<SidebarItem label="Home" href="/" on:click={toggleMenu}>
 					<svelte:fragment slot="icon">
@@ -267,44 +264,15 @@
 					</svelte:fragment>
 				</SidebarItem>
 			</SidebarGroup>
-			<SidebarGroup>
-				<div class="absolute bottom-0 left-0 w-full flex flex-col items-start content-start p-4 justify-between">
-					{#if data?.user}
-					<Button
-					rounded size="sm"
-					color="alternative"
-					class="
-					border-none w-full items-center
-					content-center justify-start
-					"
-					on:click={handlePostClick}>
-					<PostAdd class="w-10 h-10 mr-2" />
-					<span class="font-bold break-all text-ellipsis overflow-hidden w-full whitespace-nowrap text-left">
-						Create post
-					</span>
-				</Button>
-				<Button rounded size="sm" color="alternative" class="border-none w-full items-center content-center justify-start" on:click={handleAvatarClick}>
-					<Avatar rounded class="mr-2 bg-transparent dark:bg-transparent" src={data?.user?.avatar}/>
-					<div class="flex flex-col items-start justify-center content-center">
-						<div class="overflow-hidden max-w-32 flex">
-							<span class="font-bold break-all text-ellipsis overflow-hidden w-full whitespace-nowrap">{data.user ? data.user.displayName : 'Login' }</span>
-						</div>
-						<div class="overflow-hidden max-w-32 flex">
-							<span class="text-ellipsis overflow-hidden w-full whitespace-nowrap">{data.user ? `@${data.user.username}` : ''}</span>
-						</div>
-					</div>
-				</Button>
-				{/if}
-				<Button rounded size="sm" color="alternative" class="border-none w-full items-center content-center justify-start" on:click={handleSettingsClick}>
-					<Gear class="w-6 h-6 mr-2"/>
-					<span class="break-all text-ellipsis overflow-hidden w-full whitespace-nowrap text-left">
-						Settings
-					</span>
-				</Button>
-			</div>
-		</SidebarGroup>
-	</SidebarWrapper>
-</Sidebar>
+			<SidebarGroup class="absolute bottom-0 pb-2 w-54">
+				<SidebarItem label="Settings" on:click={handleSettingsClick} class="opacity-50">
+					<svelte:fragment slot="icon">
+						<Gear class="w-6 h-6 mr-2"/>
+					</svelte:fragment>
+				</SidebarItem>
+			</SidebarGroup>
+		</SidebarWrapper>
+	</Sidebar>
 </Drawer>
 
 <Drawer
@@ -319,8 +287,6 @@
 	id="sidebar"
 >
 <div class="flex items-center">
-	<CloseButton on:click={() => pinsHidden = true} class="mb-2 dark:text-white lg:hidden ms-0" />
-	</div>
 	<Sidebar asideClass="w-54" >
 		<SidebarWrapper divClass="rounded px-2 dark:bg-gray-900">
 			{#if !data?.user}
@@ -338,7 +304,7 @@
 	p-8 flex flex-col items-center
 	mx-auto
 	pt-16 lg:pt-2
-	sm:mx-auto md:ml-64 lg:mx-64
+	sm:mx-auto lg:mx-64
 ">
 	{#if activeUrl?.startsWith('/u/')}
 		<MiniNav {back} text={$page?.data?.user?.displayName} />

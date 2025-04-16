@@ -27,7 +27,7 @@
   }
 </script>
 
-<Modal bind:open={open} size="xs" autoclose={false} outsideclose class="w-full">
+<Modal bind:open={open} size="xs" autoclose={false} outsideclose class="sm:mx-0 md:mx-auto lg:mx-0">
     <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Settings</h3>
     {#if error}
       <p class='text-red-300'>Error: {error}</p>
