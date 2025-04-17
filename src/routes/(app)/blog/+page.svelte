@@ -3,28 +3,16 @@
 
 	import { invalidateAll, goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
-	import { clickoutside } from '@svelte-put/clickoutside'
-
-	import Card from '$lib/components/posts/card.svelte';
-	import Compact from '$lib/components/posts/compact.svelte';
-	import Tiny from '$lib/components/posts/tiny.svelte';
+	import { clickoutside } from '@svelte-put/clickoutside';
 
 	import Filter from '~icons/material-symbols/filter-list-rounded';
 	import Tag from '~icons/majesticons/tag';
 	import Pin from '~icons/mdi/pin';
 
-	import { settings } from '$lib/stores/settings.js';
+	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
 	let { data } = $props();
-
-	let views = {
-		'card': Card,
-		'compact': Compact,
-		'tiny': Tiny
-	}
-
-	let selected = $derived(views[$settings.get('view')]);
 
 	let posts = (
 		$state(data.posts
@@ -210,7 +198,8 @@
 	<div class="pinned">
 		<h3 class="mb-2"><Pin /> Pinned</h3>
 		{#each data.pinned as post (post.hid)}
-			<Compact obj={post} objType="posts" />
+			{@const SvelteComponent = VIEWS.compact}
+			<SvelteComponent obj={post} objType="posts" />
 		{/each}
 	</div>
 
@@ -219,7 +208,7 @@
 
 {#if posts?.length > 0}
 	{#each posts as post (post.hid)}
-		{@const SvelteComponent = selected ?? Card}
+		{@const SvelteComponent = view.value ?? VIEWS.card}
 		<SvelteComponent obj={post} objType="posts" />
 	{/each}
 {:else if searching && all.length > 0}

@@ -1,6 +1,10 @@
 <script>
 	import { formatDate } from '$lib/utils';
 
+	import {
+		Button
+	} from 'flowbite-svelte';
+
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
 	let { obj, deleteObj, objType } = $props();
 
@@ -17,7 +21,7 @@
 	hover:bg-gray-200 dark:hover:bg-gray-700
 	border border-gray-200 dark:border-gray-700
 	shadow-gray-400 shadow-md dark:shadow-none
-	hover:-translate-y-2
+	hover:-translate-y-1
 	transition-all
 	flex flex-col items-center justify-center px-2 rounded-lg mb-2
 	cursor-pointer
@@ -46,8 +50,8 @@
 	</div>
 	{#if deleteObj}
 	<div class="proj-buttons">
-		<a class="link-button" target="_blank" href={`/admin/${objType}/edit/${obj.hid}`}>edit</a>
-		<button>delete</button>
+		<Button color="alternative">edit</Button>
+		<Button color="alternative">delete</Button>
 	</div>
 	{/if}
 </a>

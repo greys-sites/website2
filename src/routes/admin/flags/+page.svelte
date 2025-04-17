@@ -2,65 +2,14 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 
-	import Card from '$lib/components/posts/card.svelte';
-	import Compact from '$lib/components/posts/compact.svelte';
+	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
 	let { data } = $props();
 
-	let views = {
-		'card': Card,
-		'compact': Compact
-	}
-
-	let selected = (
-		$derived(views[data?.settings?.view_type] ??
-		views['card'])
-	);
-
 	let loading;
 	let error;
 	async function deleteFlag(hid) {
-		// loading = true;
-		try {
-			var d = await fetch('/admin/api/flags/delete', {
-				method: "POST",
-				body: JSON.stringify({ hid })
-			})
-		} catch(e) {
-			console.log(e);
-			closeAll()
-			addToast({
-				type: 'error',
-				message: e,
-				canClose: true,
-				timeout: 5000
-			});
-			return;
-		}
-
-		invalidateAll()
-		closeAll()
-		if(d) {
-			switch(d.status) {
-				case 200:
-					addToast({
-						type: 'success',
-						message: 'Flag deleted!',
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-				default:
-					addToast({
-						type: 'error',
-						message: `${d.status} - ${d.statusText}`,
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-			}
-		}
 	}
 </script>
 
@@ -74,7 +23,7 @@
 	{#each Object.keys(data.categories) as cat,i (i)}
 		<h2>{cat.length ? cat.toUpperCase() : "UNSORTED"}</h2>
 		{#each data.categories[cat].flags as com (com.hid)}
-			{@const SvelteComponent = selected ?? Card}
+			{@const SvelteComponent = view.value ?? VIEWS.card}
 			<SvelteComponent obj={com} deleteObj={ deleteFlag } objType="flags" />
 		{/each}
 	{/each}

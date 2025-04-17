@@ -10,46 +10,6 @@
 	let loading;
 	let error;
 	async function deleteSupp(hid) {
-		// loading = true;
-		try {
-			var d = await fetch('/admin/api/supporters/delete', {
-				method: "POST",
-				body: JSON.stringify({ hid })
-			})
-		} catch(e) {
-			console.log(e);
-			closeAll()
-			addToast({
-				type: 'error',
-				message: e,
-				canClose: true,
-				timeout: 5000
-			});
-			return;
-		}
-
-		invalidateAll()
-		closeAll()
-		if(d) {
-			switch(d.status) {
-				case 200:
-					addToast({
-						type: 'success',
-						message: 'Supporter deleted!',
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-				default:
-					addToast({
-						type: 'error',
-						message: `${d.status} - ${d.statusText}`,
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-			}
-		}
 	}
 </script>
 

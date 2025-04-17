@@ -1,8 +1,9 @@
 import { fail, redirect } from '@sveltejs/kit';
 
 export async function load({ cookies, fetch }) {
+	console.log(cookies.getAll())
 	var u = cookies.get('user');
-	console.log(u)
+	console.log('user cookie: ', u)
 	if(!u) {
 		return { user: null }
 	}
@@ -22,7 +23,6 @@ export async function load({ cookies, fetch }) {
 		switch(e.response?.status) {
 			case 401:
 			case 404:
-				cookies.delete('user', { path: '/' });
 				d = null;
 				break;
 			default:
@@ -53,7 +53,7 @@ export const actions = {
 
 			if(u?.login) {
 				console.log(u);
-				cookies.set('user', u.login.token, { path: '/' });
+				cookies.set('user', u.login.token, { path: '*' });
 			} else return fail(401, {
 				success: false,
 				status: 401,

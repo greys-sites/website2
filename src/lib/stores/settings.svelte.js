@@ -1,7 +1,7 @@
-import { writable, get } from 'svelte/store';
+import { SvelteMap } from 'svelte/reactivity';
 import { browser } from '$app/environment';
 
-let tmp = new Map();
+let tmp = new SvelteMap();
 if(browser) {
 	if(('settings' in localStorage)) {
 		var item = localStorage.getItem('settings')
@@ -16,16 +16,13 @@ if(browser) {
 	if(!tmp.get('time')) tmp.set('time', '12');
 }
 
-export const settings = writable(tmp);
+export const settings = $state(tmp);
 
 export const update = (setting, value) => {
-	settings.update((st) => {
-		st.set(setting, value);
-		return st;
-	});
+	settings.set(setting, value);
 	
-	if(browser) localStorage.setItem('settings', JSON.stringify(toJSON(get(settings))));
-	if(setting == 'theme') handleThemeChange(get(settings));
+	if(browser) localStorage.setItem('settings', JSON.stringify(toJSON(settings)));
+	if(setting == 'theme') handleThemeChange(settings);
 }
 
 const toJSON = (map) => {

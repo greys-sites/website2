@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, redirect, json } from '@sveltejs/kit';
 
 export async function load({ cookies, fetch }) {
 	var u = cookies.get('user');
@@ -45,4 +45,50 @@ export async function load({ cookies, fetch }) {
 	}
 	console.log("server", categories)
 	return { categories, comics: d, settings };
+}
+
+export const actions = {
+	create: async ({ cookies, request, fetch, locals }) => {
+		var u = cookies.get('user');
+		var fd = await request.formData();
+		var obj = { };
+		var imgn = fd.getAll('img-name');
+		var imgu = fd.getAll('img-url');
+
+		obj.images = imgn.map((x, i) => {
+			return {
+				name: x,
+				url: imgu[i]
+			}
+		})
+
+		var arr = Array.from(fd);
+		for(var e of arr) {
+			if(['img-name', 'img-url'].includes(e[0])) continue;
+
+			obj[e[0]] = e[1];
+		}
+
+		try {
+			var resp = await fetch(`/api/comics`, {
+				headers: {
+					'Authorization': u
+				},
+				body: JSON.stringify(obj),
+				method: 'POST'
+			})
+			resp = await resp.json();
+
+			if(!resp?.message) {
+				return {
+					success: true
+				}
+			};
+		} catch(e) {
+			console.log(e);
+			return {
+				success: false
+			}
+		}
+	}
 }

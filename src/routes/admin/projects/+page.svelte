@@ -4,66 +4,14 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 
-	import Card from '$lib/components/posts/card.svelte';
-	import Compact from '$lib/components/posts/compact.svelte';
+	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
 	let { data } = $props();
 
-	let views = {
-		'card': Card,
-		'compact': Compact
-	}
-
-	let selected = (
-		$derived(views[data?.settings?.view_type] ??
-		views['card'])
-	);
-
 	let loading;
 	let error;
 	async function deleteProject(hid) {
-		loading = true;
-		try {
-			var d = await fetch('/admin/api/projects/delete', {
-				method: "POST",
-				body: JSON.stringify({ hid })
-			})
-		} catch(e) {
-			console.log(e);
-			closeAll()
-			addToast({
-				type: 'error',
-				message: e,
-				canClose: true,
-				timeout: 5000
-			});
-			return;
-		}
-
-		invalidateAll()
-		closeAll()
-		console.log(d);
-		if(d) {
-			switch(d.status) {
-				case 200:
-					addToast({
-						type: 'success',
-						message: 'Project deleted!',
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-				default:
-					addToast({
-						type: 'error',
-						message: `${d.status} - ${d.statusText}`,
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-			}
-		}
 	}
 
 	let categories = $state({});
@@ -75,54 +23,6 @@
 			};
 		} else {
 			categories[p.category].projects.push(p)
-		}
-	}
-
-	run(() => {
-		console.log(categories)
-	});
-
-	async function save() {
-		try {
-			var d = await fetch('/api/settings', {
-				method: "POST",
-				body: JSON.stringify({
-					view_type: selected.name
-				})
-			})
-		} catch(e) {
-			console.log(e);
-			closeAll()
-			addToast({
-				type: 'error',
-				message: e,
-				canClose: true,
-				timeout: 5000
-			});
-			return;
-		}
-
-		invalidateAll()
-		closeAll()
-		if(d) {
-			switch(d.status) {
-				case 200:
-					addToast({
-						type: 'success',
-						message: 'Settings saved!',
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-				default:
-					addToast({
-						type: 'error',
-						message: `${d.status} - ${d.statusText}`,
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-			}
 		}
 	}
 </script>
@@ -137,7 +37,7 @@
 	{#each Object.keys(categories) as cat (cat.name)}
 		<h2>{cat.toUpperCase()}</h2>
 		{#each categories[cat].projects as proj (proj.hid)}
-			{@const SvelteComponent = selected ?? Card}
+			{@const SvelteComponent = view.value ?? VIEWS.card}
 			<SvelteComponent obj={proj} deleteObj={ deleteProject } objType="projects" />
 		{/each}
 	{/each}

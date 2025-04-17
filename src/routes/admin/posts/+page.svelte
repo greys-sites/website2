@@ -2,112 +2,23 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 
-	import Card from '$lib/components/posts/card.svelte';
-	import Compact from '$lib/components/posts/compact.svelte';
-
 	import Pin from '~icons/mdi/pin';
+
+	import { settings } from '$lib/stores/settings.svelte.js';
+	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
 	let { data } = $props();
 
-	let views = {
-		'card': Card,
-		'compact': Compact
-	}
-
-	let selected = (
-		$derived(views[data?.settings?.view_type] ??
-		views['card'])
-	);
+	let fclass = $derived(settings.get('view') == 'tiny' ? 'flex-row' : 'flex-col');
 
 	let loading;
 	let error;
 	async function deletePost(hid) {
 		loading = true;
-		try {
-			var d = await fetch('/admin/api/posts/delete', {
-				method: "POST",
-				body: JSON.stringify({ hid })
-			})
-		} catch(e) {
-			console.log(e);
-			closeAll()
-			addToast({
-				type: 'error',
-				message: e,
-				canClose: true,
-				timeout: 5000
-			});
-			return;
-		}
 
 		invalidateAll()
 		closeAll()
-		console.log(d);
-		if(d) {
-			switch(d.status) {
-				case 200:
-					addToast({
-						type: 'success',
-						message: 'Post deleted!',
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-				default:
-					addToast({
-						type: 'error',
-						message: `${d.status} - ${d.statusText}`,
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-			}
-		}
-	}
-
-	async function save() {
-		try {
-			var d = await fetch('/api/settings', {
-				method: "POST",
-				body: JSON.stringify({
-					view_type: selected.name
-				})
-			})
-		} catch(e) {
-			console.log(e);
-			closeAll()
-			addToast({
-				type: 'error',
-				message: e,
-				canClose: true,
-				timeout: 5000
-			});
-			return;
-		}
-
-		invalidateAll()
-		closeAll()
-		if(d) {
-			switch(d.status) {
-				case 200:
-					addToast({
-						type: 'success',
-						message: 'Settings saved!',
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-				default:
-					addToast({
-						type: 'error',
-						message: `${d.status} - ${d.statusText}`,
-						canClose: true,
-						timeout: 5000
-					})
-					break;
-			}
-		}
 	}
 </script>
 
@@ -121,7 +32,8 @@
 	<div class="pinned">
 		<h3><Pin /> Pinned</h3>
 		{#each data.pinned as post (post.hid)}
-			<Compact obj={post} deleteObj={ deletePost } objType="posts" />
+			{@const SvelteComponent = VIEWS.compact}
+			<SvelteComponent obj={post} deleteObj={ deletePost } objType="posts" />
 		{/each}
 	</div>
 
@@ -129,17 +41,27 @@
 {/if}
 
 {#if data?.drafts?.length}
-	{#each data.drafts as post (post.hid)}
-		{@const SvelteComponent = selected ?? Card}
-		<SvelteComponent obj={ post } deleteObj={ deletePost } objType="posts" />
-	{/each}
+	<h3>Drafts</h3>
+	<div class={
+		'w-full flex items-center justify-center mx-auto ' + fclass
+	}>
+		{#each data.drafts as post (post.hid)}
+			{@const SvelteComponent = view.value ?? VIEWS.card}
+			<SvelteComponent obj={ post } deleteObj={ deletePost } objType="posts" />
+		{/each}
+	</div>
 {/if}
 
 {#if data?.posts?.length}
-	{#each data.posts as post (post.hid)}
-		{@const SvelteComponent_1 = selected ?? Card}
-		<SvelteComponent_1 obj={ post } deleteObj={ deletePost } objType="posts" />
-	{/each}
+	<h3>Posts</h3>
+	<div class={
+		'w-full flex items-center justify-center mx-auto ' + fclass
+	}>
+		{#each data.posts as post (post.hid)}
+			{@const SvelteComponent = view.value ?? VIEWS.card}
+			<SvelteComponent obj={ post } deleteObj={ deletePost } objType="posts" />
+		{/each}
+	</div>
 {/if}
 
 <style>

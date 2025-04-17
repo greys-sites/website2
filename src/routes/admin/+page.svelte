@@ -15,19 +15,17 @@
   {/if}
 </svelte:head>
 
-{#if !data.user}
-<div class="container">
-<form method="POST" action="?/login" use:enhance>
-	<input type="text" placeholder="username" name="username" />
-	<input type="password" placeholder="password" name="password" />
-	<input type="submit" value="submit" />
-</form>
-</div>
-{/if}
-
 {#if data.user}
 	<h1>Admin Page</h1>
 	<h3>Logged in as {data.user.name}</h3>
+{:else}
+    <div class="container">
+      <form method="POST" action="?/login" use:enhance>
+        <input type="text" placeholder="username" name="username" />
+        <input type="password" placeholder="password" name="password" />
+        <input type="submit" value="submit" />
+      </form>
+    </div>
 {/if}
 
 <style>

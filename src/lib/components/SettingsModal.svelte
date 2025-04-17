@@ -14,11 +14,11 @@
     DropdownHeader
   } from 'flowbite-svelte';
   import { enhance } from '$app/forms';
-  import { settings, update } from '$lib/stores/settings';
+  import { settings, update } from '$lib/stores/settings.svelte.js';
 
-  let theme = $derived($settings.get('theme'));
-  let view = $derived($settings.get('view'));
-  let time = $derived($settings.get('time'));
+  let theme = $derived(settings.get('theme'));
+  let view = $derived(settings.get('view'));
+  let time = $derived(settings.get('time'));
 
 	let { open = $bindable(), error } = $props();
 

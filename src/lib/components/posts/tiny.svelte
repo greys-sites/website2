@@ -1,6 +1,10 @@
 <script>
 	import { formatDate } from '$lib/utils';
 
+	import {
+		Button
+	} from 'flowbite-svelte';
+
 	import Edit from '~icons/material-symbols/edit';
 	import Delete from '~icons/material-symbols/delete-rounded';
 
@@ -16,7 +20,7 @@
 	hover:bg-gray-200 dark:hover:bg-gray-700
 	border border-gray-200 dark:border-gray-700
 	shadow-gray-400 shadow-md dark:shadow-none
-	hover:-translate-y-2
+	hover:-translate-y-1
 	transition-all
 	flex flex-col items-center justify-center p-2 rounded-lg mb-2
 	cursor-pointer
@@ -34,67 +38,77 @@
 		{#if objType == "posts"}
 			<div class="post-meta">
 				<p>{formatDate(obj.post_timestamp)}</p>
+				{#if obj.draft}<p class="draft"><em>Draft</em></p>{/if}
 			</div>
 		{/if}
 	</div>
 	{#if deleteObj}
-	<div class="proj-buttons">
-		<a class="link-button" target="_blank" href={`/admin/${objType}/edit/${obj.hid}`}><Edit /></a>
-		<button><Delete /></button>
+	<div class="proj-buttons" onclick={e => e.stopPropagation()}>
+		<Button color="alternative" onclick={e => e.stopPropagation()}><Edit /></Button>
+		<Button color="alternative" onclick={e => e.stopPropagation()}><Delete /></Button>
 	</div>
 	{/if}
 </a>
 
 <style>
-.proj-item {
-	/*width: 25%;*/
-	width: 150px;
-	background: rgba(255, 255, 255, .09);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: .5rem;
-	border-radius: .5rem;
-	margin-right: .5rem;
-}
+	.proj-item {
+		/*width: 25%;*/
+		width: 150px;
+		background: rgba(255, 255, 255, .09);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: .5rem;
+		border-radius: .5rem;
+		margin-right: .5rem;
+	}
 
-.proj-cover {
-	aspect-ratio: 1 / 1;
-	width: 100%;
-	max-width: 150px;
-	height: auto;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	margin: 0;
-	border-radius: 10px;
-}
+	.proj-cover {
+		aspect-ratio: 1 / 1;
+		width: 100%;
+		max-width: 150px;
+		height: auto;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		margin: 0;
+		border-radius: 10px;
+	}
 
-.proj-inner {
-	width: 100%;
-	text-align: center;
-}
+	.proj-inner {
+		width: 100%;
+		text-align: center;
+	}
 
-a {
-	text-decoration: none;
-}
+	.proj-inner p {
+		font-weight: normal;
+	}
 
-h3, p {
-	margin: .5rem 0;
-}
+	a {
+		text-decoration: none;
+	}
 
-.proj-buttons {
-	display: flex;
-	flex-direction: row;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-}
+	h3, p {
+		margin: .5rem 0;
+	}
 
-.proj-buttons > * {
-	margin: 5px;
-	font-size: 16px;
-	cursor: pointer;
-}
+	.proj-buttons {
+		display: flex;
+		flex-direction: row;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.proj-buttons > * {
+		margin: 5px;
+		font-size: 16px;
+		cursor: pointer;
+	}
+
+	.draft {
+		color: var(--accent);
+		opacity: .5;
+	}
 </style>

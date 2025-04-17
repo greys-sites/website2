@@ -11,7 +11,12 @@
 <p>
  Our supporters have stuck with us through thick and thin,
  helping make our dreams of working on our projects full-time come true.
- We appreciate everything they do for us, and this page is for us to show that appreciation {@html twemoji.parse('💜')}
+ We appreciate everything they do for us, and this page is for us to show that appreciation 
+ {@html
+ 	twemoji.parse('💜', {
+		base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
+	})
+}
 </p>
 
 <p style="text-align: center">Here's a list of our current supporters:</p>
