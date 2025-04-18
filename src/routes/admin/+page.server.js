@@ -68,8 +68,11 @@ export const actions = {
 			});
 		}
 	},
-	del: async ({ cookies, request, fetch }) => {
-		var u = cookies.get('user');
+	del: async ({ cookies, request, fetch, locals }) => {
+		var u = locals.user;
+		var tk = cookies.get('user');
+		if(!u) return { success: false, status: 401 };
+
 		var fd = await request.formData();
 		var hid = fd.get('hid');
 		var item = fd.get('type');
@@ -82,19 +85,18 @@ export const actions = {
 				method: 'DELETE'
 			})
 
-			if(resp) {
-				return json({
-					success: true
-				}, { status: 200 })
+			resp = await resp.text();
+
+			if(!resp?.length) {
+				return { success: true }
 			};
 		} catch(e) {
 			console.log(e);
-			return json({
-				success: false
-			}, {
+			return {
+				success: false,
 				status: e.response?.status ?? 400,
 				message: e.response?.statusText ?? "Something went wrong."
-			});
+			};
 		}
 	}
 }

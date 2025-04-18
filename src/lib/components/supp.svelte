@@ -17,26 +17,9 @@
 	/** @type {{obj: any, deleteObj: any, editObj: any}} */
 	let { obj = $bindable(), deleteObj, editObj } = $props();
 
-
-	let editing = $state(false);
-
 	function del(hid) {
 		deleteObj(hid)
 	}
-
-	function editOn() {
-		editing = true;
-	}
-
-	function editOff() {
-		editing = false;
-	}
-
-	$effect(() => {
-		if($page?.form?.data?.hid == obj.hid) {
-			editOff();
-		}
-	})
 </script>
 
 <div class="

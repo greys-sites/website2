@@ -45,8 +45,8 @@
 	</div>
 	{#if deleteObj}
 	<div class="proj-buttons" onclick={e => e.stopPropagation()}>
-		<Button color="alternative" onclick={e => e.stopPropagation()}><Edit /></Button>
-		<Button color="alternative" onclick={e => e.stopPropagation()}><Delete /></Button>
+		<Button color="alternative" size="xs" onclick={e => e.stopPropagation()}><Edit /></Button>
+		<Button color="alternative" size="xs" onclick={e => e.stopPropagation()}><Delete /></Button>
 	</div>
 	{/if}
 </a>
@@ -98,8 +98,8 @@
 		display: flex;
 		flex-direction: row;
 		flex-shrink: 0;
-		align-items: center;
-		justify-content: center;
+		align-items: space-between;
+		justify-content: space-between;
 	}
 
 	.proj-buttons > * {
