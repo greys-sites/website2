@@ -51,11 +51,15 @@
 		{/if}
 	</div>
 	{#if deleteObj}
-	<div class="proj-buttons">
+	<div class="proj-buttons" onclick={(e) => e.stopPropagation()}>
 		<Button color="alternative" size="xs" onclick={() => editOn()}>
 			<Edit />
 		</Button>
-		<Button color="alternative" size="xs"><Delete /></Button>
+		<form use:enhance action='/admin?/del' method="POST">
+				<input type='hidden' name='hid' value={obj.hid} />
+				<input type='hidden' name='type' value='supporters' />
+				<Button color="alternative" size="xs" type="submit"><Delete /></Button>
+			</form>
 	</div>
 	{/if}
 </div>

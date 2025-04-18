@@ -1,4 +1,5 @@
 <script>
+	import { enhance } from '$app/forms';
 	import { formatDate } from '$lib/utils';
 
 	import {
@@ -45,11 +46,11 @@
 	</div>
 	{#if deleteObj}
 		<div class="proj-buttons" onclick={e => e.stopPropagation()}>
-			<Button color="alternative" size="xs"><Edit /></Button>
-			<form use:enhance action='/admin?/del' method="POST">
+			<Button color="alternative" size="xs" class="mr-2"><Edit /></Button>
+			<form use:enhance action='/admin?/del' method="POST" class="m-0 p-0">
 				<input type='hidden' name='hid' value={obj.hid} />
 				<input type='hidden' name='type' value={objType} />
-				<Button color="alternative" size="xs" class="mt-3" type="submit"><Delete /></Button>
+				<Button color="alternative" size="xs" class="ml-2" type="submit"><Delete /></Button>
 			</form>
 		</div>
 	{/if}
@@ -104,12 +105,6 @@
 		flex-shrink: 0;
 		align-items: space-between;
 		justify-content: space-between;
-	}
-
-	.proj-buttons > * {
-		margin: 5px;
-		font-size: 16px;
-		cursor: pointer;
 	}
 
 	.draft {

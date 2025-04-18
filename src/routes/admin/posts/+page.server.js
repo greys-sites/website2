@@ -59,8 +59,9 @@ export const actions = {
 		var arr = Array.from(fd);
 		for(var e of arr) {
 			if(['tags'].includes(e[0])) continue;
-
-			obj[e[0]] = e[1];
+			
+			if(['pinned', 'draft'].includes(e[0])) obj[e[0]] = true;
+			else obj[e[0]] = e[1];
 		}
 
 		var ptags = fd.getAll('tags')
@@ -97,6 +98,80 @@ export const actions = {
 				},
 				body: JSON.stringify(obj),
 				method: 'POST'
+			})
+			resp = await resp.json();
+
+			if(!resp?.message) {
+				return {
+					success: true
+				}
+			};
+		} catch(e) {
+			console.log(e);
+			return {
+				success: false
+			}
+		}
+	},
+	edit: async ({ cookies, request, fetch, locals }) => {
+		var u = locals.user;
+		var tk = cookies.get('user');
+		if(!u) return { success: false, status: 401 };
+
+		var fd = await request.formData();
+		var obj = { };
+		
+		var tags = await fetch('/api/tags', {
+			headers: {
+				'Authorization': tk
+			}
+		});
+		tags = await tags.json();
+		if(!tags?.length) tags = [];
+
+		var arr = Array.from(fd);
+		for(var e of arr) {
+			if(['tags'].includes(e[0])) continue;
+
+			if(['pinned', 'draft'].includes(e[0])) obj[e[0]] = true;
+			else obj[e[0]] = e[1];
+		}
+
+		var ptags = fd.getAll('tags')
+			.map(x => x.toLowerCase().trim())
+			.filter(x => x?.length);
+
+		var toCreate = [];
+		var tids = [];
+		for(var t of ptags) {
+			var ex = tags.find(x => x.name == t);
+			if(ex && !tids.includes(ex.hid)) tids.push(ex.hid);
+			else if(!ex && !toCreate.includes(t)) toCreate.push(t);
+		}
+		
+		if(toCreate.length) {
+			var tresp = await fetch(
+				`/api/tags/bulk`,
+				{
+					body: JSON.stringify(toCreate.map(x => ({ name: x}))),
+					headers: { 'Authorization': u },
+					method: 'POST'
+				}
+			)
+			var td = await tresp.json();
+			tid = tid.concat(td.tags.map(x => x.hid));
+		}
+
+		obj.tags = tids;
+		console.log(obj)
+
+		try {
+			var resp = await fetch(`/api/posts/${obj.hid}`, {
+				headers: {
+					'Authorization': tk
+				},
+				body: JSON.stringify(obj),
+				method: 'PATCH'
 			})
 			resp = await resp.json();
 
