@@ -49,7 +49,11 @@ export async function load({ cookies, fetch }) {
 
 export const actions = {
 	create: async ({ cookies, request, fetch, locals }) => {
-		var u = cookies.get('user');
+		var u = locals.user;
+		var tk = cookies.get('user');
+		console.log(u);
+		if(!u) return { success: false, status: 401 };
+
 		var fd = await request.formData();
 		var obj = { };
 		var imgn = fd.getAll('img-name');
@@ -72,7 +76,7 @@ export const actions = {
 		try {
 			var resp = await fetch(`/api/comics`, {
 				headers: {
-					'Authorization': u
+					'Authorization': tk
 				},
 				body: JSON.stringify(obj),
 				method: 'POST'

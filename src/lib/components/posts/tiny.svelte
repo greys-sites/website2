@@ -25,6 +25,7 @@
 	flex flex-col items-center justify-center p-2 rounded-lg mb-2
 	cursor-pointer
 	no-underline hover:no-underline
+	mx-2
 " href={`/${apiUrl}/${obj.hid}`}>
 	{#if obj.thumbnail?.length}
 		<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` }></div>

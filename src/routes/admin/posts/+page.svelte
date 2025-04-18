@@ -2,6 +2,15 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 
+	import {
+		Modal,
+		Input,
+		Textarea,
+		Toggle,
+		Button,
+		Label
+	} from 'flowbite-svelte';
+
 	import Pin from '~icons/mdi/pin';
 
 	import { settings } from '$lib/stores/settings.svelte.js';
@@ -20,13 +29,45 @@
 		invalidateAll()
 		closeAll()
 	}
+
+	let open = $state(false);
+
+	let stags = $state([]);
+
+	let tinput = $state('');
+	let released = $state(true);
+
+	function remove(ind) {
+		stags = stags.filter((x, i) => i !== ind);
+	}
+
+	function handleKeys(e) {
+		switch(e.key) {
+			case "Enter":
+			case ",":
+				e.preventDefault();
+				if(tinput?.length) {
+					stags = [...stags, tinput];
+					tinput = '';
+				}
+				break;
+			case "Backspace":
+				if(!tinput?.length && stags.length && released) {
+					e.preventDefault();
+					tinput = stags[stags.length - 1];
+					stags = stags.slice(0, stags.length - 1);
+					released = false;
+				} else if(tinput.length) released = false;
+				break;
+		}
+	}
 </script>
 
 <h1>Posts</h1>
 
-<a class="post-item" href="/admin/posts/create" style="color: white">
-	<h3>+ Add New</h3>
-</a>
+<Button color="alternative" onclick={() => open = true}>
+	+ Add New
+</Button>
 
 {#if data?.pinned?.length}
 	<div class="pinned">
@@ -63,6 +104,48 @@
 		{/each}
 	</div>
 {/if}
+
+<Modal title="Create Post" bind:open size="sm" autoclose={false}>
+	<form method="POST" action="/admin/posts?/create" use:enhance class="flex flex-col space-y-6">
+		<Input type="text" id="title" name="title" placeholder="Title" />
+		<Input type="text" id="hid" name="hid" placeholder="Slug" />
+		<Input type="text" id="short" name="short" placeholder="Short text" />
+		<Input type="text" id="cover_url" name="cover_url" placeholder="Cover image"/>
+		<Textarea rows=10 id="body" name="body" placeholder="Body"></Textarea>
+		<div class="tags">
+			<Input
+				type="text"
+				id="tags-input"
+				bind:value={tinput}
+				on:keydown={handleKeys}
+				on:keyup={() => released = true}
+				placeholder={!stags.length ? "Enter tags..." : ""}
+				class="mb-2"
+			/>
+			{#if stags.length}
+				{#each stags as st,_ (_)}
+					<input
+						type="hidden"
+						name="tags"
+						value={st}
+					/>
+					<Button color="alternative" size="xs" on:click={() => remove(_)} on:keypress={() => remove(_)}>
+						{st}
+					</Button> 
+				{/each}
+			{/if}
+		</div>
+		<div class="flex flex-row w-full justify-between">
+			<Label for="pinned">Pinned?</Label>
+			<Toggle name="pinned"/>
+		</div>
+		<div class="flex flex-row w-full justify-between">
+			<Label for="draft">Save as draft?</Label>
+			<Toggle name="draft"/>
+		</div>
+		<Button type="submit">Submit</Button>
+	</form>
+</Modal>
 
 <style>
 .post-item {

@@ -67,22 +67,40 @@ export const actions = {
 		return { success: true, data: res };
 	},
 
-	create: async ({ cookies, request, fetch }) => {
-		var data = await request.formData();
-		var u = cookies.get('user');
-		var name = data.get('name');
-		var link = data.get('link');
-		
-		var resp = await fetch(`/api/supporters`, {
-			headers: { 'Authorization': u },
-			body: JSON.stringify({
-				name,
-				link
-			}),
-			method: 'POST'
-		})
-		resp = await resp.json();
+	create: async ({ cookies, request, fetch, locals }) => {
+		var u = locals.user;
+		var tk = cookies.get('user');
+		console.log(u);
+		if(!u) return { success: false, status: 401 };
 
-		return { success: true, hid: resp.hid}
+		var fd = await request.formData();
+		var obj = { };
+
+		var arr = Array.from(fd);
+		for(var e of arr) {
+			obj[e[0]] = e[1];
+		}
+		
+		try {
+			var resp = await fetch(`/api/supporters`, {
+				headers: {
+					'Authorization': tk
+				},
+				body: JSON.stringify(obj),
+				method: 'POST'
+			})
+			resp = await resp.json();
+
+			if(!resp?.message) {
+				return {
+					success: true
+				}
+			};
+		} catch(e) {
+			console.log(e);
+			return {
+				success: false
+			}
+		}
 	}
 }

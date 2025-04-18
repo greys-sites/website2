@@ -61,7 +61,7 @@
 		<Input type="text" id="thumbnail" name="thumbnail" placeholder="Thumbnail url"/>
 		<Input type="text" id="story" name="story" placeholder="Story"/>
 		<div class="img-setup">
-			<div class="w-full text-center">
+			<div class="w-full flex flex-row justify-between">
 				<Button type="button" size="xs" color="alternative" on:click={addImg} on:keypress={addImg}>
 					<Plus />
 				</Button>

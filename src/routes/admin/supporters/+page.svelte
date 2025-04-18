@@ -2,6 +2,15 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize, enhance } from '$app/forms';
 
+	import {
+		Modal,
+		Input,
+		Textarea,
+		Toggle,
+		Button,
+		Label
+	} from 'flowbite-svelte';
+
 	import Supp from '$lib/components/Supp.svelte';
 	
 	/** @type {{data: any}} */
@@ -11,24 +20,29 @@
 	let error;
 	async function deleteSupp(hid) {
 	}
+
+	let open = $state(false);
 </script>
 
 <h1>Supporters</h1>
 
-<div class="post-item">
-	<h3>Add New</h3>
-	<form action="?/create" method="POST" use:enhance>
-		<input type="text" name="name" placeholder="Name" />
-		<input type="text" name="link" placeholder="Link" />
-		<input type="submit" value="submit" />
-	</form>
-</div>
+<Button color="alternative" onclick={() => open = true}>
+	+ Add New
+</Button>
 
 {#if data?.supporters}
 	{#each data.supporters as sup (sup.hid)}
 		<Supp obj={sup} deleteObj={ deleteSupp }  />
 	{/each}
 {/if}
+
+<Modal title="Add Supporter" bind:open size="sm" autoclose={false}>
+	<form method="POST" action="/admin/supporters?/create" use:enhance class="flex flex-col space-y-6">
+		<Input type="text" id="name" name="name" placeholder="Name" />
+		<Input type="text" id="link" name="link" placeholder="Link" />
+		<Button type="submit">Submit</Button>
+	</form>
+</Modal>
 
 <style>
 .post-item {

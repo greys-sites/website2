@@ -4,6 +4,15 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 
+	import {
+		Modal,
+		Input,
+		Textarea,
+		Toggle,
+		Button,
+		Label
+	} from 'flowbite-svelte';
+
 	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
@@ -25,13 +34,15 @@
 			categories[p.category].projects.push(p)
 		}
 	}
+
+	let open = $state(false);
 </script>
 
 <h1>Projects</h1>
 
-<a class="proj-item" href="/admin/projects/create" style="color: white">
-	<h3>+ Add New</h3>
-</a>
+<Button color="alternative" onclick={() => open = true}>
+	+ Add New
+</Button>
 
 {#if data?.projects?.length}
 	{#each Object.keys(categories) as cat (cat.name)}
@@ -43,20 +54,23 @@
 	{/each}
 {/if}
 
-<style>
-.proj-item {
-	width: 90%;
-	max-width: 700px;
-	background: rgba(255, 255, 255, .09);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 .5rem;
-	border-radius: .5rem;
-	margin-bottom: .5rem;
-}
+<Modal title="Create Project" bind:open size="sm" autoclose={false}>
+	<form method="POST" action="/admin/projects?/create" use:enhance class="flex flex-col space-y-6">
+		<Input type="text" id="name" name="name" placeholder="Name" />
+		<Input type="text" id="hid" name="hid" placeholder="Slug" />
+		<Input type="text" id="short" name="short" placeholder="Short text" />
+		<Input type="text" id="cover_url" name="cover_url" placeholder="Cover image"/>
+		<Input type="text" id="category" name="category" placeholder="Category"/>
+		<Textarea rows=10 id="description" name="description" placeholder="Description"></Textarea>
+		<div class="flex flex-row w-full justify-between">
+			<Label for="featured">Featured?</Label>
+			<Toggle name="featured"/>
+		</div>
+		<Button type="submit">Submit</Button>
+	</form>
+</Modal>
 
+<style>
 a {
 	text-decoration: none;
 }

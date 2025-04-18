@@ -6,6 +6,10 @@
 	import { marked } from 'marked';
 	import insane from 'insane';
 	import twemoji from 'twemoji';
+
+	import {
+		Button
+	} from 'flowbite-svelte';
 	
 	import Edit from '~icons/material-symbols/edit';
 	import Delete from '~icons/material-symbols/delete-rounded';
@@ -35,83 +39,45 @@
 	})
 </script>
 
-<div class="proj-item">
-	{#if editing}
-		<form action="/admin/supporters?/edit" method="POST" use:enhance>
-			<input type="text" name="name" placeholder="Name" bind:value={obj.name} />
-			<input type="text" name="link" placeholder="Link" bind:value={obj.link} />
-			<input type="hidden" name="hid" bind:value={obj.hid} />
-			<input type="submit" value="save">
-		</form>
-	{:else}
-		{#if obj.image?.length}
-			<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` }></div>
-		{/if}
-		<div class="proj-inner">
-			<h3>{@html (
-				twemoji.parse(
-					insane(
-						obj.name
-					), {
-						base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
-					}
-				)
-			)}</h3>
-			{#if obj.link?.length}
-				<a href={obj.link} target="_blank">
-					link
-				</a>
-			{/if}
-		</div>
-		{#if deleteObj}
-		<div class="proj-buttons">
-			<button onclick={() => editOn()}>
-				<Edit />
-			</button>
-			<button onclick={() => addModal({
-				title: "Delete item",
-				message: "Do you want to delete this item?",
-				type: "confirm",
-				onConfirm: () => {
-					addModal({
-						title: "Are you sure?",
-						message: "This action can't be undone.",
-						type: "confirm",
-						onConfirm: () => del(obj.hid)
-					})
+<div class="
+	w-9/10 max-w-[700px]
+	bg-white dark:bg-gray-800
+	hover:bg-gray-200 dark:hover:bg-gray-700
+	border border-gray-200 dark:border-gray-700
+	shadow-gray-400 shadow-md dark:shadow-none
+	hover:-translate-y-1
+	transition-all
+	flex flex-row items-center justify-around p-2 rounded-lg m-2
+	cursor-pointer
+	no-underline hover:no-underline
+">
+	<div class="proj-inner">
+		<h3>{@html (
+			twemoji.parse(
+				insane(
+					obj.name
+				), {
+					base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/"
 				}
-			})}><Delete /></button>
-		</div>
+			)
+		)}</h3>
+		{#if obj.link?.length}
+			<a href={obj.link} target="_blank">
+				link
+			</a>
 		{/if}
+	</div>
+	{#if deleteObj}
+	<div class="proj-buttons">
+		<Button color="alternative" size="xs" onclick={() => editOn()}>
+			<Edit />
+		</Button>
+		<Button color="alternative" size="xs"><Delete /></Button>
+	</div>
 	{/if}
 </div>
 
 <style>
-.proj-item {
-	width: 90%;
-	max-width: 700px;
-	background: rgba(255, 255, 255, .09);
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-around;
-	padding: .5rem;
-	border-radius: .5rem;
-	margin-bottom: .5rem;
-}
-
-.proj-cover {
-	aspect-ratio: 1 / 1;
-	width: 30%;
-	max-width: 100px;
-	height: auto;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	margin: 0 10px 0 0;
-	border-radius: 10px;
-}
-
 .proj-inner {
 	width: 100%;
 	margin: 0;

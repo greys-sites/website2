@@ -46,3 +46,53 @@ export async function load({ cookies, fetch }) {
 	console.log("server", categories)
 	return { categories, flags: d, settings };
 }
+
+export const actions = {
+	create: async ({ cookies, request, fetch, locals }) => {
+		var u = locals.user;
+		var tk = cookies.get('user');
+		console.log(u);
+		if(!u) return { success: false, status: 401 };
+
+		var fd = await request.formData();
+		var obj = { };
+		var imgn = fd.getAll('img-name');
+		var imgu = fd.getAll('img-url');
+
+		obj.images = imgn.map((x, i) => {
+			return {
+				name: x,
+				url: imgu[i]
+			}
+		})
+
+		var arr = Array.from(fd);
+		for(var e of arr) {
+			if(['img-name', 'img-url'].includes(e[0])) continue;
+
+			obj[e[0]] = e[1];
+		}
+
+		try {
+			var resp = await fetch(`/api/flags`, {
+				headers: {
+					'Authorization': tk
+				},
+				body: JSON.stringify(obj),
+				method: 'POST'
+			})
+			resp = await resp.json();
+
+			if(!resp?.message) {
+				return {
+					success: true
+				}
+			};
+		} catch(e) {
+			console.log(e);
+			return {
+				success: false
+			}
+		}
+	}
+}

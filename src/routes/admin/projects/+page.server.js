@@ -36,3 +36,42 @@ export async function load({ cookies, fetch }) {
 
 	return { projects: d, settings };
 }
+
+export const actions = {
+	create: async ({ cookies, request, fetch, locals }) => {
+		var u = locals.user;
+		var tk = cookies.get('user');
+		console.log(u);
+		if(!u) return { success: false, status: 401 };
+
+		var fd = await request.formData();
+		var obj = { };
+
+		var arr = Array.from(fd);
+		for(var e of arr) {
+			obj[e[0]] = e[1];
+		}
+
+		try {
+			var resp = await fetch(`/api/projects`, {
+				headers: {
+					'Authorization': tk
+				},
+				body: JSON.stringify(obj),
+				method: 'POST'
+			})
+			resp = await resp.json();
+
+			if(!resp?.message) {
+				return {
+					success: true
+				}
+			};
+		} catch(e) {
+			console.log(e);
+			return {
+				success: false
+			}
+		}
+	}
+}

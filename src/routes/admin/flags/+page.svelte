@@ -2,6 +2,17 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 
+	import {
+		Modal,
+		Input,
+		Textarea,
+		Toggle,
+		Button
+	} from 'flowbite-svelte';
+
+	import Plus from '~icons/material-symbols/add-box-rounded';
+	import Minus from '~icons/material-symbols/indeterminate-check-box-rounded';
+
 	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
@@ -11,13 +22,26 @@
 	let error;
 	async function deleteFlag(hid) {
 	}
+
+	let open = $state(false);
+
+	let imgCount = $state(1);
+
+	function addImg() {
+		imgCount += 1;
+	}
+
+	function subImg() {
+		imgCount -= 1;
+		if(imgCount < 1) imgCount = 1;
+	}
 </script>
 
 <h1>Flags</h1>
 
-<a class="post-item" href="/admin/flags/create" style="color: white">
-	<h3>+ Add New</h3>
-</a>
+<Button class="" color="alternative" onclick={() => open = true}>
+	+ Add New
+</Button>
 
 {#if data?.categories}
 	{#each Object.keys(data.categories) as cat,i (i)}
@@ -28,6 +52,33 @@
 		{/each}
 	{/each}
 {/if}
+
+<Modal title="Create Flag" bind:open size="sm" autoclose={false}>
+	<form method="POST" action="/admin/flags?/create" use:enhance class="flex flex-col space-y-6">
+		<Input type="text" id="name" name="name" placeholder="Name" />
+		<Input type="text" id="hid" name="hid" placeholder="hid" />
+		<Input type="text" id="thumbnail" name="thumbnail" placeholder="Thumbnail url"/>
+		<Input type="text" id="category" name="category" placeholder="Category"/>
+		<div class="img-setup">
+			<div class="w-full flex flex-row justify-between">
+				<Button type="button" size="xs" color="alternative" on:click={addImg} on:keypress={addImg}>
+					<Plus />
+				</Button>
+				<Button type="button" size="xs" color="alternative" on:click={subImg} on:keypress={subImg}>
+					<Minus />
+				</Button>
+			</div>
+			{#each { length: imgCount } as _, i (i)}
+				<div class="my-2 flex flex-row">
+					<Input type="text" name="img-name" placeholder="image name" />
+					<Input type="text" name="img-url" placeholder="image url" />
+				</div>
+			{/each}
+		</div>
+		<Textarea rows=10 id="description" name="description" placeholder="Description"></Textarea>
+		<Button type="submit">Submit</Button>
+	</form>
+</Modal>
 
 <style>
 .post-item {

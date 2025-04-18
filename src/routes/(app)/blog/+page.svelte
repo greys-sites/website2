@@ -9,10 +9,13 @@
 	import Tag from '~icons/majesticons/tag';
 	import Pin from '~icons/mdi/pin';
 
+	import { settings } from '$lib/stores/settings.svelte.js';
 	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
 	let { data } = $props();
+
+	let fclass = $derived(settings.get('view') == 'tiny' ? 'flex-row' : 'flex-col');
 
 	let posts = (
 		$state(data.posts
@@ -207,10 +210,14 @@
 {/if}
 
 {#if posts?.length > 0}
-	{#each posts as post (post.hid)}
-		{@const SvelteComponent = view.value ?? VIEWS.card}
-		<SvelteComponent obj={post} objType="posts" />
-	{/each}
+	<div class={
+		'w-full flex items-center justify-center mx-auto ' + fclass
+	}>
+		{#each posts as post (post.hid)}
+			{@const SvelteComponent = view.value ?? VIEWS.card}
+			<SvelteComponent obj={post} objType="posts" />
+		{/each}
+	</div>
 {:else if searching && all.length > 0}
 	<h3>No posts matched your search :(</h3>
 {:else}
