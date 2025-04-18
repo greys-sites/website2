@@ -49,10 +49,14 @@
 		{#if obj.draft}<p class="draft"><em>Draft</em></p>{/if}
 	</div>
 	{#if deleteObj}
-	<div class="proj-buttons">
-		<Button color="alternative">edit</Button>
-		<Button color="alternative">delete</Button>
-	</div>
+		<div class="proj-buttons">
+			<Button color="alternative">Edit</Button>
+			<form use:enhance action='/admin?/del' method="POST">
+				<input type='hidden' name='hid' value={obj.hid} />
+				<input type='hidden' name='type' value={objType} />
+				<Button color="alternative" size="xs" class="mt-3" type="submit">Delete</Button>
+			</form>
+		</div>
 	{/if}
 </a>
 
