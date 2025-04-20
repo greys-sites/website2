@@ -7,7 +7,8 @@
 		Input,
 		Textarea,
 		Toggle,
-		Button
+		Button,
+		Toast
 	} from 'flowbite-svelte';
 
 	import Plus from '~icons/material-symbols/add-box-rounded';
@@ -16,14 +17,18 @@
 	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
-	let { data } = $props();
+	let { data, form } = $props();
 
 	let loading;
-	let error;
 	async function deleteFlag(hid) {
 	}
 
 	let open = $state(false);
+	let editing = $state(false);
+	let editObj = $state(null);
+	let toast = $state(false);
+	let msg = $state('');
+	let error = $state(null);
 
 	let imgCount = $state(1);
 
@@ -35,6 +40,23 @@
 		imgCount -= 1;
 		if(imgCount < 1) imgCount = 1;
 	}
+
+	let startEdit = (obj) => {
+		editing = true;
+		editObj = obj;
+		imgCount = obj.images?.length ?? 1;
+	}
+
+	$effect(() => {
+		if(form?.success) {
+			open = false;
+			editing = false;
+			imgCount = 1;
+			toast = true;
+			msg = form.type;
+			setTimeout(() => toast = false, 5_000);
+		}
+	})
 </script>
 
 <Toast bind:toastStatus={toast} color="green" position="top-right" class="top-16 lg:right-66 lg:top-4" >
@@ -56,7 +78,7 @@
 		}>
 			{#each data.categories[cat].flags as com (com.hid)}
 				{@const SvelteComponent = view.value ?? VIEWS.card}
-				<SvelteComponent obj={com} deleteObj={ deleteFlag } objType="flags" />
+				<SvelteComponent obj={com} deleteObj={ deleteFlag } editObj={startEdit} objType="flags" />
 			{/each}
 		</div>
 	{/each}
@@ -85,6 +107,33 @@
 			{/each}
 		</div>
 		<Textarea rows=10 id="description" name="description" placeholder="Description"></Textarea>
+		<Button type="submit">Submit</Button>
+	</form>
+</Modal>
+
+<Modal title="Edit Flag" bind:open={editing} size="sm" autoclose={false}>
+	<form method="POST" action="/admin/flags?/edit" use:enhance class="flex flex-col space-y-6">
+		<Input type="text" id="name" name="name" placeholder="Name" value={editObj.name} />
+		<Input type="text" id="hid" name="hid" placeholder="hid" value={editObj.hid} />
+		<Input type="text" id="thumbnail" name="thumbnail" placeholder="Thumbnail url" value={editObj.thumbnail} />
+		<Input type="text" id="category" name="category" placeholder="Category" value={editObj.category} />
+		<div class="img-setup">
+			<div class="w-full flex flex-row justify-between">
+				<Button type="button" size="xs" color="alternative" on:click={addImg} on:keypress={addImg}>
+					<Plus />
+				</Button>
+				<Button type="button" size="xs" color="alternative" on:click={subImg} on:keypress={subImg}>
+					<Minus />
+				</Button>
+			</div>
+			{#each { length: imgCount } as _, i (i)}
+				<div class="my-2 flex flex-row">
+					<Input type="text" name="img-name" placeholder="image name" value={editObj.images?.[i]?.name} />
+					<Input type="text" name="img-url" placeholder="image url" value={editObj.images?.[i]?.url} />
+				</div>
+			{/each}
+		</div>
+		<Textarea rows=10 id="description" name="description" placeholder="Description" value={editObj.description}></Textarea>
 		<Button type="submit">Submit</Button>
 	</form>
 </Modal>

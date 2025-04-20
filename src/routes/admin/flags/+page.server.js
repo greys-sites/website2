@@ -85,7 +85,8 @@ export const actions = {
 
 			if(!resp?.message) {
 				return {
-					success: true
+					success: true,
+					type: 'created'
 				}
 			};
 		} catch(e) {
@@ -94,5 +95,53 @@ export const actions = {
 				success: false
 			}
 		}
-	}
+	},
+	edit: async ({ cookies, request, fetch, locals }) => {
+		var u = locals.user;
+		var tk = cookies.get('user');
+		console.log(u);
+		if(!u) return { success: false, status: 401 };
+
+		var fd = await request.formData();
+		var obj = { };
+		var imgn = fd.getAll('img-name');
+		var imgu = fd.getAll('img-url');
+
+		obj.images = imgn.map((x, i) => {
+			return {
+				name: x,
+				url: imgu[i]
+			}
+		})
+
+		var arr = Array.from(fd);
+		for(var e of arr) {
+			if(['img-name', 'img-url'].includes(e[0])) continue;
+
+			obj[e[0]] = e[1];
+		}
+
+		try {
+			var resp = await fetch(`/api/flags/${obj.hid}`, {
+				headers: {
+					'Authorization': tk
+				},
+				body: JSON.stringify(obj),
+				method: 'PATCH'
+			})
+			resp = await resp.json();
+
+			if(!resp?.message) {
+				return {
+					success: true,
+					type: 'edited'
+				}
+			};
+		} catch(e) {
+			console.log(e);
+			return {
+				success: false
+			}
+		}
+	},
 }

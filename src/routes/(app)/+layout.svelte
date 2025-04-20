@@ -347,11 +347,7 @@
 		overflow-auto
 		mx-auto w-full
 	">
-		{#if view?.value}	
-			{@render children?.()}
-		{:else}
-			<Spinner />
-		{/if}
+		{@render children?.()}
 	</div>
 </div>
 
