@@ -10,7 +10,7 @@
 	import Delete from '~icons/material-symbols/delete-rounded';
 
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
-	let { obj, deleteObj, objType } = $props();
+	let { obj, deleteObj, objType, editObj } = $props();
 
 	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
 </script>
@@ -44,12 +44,15 @@
 		{/if}
 	</div>
 	{#if deleteObj}
-		<div class="proj-buttons" onclick={e => e.stopPropagation()}>
-			<Button color="alternative" size="xs" class="mr-2"><Edit /></Button>
-			<form use:enhance action='/admin?/del' method="POST" class="m-0 p-0">
+		<div class="proj-buttons" onclick={(e) => { e.stopPropagation(); }}>
+			<Button color="alternative" size="xs" class="mr-3" onclick={(e) => {
+				e.preventDefault();
+				editObj(obj)
+			}}><Edit /></Button>
+			<form use:enhance action='/admin?/del' method="POST">
 				<input type='hidden' name='hid' value={obj.hid} />
 				<input type='hidden' name='type' value={objType} />
-				<Button color="alternative" size="xs" class="ml-2" type="submit"><Delete /></Button>
+				<Button color="alternative" size="xs" class="ml-3" type="submit"><Delete /></Button>
 			</form>
 		</div>
 	{/if}

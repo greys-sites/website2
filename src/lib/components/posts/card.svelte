@@ -7,7 +7,7 @@
 	} from 'flowbite-svelte';
 
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
-	let { obj, deleteObj, objType } = $props();
+	let { obj, deleteObj, objType, editObj } = $props();
 
 	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
 
@@ -50,12 +50,15 @@
 		{#if obj.draft}<p class="draft"><em>Draft</em></p>{/if}
 	</div>
 	{#if deleteObj}
-		<div class="proj-buttons" onclick={e => e.stopPropagation()}>
-			<Button color="alternative" class="mr-4">Edit</Button>
-			<form use:enhance action='/admin?/del' method="POST" class="m-0 p-0">
+		<div class="proj-buttons mb-2" onclick={(e) => { e.stopPropagation(); }}>
+			<Button color="alternative" size="xs" class="mr-4" onclick={(e) => {
+				e.preventDefault();
+				editObj(obj)
+			}}>EDIT</Button>
+			<form use:enhance action='/admin?/del' method="POST">
 				<input type='hidden' name='hid' value={obj.hid} />
 				<input type='hidden' name='type' value={objType} />
-				<Button color="alternative" class="ml-4" type="submit">Delete</Button>
+				<Button color="alternative" size="xs" class="ml-4" type="submit">DELETE</Button>
 			</form>
 		</div>
 	{/if}
