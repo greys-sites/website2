@@ -86,7 +86,7 @@
 	})
 </script>
 
-<Toast bind:toastStatus={toast} color="green" position="top-right" >
+<Toast bind:toastStatus={toast} color="green" position="top-right" class="top-16 lg:right-66 lg:top-4" >
 	<Check slot='icon' />
 	Post successfully {msg}!
 </Toast>

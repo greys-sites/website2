@@ -7,11 +7,13 @@
 		Input,
 		Textarea,
 		Toggle,
-		Button
+		Button,
+		Toast
 	} from 'flowbite-svelte';
 
 	import Plus from '~icons/material-symbols/add-box-rounded';
 	import Minus from '~icons/material-symbols/indeterminate-check-box-rounded';
+	import Check from '~icons/material-symbols/check-circle-rounded';
 
 	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
@@ -19,11 +21,15 @@
 	let { data } = $props();
 
 	let loading;
-	let error;
 	async function deleteComic(hid) {
 	}
 
 	let open = $state(false);
+	let editing = $state(false);
+	let editObj = $state(null);
+	let toast = $state(false);
+	let msg = $state('');
+	let error = $state(null);
 
 	let imgCount = $state(1);
 
@@ -35,7 +41,28 @@
 		imgCount -= 1;
 		if(imgCount < 1) imgCount = 1;
 	}
+
+	let startEdit = (obj) => {
+		editing = true;
+		editObj = obj;
+		stags = obj.full_tags?.map(x => x.name) ?? [];
+	}
+
+	$effect(() => {
+		if(form?.success) {
+			open = false;
+			editing = false;
+			toast = true;
+			msg = form.type;
+			setTimeout(() => toast = false, 5_000);
+		}
+	})
 </script>
+
+<Toast bind:toastStatus={toast} color="green" position="top-right" class="top-16 lg:right-66 lg:top-4" >
+	<Check slot='icon' />
+	Post successfully {msg}!
+</Toast>
 
 <h1>Comics</h1>
 
@@ -58,6 +85,34 @@
 {/if}
 
 <Modal title="Create Comic" bind:open size="sm" autoclose={false}>
+	<form method="POST" action="/admin/comics?/create" use:enhance class="flex flex-col space-y-6">
+		<Input type="text" id="name" name="name" placeholder="Name" />
+		<Input type="text" id="hid" name="hid" placeholder="hid" />
+		<Input type="text" id="tagline" name="tagline" placeholder="Tagline text" />
+		<Input type="text" id="thumbnail" name="thumbnail" placeholder="Thumbnail url"/>
+		<Input type="text" id="story" name="story" placeholder="Story"/>
+		<div class="img-setup">
+			<div class="w-full flex flex-row justify-between">
+				<Button type="button" size="xs" color="alternative" on:click={addImg} on:keypress={addImg}>
+					<Plus />
+				</Button>
+				<Button type="button" size="xs" color="alternative" on:click={subImg} on:keypress={subImg}>
+					<Minus />
+				</Button>
+			</div>
+			{#each { length: imgCount } as _, i (i)}
+				<div class="my-2 flex flex-row">
+					<Input type="text" name="img-name" placeholder="image name" />
+					<Input type="text" name="img-url" placeholder="image url" />
+				</div>
+			{/each}
+		</div>
+		<Textarea rows=10 id="description" name="description" placeholder="Description"></Textarea>
+		<Button type="submit">Submit</Button>
+	</form>
+</Modal>
+
+<Modal title="Edit Comic" bind:open size="sm" autoclose={false}>
 	<form method="POST" action="/admin/comics?/create" use:enhance class="flex flex-col space-y-6">
 		<Input type="text" id="name" name="name" placeholder="Name" />
 		<Input type="text" id="hid" name="hid" placeholder="hid" />
