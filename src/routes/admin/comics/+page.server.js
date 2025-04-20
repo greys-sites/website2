@@ -96,7 +96,7 @@ export const actions = {
 			}
 		}
 	},
-	create: async ({ cookies, request, fetch, locals }) => {
+	edit: async ({ cookies, request, fetch, locals }) => {
 		var u = locals.user;
 		var tk = cookies.get('user');
 		console.log(u);
