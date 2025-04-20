@@ -12,7 +12,6 @@ if(browser) {
 	}
 
 	if(!tmp.get('theme')) tmp.set('theme', 'system');
-	if(!tmp.get('view')) tmp.set('view', 'card');
 	if(!tmp.get('time')) tmp.set('time', '12');
 }
 

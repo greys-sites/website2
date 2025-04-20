@@ -25,7 +25,7 @@
 
 <h1>Comics</h1>
 
-{#if data?.comics?.length}
+{#if data?.comics?.length && view?.value}
 	{#each Object.keys(categories) as cat,_ (_)}
 		<h2>{cat.toUpperCase()}</h2>
 		{#each categories[cat].comics as com (com.hid)}

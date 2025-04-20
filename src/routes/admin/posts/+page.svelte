@@ -8,26 +8,24 @@
 		Textarea,
 		Toggle,
 		Button,
-		Label
+		Label,
+		Toast
 	} from 'flowbite-svelte';
 
 	import Pin from '~icons/mdi/pin';
+	import Check from '~icons/material-symbols/check-circle-rounded';
 
 	import { settings } from '$lib/stores/settings.svelte.js';
 	import { VIEWS, view } from '$lib/stores/view.svelte.js';
 
 	/** @type {{data: any}} */
-	let { data } = $props();
+	let { data, form } = $props();
 
 	let fclass = $derived(settings.get('view') == 'tiny' ? 'flex-row' : 'flex-col');
 
 	let loading;
-	let error;
 	async function deletePost(hid) {
 		loading = true;
-
-		invalidateAll()
-		closeAll()
 	}
 
 	let open = $state(false);
@@ -35,9 +33,12 @@
 	let editObj = $state(null);
 
 	let stags = $state([]);
-
 	let tinput = $state('');
 	let released = $state(true);
+
+	let toast = $state(false);
+	let msg = $state('');
+	let error = $state(null);
 
 	function remove(ind) {
 		stags = stags.filter((x, i) => i !== ind);
@@ -67,8 +68,30 @@
 	let startEdit = (obj) => {
 		editing = true;
 		editObj = obj;
+		stags = obj.full_tags?.map(x => x.name) ?? [];
 	}
+
+	let clearTags = () => {
+		stags = [];
+		tinput = '';
+	}
+
+	$effect(() => {
+		if(form?.success) {
+			open = false;
+			editing = false;
+			clearTags();
+			toast = true;
+			msg = form.type;
+			setTimeout(() => toast = false, 5_000);
+		}
+	})
 </script>
+
+<Toast bind:toastStatus={toast} color="green" >
+	<Check slot='icon' />
+	Post successfully {msg}!
+</Toast>
 
 <h1>Posts</h1>
 
@@ -88,19 +111,19 @@
 	<hr />
 {/if}
 
-{#if data?.drafts?.length}
+{#if data?.drafts?.length && view?.value}
 	<h3>Drafts</h3>
 	<div class={
 		'w-full flex items-center justify-center mx-auto ' + fclass
 	}>
 		{#each data.drafts as post (post.hid)}
-			{@const SvelteComponent = view.value ?? VIEWS.card}
+			{@const SvelteComponent = view.value}
 			<SvelteComponent obj={ post } deleteObj={ deletePost } editObj={ startEdit } objType="posts" />
 		{/each}
 	</div>
 {/if}
 
-{#if data?.posts?.length}
+{#if data?.posts?.length && view?.value}
 	<h3>Posts</h3>
 	<div class={
 		'w-full flex items-center justify-center mx-auto ' + fclass

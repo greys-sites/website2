@@ -209,7 +209,7 @@
 	<hr />
 {/if}
 
-{#if posts?.length > 0}
+{#if posts?.length && view?.value}
 	<div class={
 		'w-full flex items-center justify-center mx-auto ' + fclass
 	}>
@@ -220,8 +220,6 @@
 	</div>
 {:else if searching && all.length > 0}
 	<h3>No posts matched your search :(</h3>
-{:else}
-	<h3>No posts to see :)</h3>
 {/if}
 
 <style>

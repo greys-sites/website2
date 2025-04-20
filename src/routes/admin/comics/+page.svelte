@@ -43,7 +43,7 @@
 	+ Add New
 </Button>
 
-{#if data?.categories}
+{#if data?.categories && view?.value}
 	{#each Object.keys(data.categories) as cat,i (i)}
 		<h2>{cat.length ? cat.toUpperCase() : "UNSORTED"}</h2>
 		{#each data.categories[cat].comics as com (com.hid)}

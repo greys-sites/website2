@@ -12,7 +12,7 @@ export const VIEWS = {
 }
 
 export class ViewSetting {
-	value = $derived.by(() => VIEWS[settings.get('view')] ?? Card);
+	value = $derived.by(() => VIEWS[settings.get('view')]);
 }
 
 export const view = new ViewSetting();

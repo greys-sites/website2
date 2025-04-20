@@ -86,7 +86,7 @@ export const actions = {
 				}
 			)
 			var td = await tresp.json();
-			tid = tid.concat(td.tags.map(x => x.hid));
+			tids = tids.concat(td.tags.map(x => x.hid));
 		}
 
 		obj.tags = tids;
@@ -103,7 +103,8 @@ export const actions = {
 
 			if(!resp?.message) {
 				return {
-					success: true
+					success: true,
+					type: 'created'
 				}
 			};
 		} catch(e) {
@@ -159,7 +160,7 @@ export const actions = {
 				}
 			)
 			var td = await tresp.json();
-			tid = tid.concat(td.tags.map(x => x.hid));
+			tids = tids.concat(td.tags.map(x => x.hid));
 		}
 
 		obj.tags = tids;
@@ -177,7 +178,8 @@ export const actions = {
 
 			if(!resp?.message) {
 				return {
-					success: true
+					success: true,
+					type: 'edited'
 				}
 			};
 		} catch(e) {

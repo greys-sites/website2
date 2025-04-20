@@ -22,12 +22,14 @@
 		SidebarWrapper,
 		SidebarGroup,
 		SidebarItem,
+
+		Spinner
 	} from 'flowbite-svelte';
 
 	import MiniNav from '$lib/components/MiniNav.svelte';
 	import SiteInfo from '$lib/components/SiteInfo.svelte';
 	import SettingsModal from '$lib/components/SettingsModal.svelte';
-	import Tiny from '$lib/components/posts/tiny.svelte';
+	import Pinned from '$lib/components/posts/pinned.svelte';
 
 	import Pin from '~icons/mdi/pin';
 	import Info from '~icons/mdi/information-outline';
@@ -53,10 +55,13 @@
 	import Gear from '~icons/mdi/gear';
 	import Logo from '~icons/mdi/file-document-box-multiple';
 	import PostAdd from '~icons/mdi/post-it-note-add';
+
+	import { view } from '$lib/stores/view.svelte.js';
 	
 	const bubble = createBubbler();
 	/** @type {{data: any, children?: import('svelte').Snippet}} */
 	let { data, children } = $props();
+	$inspect('data: ', data)
 
 	let menuHidden = $state(true);
 	let menuClick = $state(false);
@@ -76,6 +81,13 @@
 	let show = $state(false);
 
 	let activeUrl = $derived($page.url.pathname);
+	let mini = $derived.by(() => {
+		let f = ['/blog/', '/projects/', '/comics/', '/flags/'].filter(x => activeUrl.startsWith(x));
+		console.log(f);
+		return f?.length ? true : false;
+	})
+
+	$inspect(mini)
 
 	onMount(() => {
 		widthCheck();
@@ -162,7 +174,7 @@
 	class="md:flex"
 	/>
 
-	{#if activeUrl?.startsWith('/blog/')}
+	{#if mini}
 		<MiniNav {back} text="Post" />
 	{/if}
 
@@ -287,21 +299,39 @@
 	class="overflow-auto p-4 dark:bg-gray-900 lg:border-l-2 border-gray-200 dark:border-gray-800"
 	id="sidebar"
 >
-<div class="flex items-center">
 	<Sidebar asideClass="w-54" >
 		<SidebarWrapper divClass="rounded px-2 dark:bg-gray-900">
-			{#if !data?.user}
-				<SidebarGroup class="absolute bottom-0 left-0 w-full flex flex-col items-center content-center p-4 justify-between">
-					<Button size="xs" color="alternative" class="border-none text-gray-200 dark:text-gray-700 opacity-50" on:click={() => modalOpen = true }>
-					Login
-					</Button>
+			{#if data?.posts?.length}
+				<SidebarGroup class="flex flex-col items-center justify-center">
+					<h3>Pinned Posts</h3>
+					{#each data.posts as post}
+						<Pinned obj={post} objType="posts" />
+					{/each}
+				</SidebarGroup>
+			{/if}
+
+			{#if data?.projects?.length}
+				<SidebarGroup class="flex flex-col items-center justify-center">
+					<h3>Featured Projects</h3>
+					{#each data.projects as post}
+						<Pinned obj={post} objType="projects" />
+					{/each}
+				</SidebarGroup>
+			{/if}
+
+			{#if data?.recents?.length}
+				<SidebarGroup class="flex flex-col items-center justify-center">
+					<h3>Recent Posts</h3>
+					{#each data.recents as post}
+						<Pinned obj={post} objType="posts" />
+					{/each}
 				</SidebarGroup>
 			{/if}
 		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
 
-{#if activeUrl?.startsWith('/blog/') && width > menuBreak}
+{#if mini && width > menuBreak}
 	<MiniNav {back} text="Post" />
 {/if}
 
@@ -317,7 +347,11 @@
 		overflow-auto
 		mx-auto w-full
 	">
-		{@render children?.()}
+		{#if view?.value}	
+			{@render children?.()}
+		{:else}
+			<Spinner />
+		{/if}
 	</div>
 </div>
 

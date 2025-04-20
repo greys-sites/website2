@@ -71,6 +71,7 @@ export const actions = {
 	del: async ({ cookies, request, fetch, locals }) => {
 		var u = locals.user;
 		var tk = cookies.get('user');
+		console.log(u, tk);
 		if(!u) return { success: false, status: 401 };
 
 		var fd = await request.formData();
@@ -80,7 +81,7 @@ export const actions = {
 		try {
 			var resp = await fetch(`/api/${item}/${hid}`, {
 				headers: {
-					'Authorization': u
+					'Authorization': tk
 				},
 				method: 'DELETE'
 			})

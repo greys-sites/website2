@@ -10,9 +10,9 @@
 </script>
 
 <div class="
-  hidden w-full p-0 lg:p-2 sticky lg:fixed mx-auto max-w-[700px]
+  hidden w-full p-0 lg:p-2 sticky lg:fixed mx-auto max-w-[700px] lg:max-w-none
   z-10 md:flex flex-row justify-start items-center
-  bg-white dark:bg-gray-900 lg:left-64
+  bg-white dark:bg-gray-900 lg:pl-66
 ">
   <Button pill color="alternative" on:click={back} class="border-none rounded-full p-2 mr-2">
       <span class="sr-only">Go back</span>

@@ -49,7 +49,8 @@ export const actions = {
 
 		var arr = Array.from(fd);
 		for(var e of arr) {
-			obj[e[0]] = e[1];
+			if(e[0] == 'featured') obj[e[0]] = true;
+			else obj[e[0]] = e[1];
 		}
 
 		try {

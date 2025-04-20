@@ -25,7 +25,7 @@
 
 <h1>Flags</h1>
 
-{#if data?.flags?.length}
+{#if data?.flags?.length && view?.value}
 	{#each Object.keys(categories) as cat,_ (_)}
 		<h2>{cat.toUpperCase()}</h2>
 		{#each categories[cat].flags as com (com.hid)}

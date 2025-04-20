@@ -3,7 +3,7 @@ import { fail } from '@sveltejs/kit';
 export async function load({ cookies, fetch }) {
 	var u = cookies.get('user');
 
-	var d, user, posts, projects;
+	var d, user, posts, projects, recents;
 	try {
 		if(u) {
 			d = await fetch(`/api/users/@me`, {
@@ -16,6 +16,9 @@ export async function load({ cookies, fetch }) {
 
 		d = await fetch(`/api/posts?pinned=true`);
 		posts = await d.json();
+
+		d = await fetch(`/api/posts?recent=true`);
+		recents = await d.json();
 
 		d = await fetch(`/api/projects?featured=true`);
 		projects = await d.json();
@@ -33,5 +36,5 @@ export async function load({ cookies, fetch }) {
 		}
 	}
 
-	return { user, posts, projects };
+	return { user, posts, projects, recents };
 }

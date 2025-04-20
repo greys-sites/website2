@@ -25,7 +25,7 @@
 
 <h1>Projects</h1>
 
-{#if data?.projects?.length}
+{#if data?.projects?.length && view?.value}
 	{#each Object.keys(categories) as cat,_ (_)}
 		<h2>{cat.toUpperCase()}</h2>
 		{#each categories[cat].projects as proj (proj.hid)}
