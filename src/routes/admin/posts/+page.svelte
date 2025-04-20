@@ -21,8 +21,6 @@
 	/** @type {{data: any}} */
 	let { data, form } = $props();
 
-	let fclass = $derived(settings.get('view') == 'tiny' ? 'flex-row' : 'flex-col');
-
 	let loading;
 	async function deletePost(hid) {
 		loading = true;
@@ -88,7 +86,7 @@
 	})
 </script>
 
-<Toast bind:toastStatus={toast} color="green" >
+<Toast bind:toastStatus={toast} color="green" position="top-right" >
 	<Check slot='icon' />
 	Post successfully {msg}!
 </Toast>
@@ -114,7 +112,7 @@
 {#if data?.drafts?.length && view?.value}
 	<h3>Drafts</h3>
 	<div class={
-		'w-full flex items-center justify-center mx-auto ' + fclass
+		'w-full max-w-[700px] mx-auto justify-center ' + view.fclass
 	}>
 		{#each data.drafts as post (post.hid)}
 			{@const SvelteComponent = view.value}
@@ -126,7 +124,7 @@
 {#if data?.posts?.length && view?.value}
 	<h3>Posts</h3>
 	<div class={
-		'w-full flex items-center justify-center mx-auto ' + fclass
+		'w-full max-w-[700px] mx-auto justify-center ' + view.fclass
 	}>
 		{#each data.posts as post (post.hid)}
 			{@const SvelteComponent = view.value ?? VIEWS.card}

@@ -15,8 +15,6 @@
 	/** @type {{data: any}} */
 	let { data } = $props();
 
-	let fclass = $derived(settings.get('view') == 'tiny' ? 'flex-row' : 'flex-col');
-
 	let posts = (
 		$state(data.posts
 		.sort((a, b) => a.id - b.id)
@@ -211,7 +209,7 @@
 
 {#if posts?.length && view?.value}
 	<div class={
-		'w-full flex items-center justify-center mx-auto ' + fclass
+		'w-full max-w-[700px] mx-auto justify-center ' + view.fclass
 	}>
 		{#each posts as post (post.hid)}
 			{@const SvelteComponent = view.value ?? VIEWS.card}

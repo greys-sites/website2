@@ -41,14 +41,6 @@
 		{/if}
 		<div class="proj-inner">
 			<span>{obj.name?.length ? obj.name : obj.title}</span>
-			{#if objType == "posts"}
-				<div class="post-meta">
-					<span>{formatDate(obj.post_timestamp)}</span>
-				</div>
-			{/if}
-			{#if obj.tagline?.length}<p>{obj.tagline}</p>{/if}
-			{#if obj.short?.length}<p>{obj.short}</p>{/if}
-			{#if obj.draft}<p class="draft"><em>Draft</em></p>{/if}
 		</div>
 </a>
 

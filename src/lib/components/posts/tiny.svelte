@@ -23,10 +23,9 @@
 	shadow-gray-400 shadow-md dark:shadow-none
 	hover:-translate-y-1
 	transition-all
-	flex flex-col items-center justify-center p-2 rounded-lg mb-2
+	flex flex-col items-center justify-between p-2 rounded-lg mb-2
 	cursor-pointer
 	no-underline hover:no-underline
-	mx-2
 " href={`/${apiUrl}/${obj.hid}`}>
 	{#if obj.thumbnail?.length}
 		<div class="proj-cover" style={ `background-image: url('${obj.thumbnail}')` }></div>
@@ -36,7 +35,7 @@
 		<div class="proj-cover" style={ `background-image: url('https://cdn.greysdawn.com/img/81fa.png')` }></div>
 	{/if}
 	<div class="proj-inner">
-		<h3>{obj.name?.length ? obj.name : obj.title}</h3>
+		<span>{obj.name?.length ? obj.name : obj.title}</span>
 		{#if objType == "posts"}
 			<div class="post-meta">
 				<p>{formatDate(obj.post_timestamp)}</p>
@@ -67,7 +66,6 @@
 		justify-content: center;
 		padding: .5rem;
 		border-radius: .5rem;
-		margin-right: .5rem;
 	}
 
 	.proj-cover {

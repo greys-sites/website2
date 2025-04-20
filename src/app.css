@@ -129,6 +129,10 @@ img.emoji {
 	background-color: rgba(175, 109, 255, 0.18);
 }
 
+.tcols {
+		grid-template-columns: repeat(auto-fill, 150px);
+	}
+
 .filters {
 	display: flex;
 	flex-direction: column;

@@ -13,6 +13,11 @@ export const VIEWS = {
 
 export class ViewSetting {
 	value = $derived.by(() => VIEWS[settings.get('view')]);
+	fclass = $derived.by(() => (
+		settings.get('view') == 'tiny' ?
+		'grid tcols place-content-center gap-2' :
+		'flex flex-col items-center'
+	));
 }
 
 export const view = new ViewSetting();

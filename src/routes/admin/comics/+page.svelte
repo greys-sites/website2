@@ -46,10 +46,14 @@
 {#if data?.categories && view?.value}
 	{#each Object.keys(data.categories) as cat,i (i)}
 		<h2>{cat.length ? cat.toUpperCase() : "UNSORTED"}</h2>
-		{#each data.categories[cat].comics as com (com.hid)}
-			{@const SvelteComponent = view.value ?? VIEWS.card}
-			<SvelteComponent obj={com} deleteObj={ deleteComic } objType="comics" />
-		{/each}
+		<div class={
+			'w-full max-w-[700px] mx-auto justify-center ' + view.fclass
+		}>
+			{#each data.categories[cat].comics as com (com.hid)}
+				{@const SvelteComponent = view.value ?? VIEWS.card}
+				<SvelteComponent obj={com} deleteObj={ deleteComic } objType="comics" />
+			{/each}
+		</div>
 	{/each}
 {/if}
 

@@ -28,9 +28,13 @@
 {#if data?.projects?.length && view?.value}
 	{#each Object.keys(categories) as cat,_ (_)}
 		<h2>{cat.toUpperCase()}</h2>
-		{#each categories[cat].projects as proj (proj.hid)}
-			{@const SvelteComponent = view.value ?? VIEWS.card}
-			<SvelteComponent obj={proj} objType="projects" />
-		{/each}
+		<div class={
+			'w-full max-w-[700px] mx-auto justify-center ' + view.fclass
+		}>
+			{#each categories[cat].projects as proj (proj.hid)}
+				{@const SvelteComponent = view.value ?? VIEWS.card}
+				<SvelteComponent obj={proj} objType="projects" />
+			{/each}
+		</div>
 	{/each}
 {/if}
