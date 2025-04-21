@@ -9,11 +9,17 @@
 		Toggle,
 		Button,
 		Label,
-		Toast
+		Toast,
+		Dropdown,
+		DropdownItem,
+		DropdownHeader
 	} from 'flowbite-svelte';
 
+	import Filter from '~icons/material-symbols/filter-list-rounded';
+	import Tag from '~icons/majesticons/tag';
 	import Pin from '~icons/mdi/pin';
 	import Check from '~icons/material-symbols/check-circle-rounded';
+	import Plus from '~icons/material-symbols/add-box-rounded';
 
 	import { settings } from '$lib/stores/settings.svelte.js';
 	import { VIEWS, view } from '$lib/stores/view.svelte.js';
@@ -75,7 +81,9 @@
 	}
 
 	$effect(() => {
-		if(form?.success) {
+		if(!form) return;
+
+		if(form.success) {
 			open = false;
 			editing = false;
 			clearTags();
@@ -83,7 +91,105 @@
 			msg = form.type;
 			setTimeout(() => toast = false, 5_000);
 		}
+
+		posts = (
+			data.posts
+			.sort((a, b) => a.id - b.id)
+			.reverse()
+		)
 	})
+
+	let posts = (
+		$state(data.posts
+		.sort((a, b) => a.id - b.id)
+		.reverse())
+	);
+
+	let all = $derived([
+		...data.pinned,
+		...data.posts
+	])
+
+	let sorts = [
+		{
+			name: 'newest to oldest',
+			value: 'asc'
+		},
+		{
+			name: 'oldest to newest',
+			value: 'desc'
+		}
+	]
+
+	let filters = $state({
+		sort: sorts[0].value,
+		tags: [],
+		search: ''
+	})
+
+	let tagsButton = $state();
+	let tags_open = $state(false);
+	function toggleTags() {
+		tags_open = !tags_open;
+	}
+
+	let changeTags = (tag) => {
+		if(filters.tags.includes(tag)) {
+			filters.tags = filters.tags.filter(x => x != tag)
+		} else filters.tags = [...filters.tags, tag];
+		set();
+	}
+
+	let sortButton = $state();
+	let sort_open = $state(false);
+	function toggleSort() {
+		sort_open = !sort_open;
+	}
+
+	function changeSort(opt) {
+		filters.sort = opt;
+		set();
+	}
+
+	let timeout;
+	function set() {
+		if(timeout) clearTimeout(timeout);
+		timeout = setTimeout(()=> search(), 250)
+	}
+
+	let searching = $state(false);
+	function search() {
+		if(
+			filters.tags.length ||
+			filters.search.length
+		) searching = true;
+		else searching = false;
+
+		posts = all.filter(p => {
+			let s, t;
+			if(!filters.search?.length) s = true;
+			else if(p.title.toLowerCase().includes(filters.search)) s = true;
+			else s = false;
+
+			if(!filters.tags?.length) t = true;
+			else {
+				let ftags = filters.tags.filter(x => {
+					return p.full_tags.find(xt => xt.name == x)
+				})
+				if(ftags.length == filters.tags.length) t = true;
+				else t = false;
+			}
+
+			return (s && t);
+		})
+
+		console.log("filtered", posts);
+
+		if(!searching) posts = data.posts;
+		posts = posts.sort((a, b) => a.id - b.id);
+		if((filters.sort ?? 'asc') == 'asc') return posts.reverse();
+		else return posts;
+	}
 </script>
 
 <Toast bind:toastStatus={toast} color="green" position="top-right" class="top-16 lg:right-66 lg:top-4" >
@@ -93,42 +199,101 @@
 
 <h1>Posts</h1>
 
-<Button color="alternative" onclick={() => open = true}>
-	+ Add New
-</Button>
+<div class="flex flex-row my-2">
+	<Button
+		onclick={() => { tags_open = true }}
+		color={filters.tags?.length ? "blue" : "alternative"}
+		size="xs"
+	>
+		<Tag />
+	</Button>
+	<Dropdown bind:open={tags_open}>
+		<DropdownHeader>
+			<h3>Filter Tags</h3>
+		</DropdownHeader>
+		{#each data.tags as tag (tag.hid)}
+			<DropdownItem
+				class={ filters.tags.includes(tag.name) ? 'selected' : '' }
+				onclick={() => changeTags(tag.name)}
+			>
+				{tag.name}
+			</DropdownItem>
+		{/each}
+	</Dropdown>
 
-{#if data?.pinned?.length}
+	<Button
+		onclick={() => { sort_open = true }}
+		color="alternative" size="xs" class="mx-1"
+	>
+		{#if filters.sort == "desc"}
+			<Filter class="rotate-180" />
+		{:else}
+			<Filter />
+		{/if}
+	</Button>
+	<Dropdown bind:open={sort_open}>
+		<DropdownHeader>
+			<h3>Sort Posts</h3>
+		</DropdownHeader>
+		{#each sorts as opt,_ (_)}
+			<DropdownItem
+				class={ filters.sort == opt.value ? 'selected' : '' }
+				onclick={() => changeSort(opt.value)}
+			>
+				{opt.name}
+			</DropdownItem>
+		{/each}
+	</Dropdown>
+
+	<Input
+		type="text"
+		bind:value={filters.search}
+		oninput={() => set()}
+		placeholder="Enter a search query..."
+	/>
+
+	<Button
+		color="alternative"
+		size="xs"
+		class="mx-1"
+		onclick={() => open = true}
+	>
+		<Plus />
+	</Button>
+</div>
+
+{#if !searching && data?.pinned?.length}
 	<div class="pinned">
 		<h3><Pin /> Pinned</h3>
 		{#each data.pinned as post (post.hid)}
 			{@const SvelteComponent = VIEWS.compact}
-			<SvelteComponent obj={post} deleteObj={ deletePost } editObj={ startEdit } objType="posts" />
+			<SvelteComponent obj={post} deleteObj={ deletePost } editObj={ startEdit } {changeTags} objType="posts" />
 		{/each}
 	</div>
 
 	<hr />
 {/if}
 
-{#if data?.drafts?.length && view?.value}
+{#if !searching && data?.drafts?.length && view?.value}
 	<h3>Drafts</h3>
 	<div class={
 		'w-full max-w-[700px] mx-auto justify-center ' + view.fclass
 	}>
 		{#each data.drafts as post (post.hid)}
 			{@const SvelteComponent = view.value}
-			<SvelteComponent obj={ post } deleteObj={ deletePost } editObj={ startEdit } objType="posts" />
+			<SvelteComponent obj={ post } deleteObj={ deletePost } editObj={ startEdit } {changeTags} objType="posts" />
 		{/each}
 	</div>
 {/if}
 
-{#if data?.posts?.length && view?.value}
+{#if posts?.length && view?.value}
 	<h3>Posts</h3>
 	<div class={
 		'w-full max-w-[700px] mx-auto justify-center ' + view.fclass
 	}>
-		{#each data.posts as post (post.hid)}
+		{#each posts as post (post.hid)}
 			{@const SvelteComponent = view.value ?? VIEWS.card}
-			<SvelteComponent obj={ post } deleteObj={ deletePost } editObj={ startEdit } objType="posts" />
+			<SvelteComponent obj={ post } deleteObj={ deletePost } editObj={ startEdit } {changeTags} objType="posts" />
 		{/each}
 	</div>
 {/if}

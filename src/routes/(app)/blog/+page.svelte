@@ -5,6 +5,14 @@
 	import { fly } from 'svelte/transition';
 	import { clickoutside } from '@svelte-put/clickoutside';
 
+	import {
+		Button,
+		Input,
+		Dropdown,
+		DropdownItem,
+		DropdownHeader
+	} from 'flowbite-svelte';
+
 	import Filter from '~icons/material-symbols/filter-list-rounded';
 	import Tag from '~icons/majesticons/tag';
 	import Pin from '~icons/mdi/pin';
@@ -29,11 +37,11 @@
 	let sorts = [
 		{
 			name: 'newest to oldest',
-			value: 'desc'
+			value: 'asc'
 		},
 		{
 			name: 'oldest to newest',
-			value: 'asc'
+			value: 'desc'
 		}
 	]
 
@@ -49,7 +57,7 @@
 		tags_open = !tags_open;
 	}
 
-	function changeTags(tag) {
+	let changeTags = (tag) => {
 		if(filters.tags.includes(tag)) {
 			filters.tags = filters.tags.filter(x => x != tag)
 		} else filters.tags = [...filters.tags, tag];
@@ -106,9 +114,9 @@
 
 		console.log("filtered", posts);
 
-		posts = posts.sort((a, b) => a.id - b.id);
 		if(!searching) posts = data.posts;
-		if((filters.sort ?? 'desc') == 'desc') return posts.reverse();
+		posts = posts.sort((a, b) => a.id - b.id);
+		if((filters.sort ?? 'asc') == 'asc') return posts.reverse();
 		else return posts;
 	}
 </script>
@@ -119,80 +127,58 @@
 
 <h1 class="text-center mb-4">Blog Posts</h1>
 
-<div class="filters">
-	<div class="filters-inner">
-		<button
-			use:clickoutside
-			onclickoutside={() => tags_open = false}
-			onclick={() => {toggleTags()}}
-			bind:this={tagsButton}
-		>
-			<Tag />
-		</button>
-		<button
-			use:clickoutside
-			onclickoutside={() => sort_open = false}
-			onclick={() => {toggleSort()}}
-			bind:this={sortButton}
-		>
-			{#if filters.sort == "asc"}
-				<Filter class="rotate-180" />
-			{:else}
-				<Filter />
-			{/if}
-		</button>
-		<input
-			type="text"
-			bind:value={filters.search}
-			oninput={() => set()}
-			placeholder="Enter a search query..."
-		/>
-	</div>
-	{#if tags_open}
-		<div
-			transition:fly|global={{ y: 10, duration: 250 }}
-			style={
-				`top: ${tagsButton?.offsetTop + tagsButton?.offsetHeight}px; ` +
-				`left: ${tagsButton?.offsetLeft}px;`
-			}
-			class="select tags-menu"
-		>
+<div class="flex flex-row mb-2">
+	<Button
+		onclick={() => { tags_open = true }}
+		color={filters.tags?.length ? "blue" : "alternative"}
+		size="xs"
+	>
+		<Tag />
+	</Button>
+	<Dropdown bind:open={tags_open}>
+		<DropdownHeader>
 			<h3>Filter Tags</h3>
-			<div class="select-inner">
-				{#each data.tags as tag (tag.hid)}
-					<div
-						class="select-option"
-						class:selected={ filters.tags.includes(tag.name) }
-						onclick={stopPropagation(() => changeTags(tag.name))}
-					>
-						{tag.name}
-					</div>
-				{/each}
-			</div>
-		</div>
-	{/if}
+		</DropdownHeader>
+		{#each data.tags as tag (tag.hid)}
+			<DropdownItem
+				class={ filters.tags.includes(tag.name) ? 'selected' : '' }
+				onclick={() => changeTags(tag.name)}
+			>
+				{tag.name}
+			</DropdownItem>
+		{/each}
+	</Dropdown>
 
-	{#if sort_open}
-		<div
-			transition:fly|global={{ y: 10, duration: 250 }}
-			style={
-				`top: ${sortButton?.offsetTop + sortButton?.offsetHeight}px; ` +
-				`left: ${sortButton?.offsetLeft}px;`
-			}
-			class="select"
-		>
+	<Button
+		onclick={() => { sort_open = true }}
+		color="alternative" size="xs" class="mx-1"
+	>
+		{#if filters.sort == "desc"}
+			<Filter class="rotate-180" />
+		{:else}
+			<Filter />
+		{/if}
+	</Button>
+	<Dropdown bind:open={sort_open}>
+		<DropdownHeader>
 			<h3>Sort Posts</h3>
-			{#each sorts as opt,_ (_)}
-				<div
-					class="select-option"
-					class:selected={ filters.sort == opt.value }
-					onclick={stopPropagation(() => changeSort(opt.value))}
-				>
-					{opt.name}
-				</div>
-			{/each}
-		</div>
-	{/if}
+		</DropdownHeader>
+		{#each sorts as opt,_ (_)}
+			<DropdownItem
+				class={ filters.sort == opt.value ? 'selected' : '' }
+				onclick={stopPropagation(() => changeSort(opt.value))}
+			>
+				{opt.name}
+			</DropdownItem>
+		{/each}
+	</Dropdown>
+
+	<Input
+		type="text"
+		bind:value={filters.search}
+		oninput={() => set()}
+		placeholder="Enter a search query..."
+	/>
 </div>
 
 {#if !searching && data.pinned.length}
@@ -200,7 +186,7 @@
 		<h3 class="mb-2"><Pin /> Pinned</h3>
 		{#each data.pinned as post (post.hid)}
 			{@const SvelteComponent = VIEWS.compact}
-			<SvelteComponent obj={post} objType="posts" />
+			<SvelteComponent obj={post} objType="posts" {changeTags} />
 		{/each}
 	</div>
 
@@ -213,7 +199,7 @@
 	}>
 		{#each posts as post (post.hid)}
 			{@const SvelteComponent = view.value ?? VIEWS.card}
-			<SvelteComponent obj={post} objType="posts" />
+			<SvelteComponent obj={post} objType="posts" {changeTags} />
 		{/each}
 	</div>
 {:else if searching && all.length > 0}

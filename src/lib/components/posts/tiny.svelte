@@ -8,11 +8,14 @@
 
 	import Edit from '~icons/material-symbols/edit';
 	import Delete from '~icons/material-symbols/delete-rounded';
+	import Check from '~icons/icon-park-solid/check-one';
+	import Cancel from '~icons/material-symbols/cancel-rounded';
 
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
 	let { obj, deleteObj, objType, editObj } = $props();
 
-	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
+	let apiUrl = $derived(objType == "posts" ? "blog" : objType);
+	let del = $state(false);
 </script>
 
 <a class="
@@ -45,15 +48,26 @@
 	</div>
 	{#if deleteObj}
 		<div class="proj-buttons" onclick={(e) => { e.stopPropagation(); }}>
-			<Button color="alternative" size="xs" class="mr-3" onclick={(e) => {
-				e.preventDefault();
-				editObj(obj)
-			}}><Edit /></Button>
-			<form use:enhance action='/admin?/del' method="POST">
-				<input type='hidden' name='hid' value={obj.hid} />
-				<input type='hidden' name='type' value={objType} />
-				<Button color="alternative" size="xs" class="ml-3" type="submit"><Delete /></Button>
-			</form>
+			{#if del}
+				<form use:enhance action='/admin?/del' method="POST">
+					<input type='hidden' name='hid' value={obj.hid} />
+					<input type='hidden' name='type' value={objType} />
+					<Button color="alternative" size="xs" class="mr-2" type="submit"><Check /></Button>
+				</form>
+				<Button color="alternative" size="xs" class="ml-2" onclick={(e) => {
+					e.preventDefault();
+					del = false;
+				}}><Cancel /></Button>
+			{:else}
+				<Button color="alternative" size="xs" class="mr-2" onclick={(e) => {
+					e.preventDefault();
+					editObj(obj)
+				}}><Edit /></Button>
+				<Button color="alternative" size="xs" class="ml-2" onclick={(e) => {
+					e.preventDefault();
+					del = true;
+				}}><Delete /></Button>
+			{/if}
 		</div>
 	{/if}
 </a>

@@ -6,10 +6,6 @@ export async function load({ cookies, fetch }) {
 		redirect(307, '/admin');
 	}
 
-	var settings = cookies.get('settings');
-	if(settings) settings = JSON.parse(settings)
-	else settings = {};
-
 	var d;
 	try {
 		d = await fetch(`/api/posts`);
@@ -23,6 +19,9 @@ export async function load({ cookies, fetch }) {
 			else if(p.pinned) pinned.push(p);
 			else posts.push(p)
 		}
+
+		d = await fetch(`/api/tags`);
+		var tags = await d.json();
 	} catch(e) {
 		console.log(e.response ?? e);
 		switch(e.response?.status) {
@@ -36,7 +35,7 @@ export async function load({ cookies, fetch }) {
 		}
 	}
 
-	return { posts, pinned, drafts, settings };
+	return { posts, pinned, drafts, tags };
 }
 
 export const actions = {

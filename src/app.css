@@ -27,7 +27,7 @@
 
 :root {
 	--accent: #b794f6;
-	font-size: 18px;
+/*	font-size: 18px;*/
 }
 
 * {
@@ -37,7 +37,7 @@
 
 html, body {
 	padding-bottom: 1em;
-	font-size: 18px;
+/*	font-size: 18px;*/
 	@apply text-black;
 	@apply dark:text-gray-200;
 }
@@ -133,6 +133,15 @@ img.emoji {
 	grid-template-columns: repeat(auto-fill, 150px);
 }
 
+.post-tag {
+	@apply p-1;
+	@apply mr-1;
+	@apply rounded-sm;
+	@apply bg-gray-300;
+	@apply dark:bg-gray-600;
+	@apply font-normal!;
+}
+
 .filters {
 	display: flex;
 	flex-direction: column;
@@ -197,7 +206,7 @@ img.emoji {
 	margin: 0 .5rem .5rem 0;
 }
 
-.select-option.selected {
+.selected {
 	background: rgba(182, 148, 246, .5);
 }
 

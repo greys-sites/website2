@@ -168,7 +168,7 @@
 	</script>
 </svelte:head>
 
-<Navbar let:hidden let:toggle class="px-0 lg:hidden fixed bg-white dark:bg-gray-900 z-10 w-full">
+<Navbar class="px-0 lg:hidden fixed bg-white dark:bg-gray-900 z-10 w-full">
 	<NavHamburger
 	onClick={openMenu}
 	class="md:flex"
@@ -183,6 +183,10 @@
 		<Info class="h-6 w-6"/>
 	</Button>
 </Navbar>
+
+{#if mini && width > menuBreak}
+	<MiniNav {back} text="Post" />
+{/if}
 
 <SettingsModal bind:open={settingsOpen} />
 
@@ -278,7 +282,7 @@
 				{/if}
 			</SidebarGroup>
 			<SidebarGroup class="absolute bottom-0 pb-2 w-54">
-				<SidebarItem label="Settings" on:click={handleSettingsClick} class="opacity-50">
+				<SidebarItem label="Settings" on:click={handleSettingsClick} class="opacity-75 dark:opacity-50">
 					<svelte:fragment slot="icon">
 						<Gear class="w-6 h-6 mr-2"/>
 					</svelte:fragment>
@@ -330,10 +334,6 @@
 		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
-
-{#if mini && width > menuBreak}
-	<MiniNav {back} text="Post" />
-{/if}
 
 <div id="content-wrapper" class="
 	p-8 flex flex-col items-center

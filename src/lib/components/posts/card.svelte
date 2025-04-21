@@ -7,13 +7,11 @@
 	} from 'flowbite-svelte';
 
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
-	let { obj, deleteObj, objType, editObj } = $props();
+	let { obj, deleteObj, objType, editObj, changeTags } = $props();
 
-	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
+	let apiUrl = $derived(objType == "posts" ? "blog" : objType);
 
-	function del(hid) {
-		deleteObj(hid)
-	}
+	let del = $state(false);
 </script>
 
 <a class="
@@ -38,10 +36,17 @@
 	<div class="proj-inner">
 		<h1>{obj.name?.length ? obj.name : obj.title}</h1>
 		{#if objType == "posts"}
-			<div class="post-meta">
+			<div class="post-meta" onclick={(e) => e.preventDefault()}>
 				<p>{formatDate(obj.post_timestamp)} |</p>
 				{#each obj.full_tags as t (t.hid)}
-					<div class="post-tag">{t.name}</div>
+					<Button
+						color="alternative"
+						size="xs"
+						class="mr-1"
+						onclick={() => changeTags(t.name)}
+					>
+						{t.name}
+					</Button>
 				{/each}
 			</div>
 		{/if}
@@ -51,15 +56,28 @@
 	</div>
 	{#if deleteObj}
 		<div class="proj-buttons mb-2" onclick={(e) => { e.stopPropagation(); }}>
-			<Button color="alternative" size="xs" class="mr-4" onclick={(e) => {
-				e.preventDefault();
-				editObj(obj)
-			}}>EDIT</Button>
-			<form use:enhance action='/admin?/del' method="POST">
-				<input type='hidden' name='hid' value={obj.hid} />
-				<input type='hidden' name='type' value={objType} />
-				<Button color="alternative" size="xs" class="ml-4" type="submit">DELETE</Button>
-			</form>
+			{#if del}
+				<form use:enhance action='/admin?/del' method="POST">
+					<input type='hidden' name='hid' value={obj.hid} />
+					<input type='hidden' name='type' value={objType} />
+					<Button color="alternative" size="xs" class="mr-4" type="submit">CONFIRM</Button>
+				</form>
+				<Button color="alternative" size="xs" class="ml-4" onclick={(e) => {
+					e.preventDefault();
+					del = false;
+				}}>CANCEL</Button>
+			{:else}
+				<Button color="alternative" size="xs" class="mr-4" onclick={(e) => {
+					e.preventDefault();
+					editObj(obj)
+				}}>EDIT</Button>
+				<Button color="alternative" size="xs" class="ml-4"
+					onclick={(e) => {
+						e.preventDefault();
+						del = true;
+					}}
+				>DELETE</Button>
+			{/if}
 		</div>
 	{/if}
 </a>
@@ -86,13 +104,6 @@
 
 	.proj-inner p {
 		font-weight: normal;
-	}
-
-	.post-tag {
-		padding: 5px;
-		background-color: rgba(255, 255, 255, .09);
-		border-radius: 5px;
-		margin-right: 5px;
 	}
 
 	.post-meta {

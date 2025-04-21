@@ -8,15 +8,14 @@
 
 	import Edit from '~icons/material-symbols/edit';
 	import Delete from '~icons/material-symbols/delete-rounded';
+	import Check from '~icons/icon-park-solid/check-one';
+	import Cancel from '~icons/material-symbols/cancel-rounded';
 
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
-	let { obj, deleteObj, editObj, objType } = $props();
+	let { obj, deleteObj, editObj, objType, changeTags } = $props();
 
 	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
-
-	function del(hid) {
-		deleteObj(hid)
-	}
+	let del = $state(false);
 </script>
 
 <a class="
@@ -43,9 +42,16 @@
 			{#if objType == "posts"}
 				<div class="post-meta">
 					<p>{formatDate(obj.post_timestamp)}</p>
-					<div class="post-tags">
+					<div class="post-tags" onclick={(e) => e.preventDefault()}>
 						{#each obj.full_tags as t (t.hid)}
-							<div class="post-tag">{t.name}</div>
+							<Button
+								color="alternative"
+								size="xs"
+								class="mr-1"
+								onclick={() => changeTags(t.name)}
+							>
+								{t.name}
+							</Button>
 						{/each}
 					</div>
 				</div>
@@ -56,15 +62,26 @@
 		</div>
 	{#if deleteObj}
 		<div class="proj-buttons" onclick={(e) => { e.stopPropagation(); }}>
-			<Button color="alternative" size="xs" class="mb-3" onclick={(e) => {
-				e.preventDefault();
-				editObj(obj)
-			}}><Edit /></Button>
-			<form use:enhance action='/admin?/del' method="POST">
-				<input type='hidden' name='hid' value={obj.hid} />
-				<input type='hidden' name='type' value={objType} />
-				<Button color="alternative" size="xs" class="mt-3" type="submit"><Delete /></Button>
-			</form>
+			{#if del}
+				<form use:enhance action='/admin?/del' method="POST">
+					<input type='hidden' name='hid' value={obj.hid} />
+					<input type='hidden' name='type' value={objType} />
+					<Button color="alternative" size="xs" class="mb-3" type="submit"><Check /></Button>
+				</form>
+				<Button color="alternative" size="xs" class="mt-3" onclick={(e) => {
+					e.preventDefault();
+					del = false;
+				}}><Cancel /></Button>
+			{:else}
+				<Button color="alternative" size="xs" class="mb-3" onclick={(e) => {
+					e.preventDefault();
+					editObj(obj)
+				}}><Edit /></Button>
+				<Button color="alternative" size="xs" class="mt-3" onclick={(e) => {
+					e.preventDefault();
+					del = true;
+				}}><Delete /></Button>
+			{/if}
 		</div>
 	{/if}
 </a>
@@ -92,13 +109,6 @@
 
 	.proj-inner p {
 		font-weight: normal;
-	}
-
-	.post-tag {
-		padding: 5px;
-		background-color: rgba(255, 255, 255, .09);
-		border-radius: 5px;
-		margin-right: 5px;
 	}
 
 	.post-tags {
