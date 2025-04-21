@@ -13,6 +13,7 @@ if(browser) {
 
 	if(!tmp.get('theme')) tmp.set('theme', 'system');
 	if(!tmp.get('time')) tmp.set('time', 'MM.DD');
+	if(!tmp.get('view')) tmp.set('view', 'card');
 }
 
 export const settings = $state(tmp);
