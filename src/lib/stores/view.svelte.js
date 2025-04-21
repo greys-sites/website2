@@ -18,6 +18,7 @@ export class ViewSetting {
 		'grid tcols place-content-center gap-2' :
 		'flex flex-col items-center'
 	));
+	date = $derived.by(() => settings.get('time'));
 }
 
 export const view = new ViewSetting();

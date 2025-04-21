@@ -1,21 +1,8 @@
 <script>
-	import { formatDate } from '$lib/utils';
-
-	import {
-		Button
-	} from 'flowbite-svelte';
-
-	import Edit from '~icons/material-symbols/edit';
-	import Delete from '~icons/material-symbols/delete-rounded';
-
 	/** @type {{obj: any, deleteObj: any, objType: any}} */
-	let { obj, deleteObj, editObj, objType } = $props();
+	let { obj, objType } = $props();
 
 	let apiUrl = $derived(objType == "posts" ? "blog" : objType)
-
-	function del(hid) {
-		deleteObj(hid)
-	}
 </script>
 
 <a class="

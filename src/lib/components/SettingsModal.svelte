@@ -70,10 +70,10 @@
       </div>
 
       <div id="time-settings" class="w-full flex flex-row items-center justify-between mb-2">
-        <p>Time Format</p>
+        <p>Date Format</p>
         <ButtonGroup>
-          <Button color={!time || time == '12' ? 'blue' : 'alternative'} on:click={() => save('time', '12')}>06:00PM</Button>
-          <Button color={time == '24' ? 'blue' : 'alternative'} on:click={() => save('time', '24')}>18:00</Button>
+          <Button color={!time || time == 'MM.DD' ? 'blue' : 'alternative'} on:click={() => save('time', 'MM.DD')}>MM.DD.YYYY</Button>
+          <Button color={time == 'DD.MM' ? 'blue' : 'alternative'} on:click={() => save('time', 'DD.MM')}>DD.MM.YYYY</Button>
         </ButtonGroup>
       </div>
     </div>

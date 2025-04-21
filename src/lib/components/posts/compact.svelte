@@ -1,6 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { formatDate } from '$lib/utils';
+	import { view } from '$lib/stores/view.svelte.js';
 
 	import {
 		Button
@@ -41,7 +42,7 @@
 			<h3>{obj.name?.length ? obj.name : obj.title}</h3>
 			{#if objType == "posts"}
 				<div class="post-meta">
-					<p>{formatDate(obj.post_timestamp)}</p>
+					<p>{formatDate(obj.post_timestamp, view.date)}</p>
 					<div class="post-tags" onclick={(e) => e.preventDefault()}>
 						{#each obj.full_tags as t (t.hid)}
 							<Button

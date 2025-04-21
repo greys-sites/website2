@@ -12,7 +12,7 @@ if(browser) {
 	}
 
 	if(!tmp.get('theme')) tmp.set('theme', 'system');
-	if(!tmp.get('time')) tmp.set('time', '12');
+	if(!tmp.get('time')) tmp.set('time', 'MM.DD');
 }
 
 export const settings = $state(tmp);
