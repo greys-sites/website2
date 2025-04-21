@@ -11,7 +11,7 @@
 		Label
 	} from 'flowbite-svelte';
 
-	import Supp from '$lib/components/Supp.svelte';
+	import Supp from '$lib/components/supp.svelte';
 	
 	/** @type {{data: any}} */
 	let { data } = $props();
