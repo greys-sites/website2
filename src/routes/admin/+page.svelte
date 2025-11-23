@@ -9,9 +9,9 @@
 
 <svelte:head>
   {#if data.user}
-  	<title>Admin | Grey Skies</title>
+  	<title>Admin | The Aberration</title>
   {:else}
-  	<title>Login | Grey Skies</title>
+  	<title>Login | The Aberration</title>
   {/if}
 </svelte:head>
 

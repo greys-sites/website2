@@ -20,7 +20,7 @@
 </script>
 
 <svelte:head>
-	<title>Flags | The Grey Skies</title>
+	<title>Flags | The Aberration</title>
 </svelte:head>
 
 <h1>Flags</h1>

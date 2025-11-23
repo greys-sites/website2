@@ -20,7 +20,7 @@
 </script>
 
 <svelte:head>
-	<title>Projects | The Grey Skies</title>
+	<title>Projects | The Aberration</title>
 </svelte:head>
 
 <h1>Projects</h1>

@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.flag.name} | The Grey Skies</title>
+	<title>{data.flag.name} | The Aberration</title>
 </svelte:head>
 
 <img alt="Flag thumbnail" class="hero" src={data.flag.thumbnail ? data.flag.thumbnail : "https://cdn.greysdawn.com/img/81fa.png"}>

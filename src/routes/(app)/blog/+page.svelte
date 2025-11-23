@@ -122,7 +122,7 @@
 </script>
 
 <svelte:head>
-	<title>Blog | The Grey Skies</title>
+	<title>Blog | The Aberration</title>
 </svelte:head>
 
 <h1 class="text-center mb-4">Blog Posts</h1>

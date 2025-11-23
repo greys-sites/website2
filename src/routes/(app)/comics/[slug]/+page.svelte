@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.comic.name} | The Grey Skies</title>
+	<title>{data.comic.name} | The Aberration</title>
 </svelte:head>
 
 <img alt="Comic thumbnail" class="hero" src={data.comic.thumbnail ? data.comic.thumbnail : "https://cdn.greysdawn.com/img/81fa.png"}>

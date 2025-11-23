@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>About Us | The Grey Skies</title>
+	<title>About Us | The Aberration</title>
 </svelte:head>
 
 <img src="https://cdn.selenated.com/img/vt4v1.png" class="hero" />
