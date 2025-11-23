@@ -25,7 +25,7 @@
 
 	<h2>Places you can find us</h2>
 	<p>
-		We're mostly available on Discord @greysdawn, but
+		We're mostly available on Discord <code>@.selenated</code>, but
 		we also have some accounts in other places:
 		<br/>
 		<a href="https://discord.gg/3y228CvJyQ">Discord content server</a>
