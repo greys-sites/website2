@@ -2,14 +2,14 @@
 	<title>About Us | The Grey Skies</title>
 </svelte:head>
 
-<img src="https://cdn.greysdawn.com/img/69f5.png" class="hero" />
+<img src="https://cdn.selenated.com/img/vt4v1.png" class="hero" />
 <div class="body">
-	<h1>Hi, we're the <span style="color: #aaa">Grey Skies</span></h1>
+	<h1 class="mb-2">Hi, we're the <span class="text-[#FC5353]">Selenelion</span> <span class="text-[#50A5CF]">Aberration</span></h1>
 	<p>
 		We're a <a href="/flags/traumagenic">traumagenic</a>
 		and <a href="/flags/polyfrag">polyfragmented</a> system of
 		over 100 known headmates. If you're unsure what that means,
-		that's okay{"-"} just call us <b style="color: #aaa">Grey</b>!
+		that's okay{"-"} just call us <b class="text-[#FA9451]">Sol</b> or <b class="text-[#A7C0EE]">Selen</b>!
 	</p>
 
 	<h2>We make stuff</h2>
@@ -30,17 +30,13 @@
 		<br/>
 		<a href="https://discord.gg/3y228CvJyQ">Discord content server</a>
 		<br/>
-		<a href="https://discord.gg/EvDmXGt">Bot support server</a>
+		<a href="https://twitch.tv/the_aberration">Twitch</a>
 		<br/>
-		<a href="https://twitch.tv/greysdawn">Twitch</a>
+		<a href="https://bsky.app/profile/selenated.com">BlueSky</a>
 		<br/>
-		<a href="https://bsky.app/profile/greysdawn.com">BlueSky</a>
+		<a href="https://ko-fi.com/selenated">Ko-Fi</a>
 		<br/>
-		<a href="https://twitter.com/greysdawn">Twitter/X</a>
-		<br/>
-		<a href="https://ko-fi.com/greysdawn">Ko-Fi</a>
-		<br/>
-		<a href="https://patreon.com/greysdawn">Patreon</a>
+		<a href="https://patreon.com/selenated">Patreon</a>
 	</p>
 </div>
 

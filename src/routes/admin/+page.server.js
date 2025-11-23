@@ -53,7 +53,7 @@ export const actions = {
 
 			if(u?.login) {
 				console.log(u);
-				cookies.set('user', u.login.token, { path: '*' });
+				cookies.set('user', u.login.token, { path: '/' });
 			} else return fail(401, {
 				success: false,
 				status: 401,

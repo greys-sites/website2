@@ -281,7 +281,7 @@
 					</SidebarItem>
 				{/if}
 			</SidebarGroup>
-			<SidebarGroup class="absolute bottom-0 pb-2 w-54">
+			<SidebarGroup class="lg:absolute lg:bottom-0 lg:pb-2 self-end w-54">
 				<SidebarItem label="Settings" on:click={handleSettingsClick} class="opacity-75 dark:opacity-50">
 					<svelte:fragment slot="icon">
 						<Gear class="w-6 h-6 mr-2"/>
@@ -339,7 +339,7 @@
 	p-8 flex flex-col items-center
 	mx-auto
 	pt-16 lg:pt-2
-	sm:mx-auto lg:mx-64
+	sm:mx-auto md:mx-64 lg:mx-64
 ">
 	<div id="content-area" class="
 		flex flex-col justify-center items-center

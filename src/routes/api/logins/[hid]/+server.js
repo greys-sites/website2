@@ -2,6 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import crypto from 'crypto-js';
 import SHA3 from 'crypto-js/sha3.js';
 import Logins from '$lib/data/logins.js';
+import Users from '$lib/data/users.js';
 import { LOGIN_ERRORS as ERRORS } from '$lib/strings.js';
 
 export async function PATCH({ request, params, locals }) {

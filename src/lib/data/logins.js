@@ -45,7 +45,7 @@ class LoginStore extends DataStore {
 			CREATE TABLE IF NOT EXISTS logins (
 				id 			SERIAL PRIMARY KEY,
 				hid 		TEXT,
-				user_id 	TEXT references users (hid) on delete cascade,
+				user_id 	TEXT,
 				username 	TEXT,
 				password 	TEXT,
 				salt 		TEXT,

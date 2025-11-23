@@ -6,10 +6,10 @@
 </script>
 
 <svelte:head>
-	<title>Home | The Grey Skies</title>
+	<title>Home | The Aberration</title>
 </svelte:head>
 
-<h1>Hi, we're <span style="color: grey">Grey</span></h1>
+<h1>Hi, we're <span class="text-[#FA9451]">Sol</span></h1>
 
 <h2>We make stuff. A <em>lot</em> of stuff</h2>
 <p>
