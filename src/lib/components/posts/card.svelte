@@ -32,7 +32,7 @@
 	{:else if obj.cover_url?.length}
 		<img alt="Item thumbnail" class="proj-cover" src={ obj.cover_url } />
 	{:else}
-		<img alt="Item thumbnail" class="proj-cover" src="https://cdn.greysdawn.com/img/81fa.png" />
+		<img alt="Item thumbnail" class="proj-cover" src="https://cdn.selenated.com/img/81fa.png" />
 	{/if}
 	<div class="proj-inner">
 		<h1>{obj.name?.length ? obj.name : obj.title}</h1>

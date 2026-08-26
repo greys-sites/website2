@@ -36,7 +36,7 @@
 		{:else if obj.cover_url?.length}
 			<div class="proj-cover" style={ `background-image: url('${obj.cover_url}')` }></div>
 		{:else}
-			<div class="proj-cover" style={ `background-image: url('https://cdn.greysdawn.com/img/81fa.png')` }></div>
+			<div class="proj-cover" style={ `background-image: url('https://cdn.selenated.com/img/81fa.png')` }></div>
 		{/if}
 		<div class="proj-inner">
 			<h3>{obj.name?.length ? obj.name : obj.title}</h3>
